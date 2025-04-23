@@ -8,37 +8,62 @@ class Router
 
     public function get($route, $controllerAction, $middleware = null)
     {
-        $this->routes[] = ['method' => 'GET', 'route' => $route, 'controllerAction' => $controllerAction, 'middleware' => $middleware];
+        $this->addRoute('GET', $route, $controllerAction, $middleware);
     }
 
     public function post($route, $controllerAction, $middleware = null)
     {
-        $this->routes[] = ['method' => 'POST', 'route' => $route, 'controllerAction' => $controllerAction, 'middleware' => $middleware];
+        $this->addRoute('POST', $route, $controllerAction, $middleware);
+    }
+
+    protected function addRoute($method, $route, $controllerAction, $middleware)
+    {
+        // Convertimos las llaves {param} a una expresión regular con nombres
+        preg_match_all('#\{([a-zA-Z_][a-zA-Z0-9_]*)\}#', $route, $paramNames);
+        $paramOrder = $paramNames[1] ?? [];
+
+        // Convertimos la ruta a una regex para extraer los valores
+        $pattern = preg_replace('#\{[a-zA-Z_][a-zA-Z0-9_]*\}#', '([^/]+)', $route);
+        $pattern = "#^" . rtrim($pattern, '/') . "$#";
+
+        $this->routes[] = [
+            'method' => $method,
+            'pattern' => $pattern,
+            'controllerAction' => $controllerAction,
+            'middleware' => $middleware,
+            'paramOrder' => $paramOrder
+        ];
     }
 
     public function dispatch()
     {
-        $uri = rtrim($_SERVER['REQUEST_URI'], '/');
+        $uri = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
         $method = $_SERVER['REQUEST_METHOD'];
 
         foreach ($this->routes as $route) {
-            if ($method == $route['method'] && preg_match('#^' . $route['route'] . '$#', $uri)) {
-                // Verificar si hay middleware
+            if ($method === $route['method'] && preg_match($route['pattern'], $uri, $matches)) {
+                // Ejecutar middleware si existe
                 if ($route['middleware']) {
                     $middleware = 'App\\Middlewares\\' . ucfirst($route['middleware']);
-                    (new $middleware())->handle();  // Ejecutar el middleware
+                    (new $middleware())->handle();
                 }
 
-                // Separar controlador y acción
-                list($controller, $action) = explode('@', $route['controllerAction']);
+                // Extraer controlador y método
+                [$controller, $action] = explode('@', $route['controllerAction']);
                 $controllerClass = 'App\\Controllers\\' . $controller;
                 $controllerInstance = new $controllerClass();
-                $controllerInstance->$action();
+
+                // Extraer los parámetros en orden (omitimos el match completo)
+                array_shift($matches); // quitamos el índice 0 (match completo)
+                $params = $matches;
+
+                // Llamar al método pasando los parámetros ordenados
+                call_user_func_array([$controllerInstance, $action], $params);
                 return;
             }
         }
 
-        // Si no encontramos la ruta, lanzar un error 404
+        // Si no se encontró ruta
         http_response_code(404);
         echo "Página no encontrada";
     }
