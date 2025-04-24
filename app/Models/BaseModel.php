@@ -6,10 +6,10 @@ use App\Core\Database;
 
 class BaseModel
 {
-    protected $conn;
+    protected $db;
 
     public function __construct()
     {
-        $this->conn = Database::getInstance()->getConnection();
+        $this->db = Database::getInstance()->getConnection();
     }
 }

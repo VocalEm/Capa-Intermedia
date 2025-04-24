@@ -4,12 +4,9 @@ require_once __DIR__ . '/plantillas/head.php';
 
 <body>
 
-    <nav class="navbar">
-        <div class="navbar-container">
-            <img src="/assets/Buyly.png" alt="Logo" class="logo">
-        </div>
-        <div class="navbar-underline"></div>
-    </nav>
+    <?php
+    require_once __DIR__ . '/plantillas/nav.php';
+    ?>
 
     <section class="registro-container">
         <div class="registro-card">
@@ -19,7 +16,7 @@ require_once __DIR__ . '/plantillas/head.php';
             </div>
 
             <!-- Formulario de Login -->
-            <form id="loginForm" class="auth-form">
+            <form id="loginForm" class="auth-form" method="POST" action="/login" enctype="multipart/form-data">
                 <h2>Iniciar Sesión</h2>
                 <div class="form-group">
                     <label for="loginEmail">Correo electrónico</label>
@@ -31,13 +28,27 @@ require_once __DIR__ . '/plantillas/head.php';
                     <input type="password" id="loginPassword" name="loginPassword" required>
                 </div>
 
-                <button type="submit" class="btn-registrar">Entrar</button>
+                <input type="submit" class="btn-registrar" value="Iniciar Sesión">
             </form>
 
             <!-- Formulario de Registro -->
-            <form id="registroForm" class="auth-form hidden" enctype="multipart/form-data">
+            <form id="registroForm" class="auth-form hidden" enctype="multipart/form-data" method="POST" action="/registro">
                 <h2>Crear Cuenta</h2>
 
+                <div class="form-group">
+                    <label for="nombreCompleto">Nombre</label>
+                    <input type="text" id="nombreCompleto" name="nombre" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="nombreCompleto">Apellido Paterno</label>
+                    <input type="text" id="nombreCompleto" name="apellido_p" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="nombreCompleto">Apellido Materno</label>
+                    <input type="text" id="nombreCompleto" name="apellido_m" required>
+                </div>
                 <div class="form-group">
                     <label for="email">Correo electrónico</label>
                     <input type="email" id="email" name="email" required>
@@ -59,31 +70,27 @@ require_once __DIR__ . '/plantillas/head.php';
                 <div class="form-group">
                     <label for="rol">Rol de usuario</label>
                     <select id="rol" name="rol" required>
-                        <option value="">Selecciona un rol</option>
-                        <option value="cliente">Cliente</option>
+                        <option value="" disabled selected>Selecciona un rol</option>
+                        <option value="comprador">Comprador</option>
                         <option value="vendedor">Vendedor</option>
-                        <option value="administrador">Administrador</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="privacidad">Privacidad de perfil</label>
-                    <select id="privacidad" name="privacidad" required>
-                        <option value="">Selecciona privacidad</option>
-                        <option value="publico">Público</option>
-                        <option value="privado">Privado</option>
+                    <select id="privacidad" name="privacidad" disabled required>
+                        <option value="" disabled selected>Selecciona privacidad</option>
+                        <option value="1">Público</option>
+                        <option value="0">Privado</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="avatar">Imagen de avatar</label>
-                    <input type="file" id="avatar" name="avatar" accept="image/*">
+                    <input type="file" id="avatar" name="avatar" accept="image/*" required>
                 </div>
 
-                <div class="form-group">
-                    <label for="nombreCompleto">Nombre completo</label>
-                    <input type="text" id="nombreCompleto" name="nombreCompleto" required>
-                </div>
+
 
                 <div class="form-group">
                     <label for="fechaNacimiento">Fecha de nacimiento</label>
@@ -94,39 +101,22 @@ require_once __DIR__ . '/plantillas/head.php';
                     <label for="sexo">Sexo</label>
                     <select id="sexo" name="sexo" required>
                         <option value="">Selecciona</option>
-                        <option value="masculino">Masculino</option>
-                        <option value="femenino">Femenino</option>
-                        <option value="otro">Otro</option>
+                        <option value="M">Masculino</option>
+                        <option value="F">Femenino</option>
                     </select>
                 </div>
 
-                <button type="submit" class="btn-registrar">Registrarse</button>
+                <input type="submit" class="btn-registrar" value="Registrarse">
             </form>
 
             <div id="mensajeRegistro"></div>
         </div>
     </section>
 
-
-    <footer class="footer">
-        <div class="footer-content">
-            <!-- Left side: Logo -->
-            <img src="/assets/Buyly.png" alt="BUYLY Logo" class="footer-logo">
-
-            <!-- Center: All rights reserved text -->
-            <p class="footer-text">© 2025 BUYLY. Todos los derechos reservados.</p>
-
-            <!-- Right side: Social media icons -->
-            <div class="social-icons">
-                <a href="https://twitter.com" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
-                <a href="https://instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-                <a href="https://facebook.com" target="_blank"><i class="fa-brands fa-facebook"></i></a>
-            </div>
-        </div>
-    </footer>
-
+    <!-- Font Awesome for Icons -->
     <!-- Font Awesome for Icons -->
     <?php
+    require_once __DIR__ . '/plantillas/footer.php';
     require_once __DIR__ . '/plantillas/scripts.php';
     ?>
     <script src="/js/login.js"></script>
@@ -134,3 +124,4 @@ require_once __DIR__ . '/plantillas/head.php';
 </body>
 
 </html>
+````

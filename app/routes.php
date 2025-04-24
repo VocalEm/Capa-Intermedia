@@ -5,7 +5,16 @@ use App\Core\Router;
 $router = new Router();
 
 // Rutas públicas (sin middleware)
-$router->get('/', 'HomeController@index');  // Página pública
+//Inico Sesion - usuarios no autenticados
+$router->get('/', 'InicioSesionController@index', 'guest');  // Página pública
+$router->get('/inicio_sesion', 'InicioSesionController@mostrarInicioSesion', 'guest');  // Página pública
+$router->post('/login', 'InicioSesionController@login',  'guest');  // Maneja el inicio de sesión
+$router->post('/registro', 'InicioSesionController@registrar',  'guest');  // Maneja el registro de usuario
+
+//usuario autenticado basico
+$router->get('/home', 'HomeController@index',  'auth');  // Maneja el cierre de sesión
+
+
 //$router->get('producto/{id}', 'ProductoController@ver');  // Detalles de producto público
 
 // Rutas protegidas por middleware 'auth' (requiere estar logueado)

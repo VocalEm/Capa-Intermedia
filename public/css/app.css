@@ -64,6 +64,7 @@ body {
   z-index: 2;
 }
 .fancy-button {
+  text-decoration: none;
   padding: 12px 28px;
   font-size: 16px;
   font-weight: 700;
@@ -161,7 +162,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url(/src/img/shoponline.jpg);
+  background-image: url(/assets/shoponline.jpg);
   background-size: cover;
   background-position: center right;
   z-index: 1;
@@ -264,6 +265,7 @@ body {
 }
 .form-group {
   margin-bottom: 20px;
+  margin-right: 40px;
 }
 .form-group label {
   display: block;

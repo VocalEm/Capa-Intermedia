@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Proyecto PWCIPIA</title>
+    <title><?= isset($title) ? $title : 'Proyecto PWCIPIA'; ?></title>
     <link rel="stylesheet" href="/css/app.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

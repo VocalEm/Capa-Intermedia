@@ -44,8 +44,13 @@ class Router
             if ($method === $route['method'] && preg_match($route['pattern'], $uri, $matches)) {
                 // Ejecutar middleware si existe
                 if ($route['middleware']) {
-                    $middleware = 'App\\Middlewares\\' . ucfirst($route['middleware']);
-                    (new $middleware())->handle();
+                    $middlewareClass = 'App\\Middlewares\\' . ucfirst($route['middleware']) . 'Middleware';
+
+                    if (class_exists($middlewareClass)) {
+                        (new $middlewareClass())->handle();
+                    } else {
+                        throw new \Exception("Middleware {$middlewareClass} no encontrado");
+                    }
                 }
 
                 // Extraer controlador y método
@@ -65,6 +70,7 @@ class Router
 
         // Si no se encontró ruta
         http_response_code(404);
-        echo "Página no encontrada";
+        echo "Página no encontrada ";
+        Header('Location: /');
     }
 }
