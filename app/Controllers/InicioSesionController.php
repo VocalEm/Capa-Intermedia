@@ -3,30 +3,38 @@
 namespace App\Controllers;
 
 use App\Models\Usuario;
+use App\Helpers\ValidadorRegistro;
+use App\Helpers\Validacion;
 
 class InicioSesionController
 {
     public function index()
     {
+        $title = 'BUYLY';
         require_once '../app/views/landing.php';
     }
 
     public function mostrarInicioSesion()
     {
+        Validacion::validarSessionStart();
+        $title = 'Iniciar Sesión';
         require_once '../app/views/inicioSesion.php';
     }
 
     public function login()
     {
+        $title = 'Iniciar Sesión';
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $correo = $_POST['loginEmail'] ?? '';
             $contrasena = $_POST['loginPassword'] ?? '';
+
 
             $usuarioModel = new Usuario();
             $usuario = $usuarioModel->encontrarPorCorreoONickname($correo);
 
             if ($usuario && password_verify($contrasena, $usuario['PASSW'])) {
-                session_start();
+                Validacion::validarSessionStart();
                 $_SESSION['usuario'] = [
                     'id' => $usuario['ID'],
                     'username' => $usuario['USERNAME'],
@@ -35,45 +43,57 @@ class InicioSesionController
                 header('Location: /home');
                 exit;
             } else {
-                echo "Correo o contraseña incorrectos";
+                $erroresLogin = "Correo, usuario o contraseña incorrectos.";
             }
+
+            require_once '../app/views/inicioSesion.php';
         }
     }
 
     public function registrar()
     {
+        $title = 'Iniciar Sesión';
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $rol = $_POST['rol'] ?? 'cliente';
-            $privacidad = ($_POST['privacidad'] ?? '') === 'privado' ? 1 : 0;
-
-            // Validar privacidad solo si el rol es "cliente"
-            if ($rol !== 'cliente') {
-                $privacidad = 0; // Valor predeterminado para roles distintos de cliente
-            }
-
+            $errores = [];
             $datos = [
                 'nombre' => $_POST['nombre'] ?? '',
                 'apellido_p' => $_POST['apellido_p'] ?? '',
                 'apellido_m' => $_POST['apellido_m'] ?? '',
-                'sexo' => $_POST['sexo'] ?? 'otro',
+                'sexo' => $_POST['sexo'] ?? '',
                 'correo' => $_POST['email'] ?? '',
                 'username' => $_POST['username'] ?? '',
-                'passw' => password_hash($_POST['password'] ?? '', PASSWORD_DEFAULT),
-                'rol' => $rol,
-                'imagen' => $this->guardarAvatar($_FILES['avatar'] ?? null),
+                'password' => $_POST['password'] ?? '',
+                'rol' => $_POST['rol'] ?? 'comprador',
+                'privacidad' => $_POST['privacidad'] ?? 1,
                 'fecha_nacimiento' => $_POST['fechaNacimiento'] ?? '',
-                'privacidad' => $privacidad
+                'avatar' => $_FILES['avatar'] ?? null
             ];
+            $errores = ValidadorRegistro::validar($datos, $datos['avatar']);
 
+            // Validar duplicados
             $usuarioModel = new Usuario();
-            $registrado = $usuarioModel->registrar($datos);
-
-            if ($registrado) {
-                header('Location: /');
-                exit;
-            } else {
-                echo "Error al registrar el usuario.";
+            if ($usuarioModel->encontrarPorCorreoONickname($datos['correo'])) {
+                $errores['correo'] = "El correo ya está registrado.";
             }
+            if ($usuarioModel->encontrarPorCorreoONickname($datos['username'])) {
+                $errores['username'] = "El nombre de usuario ya está registrado.";
+            }
+
+            if (!$errores) {
+                $datos['passw'] = password_hash($datos['password'], PASSWORD_DEFAULT);
+                $datos['imagen'] = $this->guardarAvatar($datos['avatar']);
+                $registrado = $usuarioModel->registrar($datos);
+
+                if ($registrado) {
+                    Validacion::validarSessionStart();
+                    $_SESSION['exito'] = "Registro exitoso. Ya puedes iniciar sesión."; // mensaje que se usara para la alerta
+                    header('Location: /inicio_sesion');
+                    exit;
+                }
+            }
+
+            require_once '../app/views/inicioSesion.php';
         }
     }
 
@@ -91,3 +111,5 @@ class InicioSesionController
         return 'default.jpg';
     }
 }
+
+// hay que revisar las validaciones con el rol

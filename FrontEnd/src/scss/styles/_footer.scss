@@ -1,0 +1,46 @@
+.footer {
+    background-color: white;
+    color: black;
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px; /* Adjust height to match navbar */
+}
+
+/* Footer content container */
+.footer-content {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Logo on the left */
+.footer-logo {
+    height: 30px; /* Adjust logo size */
+}
+
+/* Center text */
+.footer-text {
+    flex: 1;
+    text-align: center;
+    font-size: 14px;
+}
+
+.social-icons a {
+    font-size: 24px;
+    margin-left: 15px;
+    color: #7e22ce;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+/* Gradient effect on hover */
+.social-icons a:hover {
+    background: linear-gradient(to right, #7e22ce, #ec4899, #f97316);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transform: scale(1.2); /* Slight zoom effect */
+}

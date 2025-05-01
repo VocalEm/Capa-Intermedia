@@ -271,7 +271,7 @@ body {
   display: block;
   margin-bottom: 6px;
   color: #555;
-  font-weight: 500;
+  font-weight: 800;
 }
 .form-group input,
 .form-group select {
@@ -797,4 +797,45 @@ body {
 .producto-card .precio {
   font-weight: 700;
   color: #000;
+}
+
+.errorMessage {
+  color: rgb(247, 3, 3);
+  font-size: 0.9rem;
+  margin-top: 5px;
+  text-align: center;
+}
+.errorMessageContainer {
+  background-color: rgb(236, 214, 214);
+  border: red solid 1px;
+  margin: 5px 0px;
+}
+
+.errorMessage {
+  color: rgb(247, 3, 3);
+  font-size: 0.9rem;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.errorMessageContainer {
+  background-color: rgb(236, 214, 214);
+  border: red solid 1px;
+  margin: 5px 0px;
+}
+
+.custom-swal-button {
+  background: linear-gradient(to right, #7e22ce, #ec4899, #f97316);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.custom-swal-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
 }

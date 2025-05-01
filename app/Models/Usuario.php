@@ -43,4 +43,6 @@ class Usuario extends BaseModel
 
         return $stmt->execute();
     }
+
+    public function obtenerPorId($id) {}
 }

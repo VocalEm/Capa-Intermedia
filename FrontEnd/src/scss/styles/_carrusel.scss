@@ -1,0 +1,91 @@
+.mas-vendidos {
+    padding: 40px 20px;
+    background-color: white;
+    text-align: center;
+  }
+  
+  .titulo-seccion {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #333;
+    font-family: "Alumni Sans Pinstripe", sans-serif;
+  }
+  
+  .carrusel-container {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .carrusel {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 10px 0;
+  }
+  
+  .carrusel::-webkit-scrollbar {
+    display: none; /* Chrome, Safari y Opera */
+  }
+  .tarjeta-producto {
+    flex: 0 0 auto;
+    width: 250px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+  
+  .tarjeta-producto img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  .tarjeta-producto h3 {
+    font-size: 1.2rem;
+    margin: 10px 0 5px;
+  }
+  
+  .tarjeta-producto p {
+    font-size: 0.9rem;
+    color: #000000;
+  }
+  
+  .precio {
+    display: block;
+    margin-top: 8px;
+    font-weight: bold;
+    color: #7e22ce;
+  }
+  
+  .carrusel-btn {
+    position: absolute;
+    top: 45%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    background: rgba(255, 255, 255, 0.7);
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+    transition: background 0.3s;
+  }
+  
+  .carrusel-btn:hover {
+    background: linear-gradient(to right, #7e22ce, #ec4899, #f97316);
+    color: white;
+  }
+  
+  .carrusel-btn.left {
+    left: 10px;
+  }
+  
+  .carrusel-btn.right {
+    right: 10px;
+  }

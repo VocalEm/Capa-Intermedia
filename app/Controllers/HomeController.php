@@ -6,6 +6,8 @@ class HomeController
 {
     public function index()
     {
+        $title = 'BUYLY';
+        echo $title;
         require_once '../app/views/home.php';
     }
 }
