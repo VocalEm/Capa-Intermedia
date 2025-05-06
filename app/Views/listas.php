@@ -1,0 +1,109 @@
+<?php
+require_once __DIR__ . '/plantillas/head.php';
+?>
+
+<body>
+
+    <?php
+    require_once __DIR__ . '/plantillas/nav.php';
+    ?>
+    <div class="sub-bar">
+        <div class="sub-bar-links">
+            <a href="#">Listas</a>
+            <a href="#">Perfil</a>
+            <a href="#">Categorías</a>
+            <a href="#">Cuenta</a>
+        </div>
+        <div class="sub-bar-search">
+            <input type="text" placeholder="Buscar productos..." />
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </div>
+    </div>
+
+    <div class="lista-tarjeta">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="mostrarTab('listas')">Mis Listas</button>
+            <button class="tab-btn" onclick="mostrarTab('crear')">Crear Lista</button>
+        </div>
+
+        <!-- Tab: Mis Listas -->
+        <div id="listas" class="tab-content">
+            <div class="lista-grid">
+                <div class="lista-card" onclick="toggleLista('lista1')">
+                    <img src="src/img/producto.jpg" alt="Lista Imagen">
+                    <h3>Lista de Cumpleaños</h3>
+                    <p>Ideas para mi próxima fiesta 🥳</p>
+                    <span class="privacidad">Pública</span>
+                </div>
+
+                <div class="lista-card" onclick="toggleLista('lista2')">
+                    <img src="src/img/producto.jpg" alt="Lista Imagen">
+                    <h3>Navidad</h3>
+                    <p>Regalos navideños 🎄</p>
+                    <span class="privacidad">Privada</span>
+                </div>
+
+                <div class="lista-card" onclick="toggleLista('lista2')">
+                    <img src="src/img/producto.jpg" alt="Lista Imagen">
+                    <h3>Navidad</h3>
+                    <p>Regalos navideños 🎄</p>
+                    <span class="privacidad">Privada</span>
+                </div>
+
+                <div class="lista-card" onclick="toggleLista('lista2')">
+                    <img src="src/img/producto.jpg" alt="Lista Imagen">
+                    <h3>Navidad</h3>
+                    <p>Regalos navideños 🎄</p>
+                    <span class="privacidad">Privada</span>
+                </div>
+
+            </div>
+
+            <div class="lista-detalle" id="detalleLista" style="display: none;">
+                <button class="cerrar-lista" onclick="cerrarLista()">✕</button>
+                <h3 id="tituloLista">Nombre de Lista</h3>
+                <p id="descripcionLista">Descripción de la lista seleccionada</p>
+                <div class="productos-lista">
+                    <div class="producto">
+                        <img src="src/img/producto.jpg" alt="Producto">
+                        <div>
+                            <h4>Producto 1</h4>
+                            <p>$299.99</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Crear Lista -->
+        <div id="crear" class="tab-content" style="display: none;">
+            <form class="form-crear-lista">
+                <label>Nombre de la Lista:</label>
+                <input type="text" placeholder="Ej. Lista de Compras" required>
+
+                <label>Descripción:</label>
+                <textarea placeholder="Describe tu lista..."></textarea>
+
+                <label>Imagen (opcional):</label>
+                <input type="file" accept="image/*">
+
+                <label>Privacidad:</label>
+                <select>
+                    <option value="publica">Pública</option>
+                    <option value="privada">Privada</option>
+                </select>
+
+                <button type="submit">Crear Lista</button>
+            </form>
+        </div>
+    </div>
+
+    <?php
+    require_once __DIR__ . '/plantillas/footer.php';
+    require_once __DIR__ . '/plantillas/scripts.php';
+    ?>
+
+    <script src="/js/listas.js"></script>
+</body>
+
+</html>
