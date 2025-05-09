@@ -7,20 +7,10 @@ require_once __DIR__ . '/plantillas/head.php';
 
     <?php
     require_once __DIR__ . '/plantillas/nav.php';
+    require_once __DIR__ . '/plantillas/subnav.php';
     ?>
 
-    <div class="sub-bar">
-        <div class="sub-bar-links">
-            <a href="#">Listas</a>
-            <a href="#">Perfil</a>
-            <a href="#">Categorías</a>
-            <a href="#">Cuenta</a>
-        </div>
-        <div class="sub-bar-search">
-            <input type="text" placeholder="Buscar productos..." />
-            <button type="submit"><i class="fa fa-search"></i></button>
-        </div>
-    </div>
+
 
     <section class="mas-vendidos">
         <h2 class="titulo-seccion">Los más vendidos</h2>

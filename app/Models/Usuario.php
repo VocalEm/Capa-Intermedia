@@ -7,12 +7,14 @@ class Usuario extends BaseModel
 
     public function encontrarPorCorreoONickname($identificador)
     {
-        $query = "SELECT * FROM USUARIO WHERE CORREO = :identificador OR USERNAME = :identificador LIMIT 1";
+        $identificador = strtolower(trim($identificador)); // Convertir a minúsculas
+        $query = "SELECT * FROM USUARIO WHERE LOWER(CORREO) = :identificador OR USERNAME = :identificador LIMIT 1";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':identificador', $identificador);
         $stmt->execute();
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
+
 
     public function registrar($datos)
     {
@@ -44,5 +46,30 @@ class Usuario extends BaseModel
         return $stmt->execute();
     }
 
-    public function obtenerPorId($id) {}
+    public function obtenerPorId($id)
+    {
+        $query = "SELECT * FROM USUARIO WHERE ID = :id LIMIT 1";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
+
+    public function actualizarToken($userId, $token)
+    {
+        $query = "UPDATE USUARIO SET TOKEN = :token WHERE ID = :id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':token', $token);
+        $stmt->bindParam(':id', $userId);
+        return $stmt->execute();
+    }
+
+    public function obtenerPorToken($token)
+    {
+        $query = "SELECT * FROM USUARIO WHERE TOKEN = :token LIMIT 1";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':token', $token);
+        $stmt->execute();
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
 }

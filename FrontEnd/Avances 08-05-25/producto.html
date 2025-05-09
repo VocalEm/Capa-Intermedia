@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Proyecto PWCIPIA</title>
+    <link rel="stylesheet" href="app.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Advent+Pro:ital,wdth,wght@0,100..200,100..900;1,100..200,100..900&family=Alumni+Sans+Pinstripe:ital@0;1&family=Yanone+Kaffeesatz:wght@200..700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar-container">
+        <img src="src/img/Buyly.png" alt="Logo" class="logo" />
+      </div>
+      <div class="navbar-underline"></div>
+    </nav>
+
+    <div class="sub-bar">
+      <div class="sub-bar-links">
+        <a href="#">Listas</a>
+        <a href="#">Perfil</a>
+        <a href="#">Categorías</a>
+        <a href="#">Cuenta</a>
+      </div>
+      <div class="sub-bar-search">
+        <input type="text" placeholder="Buscar productos..." />
+        <button type="submit"><i class="fa fa-search"></i></button>
+      </div>
+    </div>
+
+    <div class="isla-producto">
+      <div class="producto-info">
+        <h2>
+          Nombre del Producto
+          <span class="estrellas"> ★★★★☆ </span>
+        </h2>
+        <p class="descripcion">
+          Descripción breve del producto con detalles relevantes y atractivos.
+        </p>
+        <p class="precio">Precio: $499.99</p>
+        <p class="stock">Stock disponible: 15 unidades</p>
+        <button class="btn-cotizar">Cotizar</button>
+      </div>
+
+      <div class="producto-media">
+        <div class="imagenes">
+          <img src="src/img/producto.jpg" alt="Producto imagen 1" />
+          <img src="src/img/producto.jpg" alt="Producto imagen 2" />
+          <img src="src/img/producto.jpg" alt="Producto imagen 3" />
+        </div>
+        <div class="video">
+          <video controls width="100%">
+            <source src="src/video/producto.mp4" type="video/mp4" />
+            Tu navegador no soporta el video.
+          </video>
+        </div>
+
+        <!-- ⭐ Sección de valoración y comentarios -->
+        <div class="valoracion-comentarios">
+          <!-- ⭐ Selector de estrellas -->
+          <div class="selector-estrellas">
+            <label for="rating">Tu calificación:</label>
+            <select id="rating" name="rating">
+              <option value="1">★☆☆☆☆</option>
+              <option value="2">★★☆☆☆</option>
+              <option value="3">★★★☆☆</option>
+              <option value="4">★★★★☆</option>
+              <option value="5">★★★★★</option>
+            </select>
+          </div>
+
+          <!-- 💬 Formulario para comentar -->
+          <div class="formulario-comentario">
+            <label for="comentario">Escribe un comentario:</label>
+            <textarea
+              id="comentario"
+              rows="3"
+              placeholder="Tu opinión..."
+            ></textarea>
+            <button type="submit">Publicar</button>
+          </div>
+
+          <!-- 📋 Lista de comentarios -->
+          <div class="lista-comentarios">
+            <h4>Comentarios:</h4>
+            <ul>
+              <li><strong>Ana:</strong> ¡Muy buen producto!</li>
+              <li><strong>Juan:</strong> La calidad es excelente.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <!-- Left side: Logo -->
+        <img src="src/img/Buyly.png" alt="BUYLY Logo" class="footer-logo" />
+
+        <!-- Center: All rights reserved text -->
+        <p class="footer-text">© 2025 BUYLY. Todos los derechos reservados.</p>
+
+        <!-- Right side: Social media icons -->
+        <div class="social-icons">
+          <a href="https://twitter.com" target="_blank"
+            ><i class="fa-brands fa-x-twitter"></i
+          ></a>
+          <a href="https://instagram.com" target="_blank"
+            ><i class="fa-brands fa-instagram"></i
+          ></a>
+          <a href="https://facebook.com" target="_blank"
+            ><i class="fa-brands fa-facebook"></i
+          ></a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Font Awesome for Icons -->
+    <script
+      src="https://kit.fontawesome.com/YOUR_KIT_CODE.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="build/js/main.js"></script>
+  </body>
+</html>

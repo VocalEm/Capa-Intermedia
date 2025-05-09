@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Usuario;
 use App\Helpers\ValidadorRegistro;
-use App\Helpers\Validacion;
+use App\Helpers\UsuarioSesion;
 
 class InicioSesionController
 {
@@ -16,7 +16,7 @@ class InicioSesionController
 
     public function mostrarInicioSesion()
     {
-        Validacion::validarSessionStart();
+        UsuarioSesion::iniciar();
         $title = 'Iniciar Sesión';
         require_once '../app/views/inicioSesion.php';
     }
@@ -28,18 +28,30 @@ class InicioSesionController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $correo = $_POST['loginEmail'] ?? '';
             $contrasena = $_POST['loginPassword'] ?? '';
-
+            $recordar = isset($_POST['recordar']) ? true : false;
 
             $usuarioModel = new Usuario();
             $usuario = $usuarioModel->encontrarPorCorreoONickname($correo);
 
             if ($usuario && password_verify($contrasena, $usuario['PASSW'])) {
-                Validacion::validarSessionStart();
+                UsuarioSesion::iniciar();
+
+                // Crear la sesión
                 $_SESSION['usuario'] = [
                     'id' => $usuario['ID'],
                     'username' => $usuario['USERNAME'],
                     'rol' => $usuario['ROL']
                 ];
+
+                // Si marcó "Recordarme", generamos el token
+                if ($recordar) {
+                    $token = bin2hex(random_bytes(32)); // Generar un token seguro
+                    setcookie('TOKEN', $token, time() + (86400 * 30), "/"); // Expira en 30 días
+
+                    // Guardar el token en la base de datos
+                    $usuarioModel->actualizarToken($usuario['ID'], $token);
+                }
+
                 header('Location: /home');
                 exit;
             } else {
@@ -49,6 +61,7 @@ class InicioSesionController
             require_once '../app/views/inicioSesion.php';
         }
     }
+
 
     public function registrar()
     {
@@ -61,14 +74,16 @@ class InicioSesionController
                 'apellido_p' => $_POST['apellido_p'] ?? '',
                 'apellido_m' => $_POST['apellido_m'] ?? '',
                 'sexo' => $_POST['sexo'] ?? '',
-                'correo' => $_POST['email'] ?? '',
-                'username' => $_POST['username'] ?? '',
+                'correo' => strtolower(trim($_POST['email'])) ?? '', // Convertir a minúsculas y eliminar espacios
+                'username' => strtolower(trim($_POST['username'])) ?? '',
                 'password' => $_POST['password'] ?? '',
                 'rol' => $_POST['rol'] ?? 'comprador',
                 'privacidad' => $_POST['privacidad'] ?? 1,
                 'fecha_nacimiento' => $_POST['fechaNacimiento'] ?? '',
                 'avatar' => $_FILES['avatar'] ?? null
             ];
+
+            // Validaciones
             $errores = ValidadorRegistro::validar($datos, $datos['avatar']);
 
             // Validar duplicados
@@ -86,8 +101,8 @@ class InicioSesionController
                 $registrado = $usuarioModel->registrar($datos);
 
                 if ($registrado) {
-                    Validacion::validarSessionStart();
-                    $_SESSION['exito'] = "Registro exitoso. Ya puedes iniciar sesión."; // mensaje que se usara para la alerta
+                    UsuarioSesion::iniciar();
+                    $_SESSION['exito'] = "Registro exitoso. Ya puedes iniciar sesión.";
                     header('Location: /inicio_sesion');
                     exit;
                 }
@@ -96,6 +111,7 @@ class InicioSesionController
             require_once '../app/views/inicioSesion.php';
         }
     }
+
 
     private function guardarAvatar($archivo)
     {

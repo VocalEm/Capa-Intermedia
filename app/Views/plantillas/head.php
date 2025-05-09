@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title><?= isset($title) ? $title : 'Proyecto PWCIPIA'; ?></title>
     <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/stylesEmiliano.css">
     <link rel="icon" type="image/png" href="/assets/B-logo.png" sizes="16x16">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

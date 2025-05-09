@@ -31,9 +31,22 @@ class UsuarioSesion
 
     public static function cerrar()
     {
-        self::iniciar();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Eliminar datos de sesión
+        $_SESSION = [];
+        session_unset();
         session_destroy();
+
+        // Eliminar la cookie `TOKEN`
+        if (isset($_COOKIE['TOKEN'])) {
+            setcookie('TOKEN', '', time() - 3600, "/");
+        }
     }
+
+
 
     public static function estaAutenticado()
     {

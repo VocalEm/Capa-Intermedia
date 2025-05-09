@@ -19,7 +19,7 @@ require_once __DIR__ . '/plantillas/head.php';
             <form id="loginForm" class="auth-form" method="POST" action="/login" enctype="multipart/form-data">
                 <h2>Iniciar Sesión</h2>
                 <div class="form-group">
-                    <label for="loginEmail">Correo electrónico</label>
+                    <label for="loginEmail">Correo electrónico o Username</label>
                     <input type="text" id="loginEmail" name="loginEmail" required>
                 </div>
 
@@ -27,6 +27,11 @@ require_once __DIR__ . '/plantillas/head.php';
                     <label for="loginPassword">Contraseña</label>
                     <input type="password" id="loginPassword" name="loginPassword" required>
                 </div>
+                <div class="form-group-recordar">
+                    <input type="checkbox" id="rememberMe" name="recordar">
+                    <label for="rememberMe">Recordar sesión</label>
+                </div>
+
 
                 <input type="submit" class="btn-registrar" value="Iniciar Sesión">
 

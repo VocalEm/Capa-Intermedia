@@ -4,6 +4,9 @@ use App\Core\Router;
 
 $router = new Router();
 
+//ruta para servri imagenes 
+$router->get('/uploads/{filename}', 'ArchivoController@mostrar');
+
 // Rutas públicas (sin middleware)
 //Inico Sesion - usuarios no autenticados
 $router->get('/', 'InicioSesionController@index', 'guest');  // Página pública
@@ -11,8 +14,25 @@ $router->get('/inicio_sesion', 'InicioSesionController@mostrarInicioSesion', 'gu
 $router->post('/login', 'InicioSesionController@login',  'guest');  // Maneja el inicio de sesión
 $router->post('/registro', 'InicioSesionController@registrar',  'guest');  // Maneja el registro de usuario
 
-//usuario autenticado basico
+//usuario autenticado basico vendedor o comprador
 $router->get('/home', 'HomeController@index',  'auth');  // Maneja el cierre de sesión
+
+//ruta a perfil de usuario
+$router->get('/perfil', 'PerfilController@usuarioSesion',  'auth');
+$router->post('/perfil/crear-lista', 'PerfilController@crearLista',  'auth'); // Crear lista de usuario
+$router->get('/perfil/eliminar-lista/{id}', 'PerfilController@eliminarLista', 'auth');
+
+//ruta para cerrar sesion
+$router->get('/logout', 'CerrarSesionController@cerrarSesion',  'auth');
+
+//catalogo de productos
+$router->get('/catalogo', 'CatalogoController@mostrarCatalogo',  'auth');
+
+
+
+
+
+
 
 
 //$router->get('producto/{id}', 'ProductoController@ver');  // Detalles de producto público

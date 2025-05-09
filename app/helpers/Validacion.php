@@ -34,11 +34,4 @@ class Validacion
         }
         return "Debe subir una imagen de avatar.";
     }
-
-    public static function validarSessionStart()
-    {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-    }
 }

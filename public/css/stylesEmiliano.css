@@ -1,0 +1,130 @@
+.errorMessage {
+  color: rgb(247, 3, 3);
+  font-size: 0.9rem;
+  margin-top: 5px;
+  text-align: center;
+}
+.errorMessageContainer {
+  background-color: rgb(236, 214, 214);
+  border: red solid 1px;
+  margin: 5px 0px;
+}
+
+.errorMessage {
+  color: rgb(247, 3, 3);
+  font-size: 0.9rem;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.errorMessageContainer {
+  background-color: rgb(236, 214, 214);
+  border: red solid 1px;
+  margin: 5px 0px;
+}
+
+.custom-swal-button {
+  background: linear-gradient(to right, #7e22ce, #ec4899, #f97316);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.custom-swal-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+.sub-bar-links a {
+  font-weight: bold;
+}
+
+.form-group-recordar {
+  margin-bottom: 1rem;
+}
+
+.lista-card-img {
+  width: 100%;
+  height: 15rem;
+  border-radius: 10px;
+  overflow: hidden; /* Para recortar el exceso de la imagen */
+  position: relative;
+}
+
+.lista-card-img img {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  object-fit: cover; /* Cubre todo el contenedor manteniendo proporciones */
+  object-position: center; /* Centra la imagen */
+}
+
+.foto-perfil {
+  width: 12rem;
+  height: 12rem;
+  border-radius: 50%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  border: 3px solid #000;
+}
+
+.perfil-header-info p {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.lista-card-botones {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  padding-bottom: 0.5rem;
+  padding-right: 0.5rem;
+  border: none;
+  background-color: transparent;
+}
+
+.lista-card-botones i {
+  color: red;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.lista-card-botones i:hover {
+  scale: 1.2;
+}
+
+.sub-bar-search div {
+  margin-left: 2rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.sub-bar-search div i {
+  color: rgb(255, 255, 255);
+}
+
+.sub-bar-search div a {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.3rem;
+  height: 2.3rem;
+  background-color: #000;
+  border-radius: 50%;
+  transition: scale 0.3s ease-in-out;
+}
+
+.sub-bar-search div a:hover {
+  scale: 1.2;
+  background: linear-gradient(to right, #7e22ce, #ec4899, #f97316);
+}
+
+a {
+  text-decoration: none;
+}

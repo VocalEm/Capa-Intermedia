@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Proyecto PWCIPIA</title>
+    <link rel="stylesheet" href="app.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Advent+Pro:ital,wdth,wght@0,100..200,100..900;1,100..200,100..900&family=Alumni+Sans+Pinstripe:ital@0;1&family=Yanone+Kaffeesatz:wght@200..700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar-container">
+        <img src="src/img/Buyly.png" alt="Logo" class="logo" />
+      </div>
+      <div class="navbar-underline"></div>
+    </nav>
+
+    <div class="sub-bar">
+      <div class="sub-bar-links">
+        <a href="#">Listas</a>
+        <a href="#">Perfil</a>
+        <a href="#">Categorías</a>
+        <a href="#">Cuenta</a>
+      </div>
+      <div class="sub-bar-search">
+        <input type="text" placeholder="Buscar productos..." />
+        <button type="submit"><i class="fa fa-search"></i></button>
+      </div>
+    </div>
+
+    <section class="isla-carrito">
+      <h2>Carrito de Compras</h2>
+
+      <div class="carrito-contenido">
+        <!-- Producto 1 -->
+        <div class="producto-carrito">
+          <img
+            src="src/img/producto.jpg"
+            alt="Silla Ergonómica"
+            class="producto-imagen"
+          />
+          <div class="producto-detalles">
+            <p class="producto-nombre"><strong>Silla Ergonómica</strong></p>
+            <p class="producto-descripcion">
+              Silla ergonómica para oficina, ajustable y cómoda.
+            </p>
+            <div class="producto-precio-cantidad">
+              <p class="producto-precio">Precio: $200</p>
+              <div class="producto-cantidad">
+                <button>-</button>
+                <input type="number" value="1" min="1" class="cantidad-input" />
+                <button>+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Producto 2 -->
+        <div class="producto-carrito">
+          <img
+            src="src/img/producto.jpg"
+            alt="Laptop Gamer"
+            class="producto-imagen"
+          />
+          <div class="producto-detalles">
+            <p class="producto-nombre"><strong>Laptop Gamer ASUS</strong></p>
+            <p class="producto-descripcion">
+              Laptop de alto rendimiento para juegos y trabajo pesado.
+            </p>
+            <div class="producto-precio-cantidad">
+              <p class="producto-precio">Precio: $1200</p>
+              <div class="producto-cantidad">
+                <button>-</button>
+                <input type="number" value="1" min="1" class="cantidad-input" />
+                <button>+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Producto 3 -->
+        <div class="producto-carrito">
+          <img
+            src="src/img/producto.jpg"
+            alt="Escritorio de Oficina"
+            class="producto-imagen"
+          />
+          <div class="producto-detalles">
+            <p class="producto-nombre">
+              <strong>Escritorio de Oficina</strong>
+            </p>
+            <p class="producto-descripcion">
+              Escritorio de madera resistente con espacio de almacenamiento.
+            </p>
+            <div class="producto-precio-cantidad">
+              <p class="producto-precio">Precio: $300</p>
+              <div class="producto-cantidad">
+                <button>-</button>
+                <input type="number" value="1" min="1" class="cantidad-input" />
+                <button>+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Total y Botón de Pago -->
+      <div class="total-carrito">
+        <p><strong>Total:</strong> $1700</p>
+        <button class="btn-pago">Proceder al Pago</button>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <!-- Left side: Logo -->
+        <img src="src/img/Buyly.png" alt="BUYLY Logo" class="footer-logo" />
+
+        <!-- Center: All rights reserved text -->
+        <p class="footer-text">© 2025 BUYLY. Todos los derechos reservados.</p>
+
+        <!-- Right side: Social media icons -->
+        <div class="social-icons">
+          <a href="https://twitter.com" target="_blank"
+            ><i class="fa-brands fa-x-twitter"></i
+          ></a>
+          <a href="https://instagram.com" target="_blank"
+            ><i class="fa-brands fa-instagram"></i
+          ></a>
+          <a href="https://facebook.com" target="_blank"
+            ><i class="fa-brands fa-facebook"></i
+          ></a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Font Awesome for Icons -->
+    <script
+      src="https://kit.fontawesome.com/YOUR_KIT_CODE.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="chat.js"></script>
+  </body>
+</html>

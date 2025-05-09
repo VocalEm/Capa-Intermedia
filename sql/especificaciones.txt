@@ -1,0 +1,48 @@
+Capa intermedia
+Proyecto: Tienda en línea 
+1.- 4 tipos de usuarios 
+Usuario Superadmin: solo se puede meter desde la base de datos, puede crear cuentas de administrador, donde genera un correo y una contraseña, solo credenciales, no hace nada más
+
+Usuario Administrador: El admin puede aceptar o rechazar producto solicitado para ser puesto en venta
+
+Usuario Vendedor:Se puede registrar por su propia cuenta con correo electrónico único, nombre de usuario minimo de 3 carácteres, contraseña con mínimo de 8 carácteres con una mayúscula, una minúscula, un número y un carácter especial, la ñ no cuenta como caracter especial, rol de usuario donde selecciona si puede ser comprador o vendedor, imagen de avatar de usuario, nombre completo del usuario, fecha de nacimiento (no se puede poner fecha futura), género (hombre y mujer), fecha de cuando se da de alta el usuario se guarda
+
+Usuario comprador:Se agrega una opción de público o privado, todo lo demás es lo mismo que el vendedor
+
+Inicio de sesión: puede iniciar sesión con el usuario o el correo y contraseña, el input de correo o usuario debe ser el mismo
+
+Creación de lista (solo para comprador): Wishlists personalizadas por el usuario, título, productos con nombre del producto, descripción y precio, se mostrará en el perfil del usuario si está público PERO si lo tiene que poder ver el mismo usuario, las listas pueden ser privadas o públicas 
+
+Perfil de usuario: Debe mostrar, foto de perfil y nombre de usuario
+SI ES COMPRADOR PRIVADO: No muestra contenido y solo muestra nombre y foto, tiene que haber un mensaje que dice "El perfil es privado.
+SI ES COMPRADOR PUBLICO: Mostrar las listas creadas por ese usuario, el nombre de usuario y su foto.
+
+PERFIL DEL VENDEDOR: Se pueden ver los productos que han sido aprobados por el administrador, y los que están espera, LO UNICO que se puede editar es la cantidad del stock, para lo demás es dar de baja el producto y volver a mandarlo a aprobación
+
+PERFIL DE ADMINISTRADOR: se pueden ver los productos aprobados por el mismo admin, trabajar con ajax para que se trabaje en tiempo real
+
+CATEGORÍAS: Cada producto debe tener una categorías mínimo, los vendedores pueden crear categorías, tienen que tener una descripción agregada por el creador de la categoría y guardar quien es el creador de la categoría 
+
+PRODUCTOS: Solo se ven los productos autorizados, deben tener la sig info: Nombre del producto, descripción, mínimo de 3 imágenes, mínimo 1 video, mínimo una categoría, se tiene que marcar si el producto es de venta o cotización, precio en caso de que sea de venta, los de cotización no tienen precio inicial, disponibilidad (cuántos existen y solo para los que son para venta), valoración y comentarios, LOS COMENTARIOS Y VALORACIÓN SOLO PUEDE SER POR ALGUIEN QUE YA COMPRO EL PRODUCTO 
+
+LANDING PAGE: Nos muestra la marca o nombre de la empresa que nos manda a la página de registro o de inicio de sesión 
+
+PAGINA PRINCIPAL: Debe mostrar los productos más comprados, los más recientes
+
+BARRAS DE NAVEGACIÓN: Permite navegar entre home, perfil, carrito
+
+BUSCADOR: Busca producto o usuario, filtros de precio, de en venta y de en cotización, nickname o nombre completo del vendedor
+
+APIs: PayPal con sandbox para no cagarla xd
+
+METODOS DE PAGO: PayPal, tarjeta de crédito y crear un pdf para efectivo
+
+CARRITO: Incluye la cantidad del producto a comprar, el nombre y el precio, después de comprar se vacía el carrito, el carrito no se vacía si cierro sesión 
+
+SISTEMA DE COTIZACIÓN: Es para un servicio o producto hecho a la medida, en el cual se abre un chat para poder hablar con el cliente
+
+CONSULTA DE VENTAS: Solo lo ve el vendedor, donde puede ver cuánto ha ganado y cuánto ha pérdido.
+CONSULTA DETALLADA: Precio, stock, nombre del producto, descripción, fecha y hora de la venta, categoría, calificación del producto de esa venta
+CONSULTA DEL PRODUCTO AGRUPADA: mes y año de venta, categoría, y cantidad de ventas que ha tenido, y como la ventana del perfil pero también aquí
+
+HOSTEO: Opcional
