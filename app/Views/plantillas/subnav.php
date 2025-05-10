@@ -14,10 +14,8 @@
         if ($_SESSION['usuario']['rol'] == 'vendedor') {
         ?>
             <a href="/perfil">Perfil</a>
-            <a href="#">Catalogo</a>
             <a href="#">Chats</a>
             <a href="#">Buscador Usuarios</a>
-            <a href="#" id="logout-link">Cerrar Sesion</a>
             <script>
                 document.getElementById('logout-link').addEventListener('click', function(e) {
                     e.preventDefault();

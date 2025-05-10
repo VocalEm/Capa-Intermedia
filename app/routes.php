@@ -18,7 +18,9 @@ $router->post('/registro', 'InicioSesionController@registrar',  'guest');  // Ma
 $router->get('/home', 'HomeController@index',  'auth');  // Maneja el cierre de sesión
 
 //ruta a perfil de usuario
-$router->get('/perfil', 'PerfilController@usuarioSesion',  'auth');
+$router->get('/perfil', 'PerfilController@mostrarPerfilUsuarioSesion',  'auth'); // Usuario en sesion
+$router->get('/perfil/{id}', 'PerfilController@mostrarPerfilUsuario',  'auth'); // otro Usuario
+
 $router->post('/perfil/crear-lista', 'PerfilController@crearLista',  'auth'); // Crear lista de usuario
 $router->get('/perfil/eliminar-lista/{id}', 'PerfilController@eliminarLista', 'auth');
 

@@ -9,54 +9,60 @@ use App\Models\Lista;
 class PerfilController
 {
 
-    public function usuarioSesion()
+    public function mostrarPerfilUsuarioSesion()
     {
+
         $idUsuario = UsuarioSesion::obtener();
         $usuario = new Usuario();
         $usuario = $usuario->obtenerPorId($idUsuario['id']);
         $listaModel = new Lista();
 
         // Obtener las listas y sus productos mediante un JOIN
-        $datos = $listaModel->obtenerListasConProductos($idUsuario['id']);
 
-        /**
-         * `datos` es un arreglo donde cada fila contiene información tanto de la lista 
-         * como de los productos. 
-         * Debemos organizarlo para que todos los productos de una lista queden agrupados 
-         * bajo la misma lista.
-         */
 
-        $listasConProductos = [];
-
-        foreach ($datos as $fila) {
-            $listaId = $fila['lista_id'];
-
-            // Si la lista aún no ha sido agregada al arreglo, la inicializamos
-            if (!isset($listasConProductos[$listaId])) {
-                $listasConProductos[$listaId] = [
-                    'ID' => $listaId,
-                    'NOMBRE' => $fila['lista_nombre'],
-                    'DESCRIPCION' => $fila['lista_descripcion'],
-                    'PRIVACIDAD' => $fila['lista_privacidad'],
-                    'IMAGEN' => $fila['lista_imagen'],
-                    'productos' => []  // Inicializamos el arreglo de productos
-                ];
-            }
+        if ($usuario['ROL'] == 'comprador') {
+            $datos = $listaModel->obtenerListasConProductos($idUsuario['id']);
 
             /**
-             * Si `ID_PRODUCTO` no es nulo, significa que la lista tiene al menos un producto asociado.
-             * Esto previene que listas vacías no tengan el índice `productos`.
+             * `datos` es un arreglo donde cada fila contiene información tanto de la lista 
+             * como de los productos. 
+             * Debemos organizarlo para que todos los productos de una lista queden agrupados 
+             * bajo la misma lista.
              */
-            if ($fila['ID_PRODUCTO']) {
-                $listasConProductos[$listaId]['productos'][] = [
-                    'ID' => $fila['ID_PRODUCTO'],
-                    'NOMBRE' => $fila['producto_nombre'],
-                    'PRECIO' => $fila['producto_precio'],
-                    'IMAGEN' => $fila['producto_imagen']
-                ];
-            }
-        }
 
+            $listasConProductos = [];
+            foreach ($datos as $fila) {
+                $listaId = $fila['lista_id'];
+
+                // Si la lista aún no ha sido agregada al arreglo, la inicializamos
+                if (!isset($listasConProductos[$listaId])) {
+                    $listasConProductos[$listaId] = [
+                        'ID' => $listaId,
+                        'NOMBRE' => $fila['lista_nombre'],
+                        'DESCRIPCION' => $fila['lista_descripcion'],
+                        'PRIVACIDAD' => $fila['lista_privacidad'],
+                        'IMAGEN' => $fila['lista_imagen'],
+                        'productos' => []  // Inicializamos el arreglo de productos
+                    ];
+                }
+
+                /**
+                 * Si `ID_PRODUCTO` no es nulo, significa que la lista tiene al menos un producto asociado.
+                 * Esto previene que listas vacías no tengan el índice `productos`.
+                 */
+                if ($fila['ID_PRODUCTO']) {
+                    $listasConProductos[$listaId]['productos'][] = [
+                        'ID' => $fila['ID_PRODUCTO'],
+                        'NOMBRE' => $fila['producto_nombre'],
+                        'PRECIO' => $fila['producto_precio'],
+                        'IMAGEN' => $fila['producto_imagen']
+                    ];
+                }
+            }
+        } else if ($usuario['ROL'] == 'vendedor') {
+        } else if ($usuario['ROL'] == 'admin') {
+        }
+        $miPerfil = true;
         /**
          * En este punto, `listasConProductos` es un arreglo estructurado de la siguiente forma:
          *
@@ -90,6 +96,58 @@ class PerfilController
          *     ]
          * ]
          */
+
+        $title = $usuario['USERNAME'];
+        require_once '../app/views/perfil.php';
+    }
+
+    public function mostrarPerfilUsuario($idUsuario)
+    {
+        if ($idUsuario == UsuarioSesion::obtener()['id']) {
+            header('Location: /perfil');
+            exit;
+        }
+
+        $usuario = new Usuario();
+        $usuario = $usuario->obtenerPorId($idUsuario);
+        $listaModel = new Lista();
+
+        if ($usuario['ROL'] == 'comprador') {
+            $datos = $listaModel->obtenerListasConProductos($idUsuario);
+
+            $listasConProductos = [];
+            foreach ($datos as $fila) {
+                $listaId = $fila['lista_id'];
+
+                // Si la lista aún no ha sido agregada al arreglo, la inicializamos
+                if (!isset($listasConProductos[$listaId])) {
+                    $listasConProductos[$listaId] = [
+                        'ID' => $listaId,
+                        'NOMBRE' => $fila['lista_nombre'],
+                        'DESCRIPCION' => $fila['lista_descripcion'],
+                        'PRIVACIDAD' => $fila['lista_privacidad'],
+                        'IMAGEN' => $fila['lista_imagen'],
+                        'productos' => []  // Inicializamos el arreglo de productos
+                    ];
+                }
+
+                /**
+                 * Si `ID_PRODUCTO` no es nulo, significa que la lista tiene al menos un producto asociado.
+                 * Esto previene que listas vacías no tengan el índice `productos`.
+                 */
+                if ($fila['ID_PRODUCTO']) {
+                    $listasConProductos[$listaId]['productos'][] = [
+                        'ID' => $fila['ID_PRODUCTO'],
+                        'NOMBRE' => $fila['producto_nombre'],
+                        'PRECIO' => $fila['producto_precio'],
+                        'IMAGEN' => $fila['producto_imagen']
+                    ];
+                }
+            }
+        } else if ($usuario['ROL'] == 'vendedor') {
+        } else if ($usuario['ROL'] == 'admin') {
+        }
+        $miPerfil = false;
 
         $title = $usuario['USERNAME'];
         require_once '../app/views/perfil.php';

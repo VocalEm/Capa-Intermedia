@@ -23,7 +23,7 @@ class Lista extends BaseModel
     // Obtener listas de un usuario
     public function obtenerListasPorUsuario($datos)
     {
-        $sql = "SELECT * FROM listas WHERE ID_USUARIO = :idUsuario";
+        $sql = "SELECT * FROM listas WHERE ID_USUARIO = :idUsuario ORDER BY ID DESC";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':idUsuario', $datos['idUsuario']);
         $stmt->execute();
@@ -62,7 +62,7 @@ class Lista extends BaseModel
         LEFT JOIN producto p ON lp.ID_PRODUCTO = p.ID
         LEFT JOIN imagenes_producto ip ON p.ID = ip.ID_PRODUCTO
         WHERE l.ID_USUARIO = :idUsuario
-        ORDER BY l.ID, lp.ID_PRODUCTO";
+        ORDER BY l.ID DESC, lp.ID_PRODUCTO ASC";
 
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':idUsuario', $idUsuario);

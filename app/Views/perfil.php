@@ -26,76 +26,133 @@ require_once __DIR__ . '/plantillas/head.php';
 
             </div>
 
-            <div class="listas-usuario">
-                <h3>Mis Listas</h3>
-                <div id="listas-container" class="listas-container">
-                    <?php if (!empty($listasConProductos)): ?>
-                        <?php foreach ($listasConProductos as $lista): ?>
-                            <div class="lista-card">
-                                <!-- Botón de eliminar con SweetAlert -->
-                                <button class="lista-card-botones" onclick="confirmarEliminacion(<?= $lista['ID']; ?>)">
-                                    <i class="fa-solid fa-trash fa-2x"></i>
-                                </button>
-                                <div class="lista-card-img">
-                                    <img src="/uploads/<?= $lista['IMAGEN'] ?>" alt="">
-                                </div>
-                                <h4 class="lista-card-titulo" style="font-size: 2rem; "><?= htmlspecialchars($lista['NOMBRE']) ?></h4>
-                                <p class="descripcion" style="font-size:1.5rem;   font-weight: bold;"><?= htmlspecialchars($lista['DESCRIPCION']) ?></p>
-                                <p class="visibilidad" style="font-size:1.5rem;   font-weight: bold;">
-                                    Visibilidad: <?= $lista['PRIVACIDAD'] ? 'Pública' : 'Privada' ?>
-                                </p>
-
-                                <div class="productos-lista">
-                                    <?php if (!empty($lista['productos'])): ?>
-                                        <?php foreach ($lista['productos'] as $producto): ?>
-                                            <div class="producto-card">
-                                                <img src="/uploads/<?= htmlspecialchars($producto['IMAGEN']) ?>" alt="<?= htmlspecialchars($producto['NOMBRE']) ?>" />
-                                                <h5><?= htmlspecialchars($producto['NOMBRE']) ?></h5>
-                                                <p class="precio">$<?= number_format($producto['PRECIO'], 2) ?></p>
+            <?php
+            if ($usuario['ROL'] == 'comprador'):
+            ?>
+                <div class="listas-usuario">
+                    <h3>Listas</h3>
+                    <div id="listas-container" class="listas-container">
+                        <?php if (!empty($listasConProductos)): ?>
+                            <?php foreach ($listasConProductos as $lista):
+                                if ($miPerfil == false):
+                                    if ($lista['PRIVACIDAD']): ?>
+                                        <div class="lista-card">
+                                            <!-- Botón de eliminar con SweetAlert -->
+                                            <?php
+                                            if ($miPerfil && isset($miPerfil)):
+                                            ?>
+                                                <button class="lista-card-botones" onclick="confirmarEliminacion(<?= $lista['ID']; ?>)">
+                                                    <i class="fa-solid fa-trash fa-2x"></i>
+                                                </button>
+                                            <?php
+                                            endif;
+                                            ?>
+                                            <div class="lista-card-img">
+                                                <img src="/uploads/<?= $lista['IMAGEN'] ?>" alt="">
                                             </div>
-                                        <?php endforeach; ?>
-                                    <?php else: ?>
-                                        <p style="font-size:1.5rem; color:red;   font-weight: bold;">No hay productos en esta lista.</p>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <p>No tienes listas creadas.</p>
-                    <?php endif; ?>
+                                            <h4 class="lista-card-titulo" style="font-size: 2rem; "><?= htmlspecialchars($lista['NOMBRE']) ?></h4>
+                                            <p class="descripcion" style="font-size:1.5rem;   font-weight: bold;"><?= htmlspecialchars($lista['DESCRIPCION']) ?></p>
+                                            <p class="visibilidad" style="font-size:1.5rem;   font-weight: bold;">
+                                                Visibilidad: <?= $lista['PRIVACIDAD'] ? 'Pública' : 'Privada' ?>
+                                            </p>
+
+                                            <div class="productos-lista">
+                                                <?php if (!empty($lista['productos'])): ?>
+                                                    <?php foreach ($lista['productos'] as $producto): ?>
+                                                        <div class="producto-card">
+                                                            <img src="/uploads/<?= htmlspecialchars($producto['IMAGEN']) ?>" alt="<?= htmlspecialchars($producto['NOMBRE']) ?>" />
+                                                            <h5><?= htmlspecialchars($producto['NOMBRE']) ?></h5>
+                                                            <p class="precio">$<?= number_format($producto['PRECIO'], 2) ?></p>
+                                                        </div>
+                                                    <?php endforeach; ?>
+                                                <?php else: ?>
+                                                    <p style="font-size:1.5rem; color:red;   font-weight: bold;">No hay productos en esta lista.</p>
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+                                    <?php
+                                    endif;
+                                else: ?>
+                                    <div class="lista-card">
+                                        <!-- Botón de eliminar con SweetAlert -->
+                                        <?php
+                                        if ($miPerfil && isset($miPerfil)):
+                                        ?>
+                                            <button class="lista-card-botones" onclick="confirmarEliminacion(<?= $lista['ID']; ?>)">
+                                                <i class="fa-solid fa-trash fa-2x"></i>
+                                            </button>
+                                        <?php
+                                        endif;
+                                        ?>
+                                        <div class="lista-card-img">
+                                            <img src="/uploads/<?= $lista['IMAGEN'] ?>" alt="">
+                                        </div>
+                                        <h4 class="lista-card-titulo" style="font-size: 2rem; "><?= htmlspecialchars($lista['NOMBRE']) ?></h4>
+                                        <p class="descripcion" style="font-size:1.5rem;   font-weight: bold;"><?= htmlspecialchars($lista['DESCRIPCION']) ?></p>
+                                        <p class="visibilidad" style="font-size:1.5rem;   font-weight: bold;">
+                                            Visibilidad: <?= $lista['PRIVACIDAD'] ? 'Pública' : 'Privada' ?>
+                                        </p>
+
+                                        <div class="productos-lista">
+                                            <?php if (!empty($lista['productos'])): ?>
+                                                <?php foreach ($lista['productos'] as $producto): ?>
+                                                    <div class="producto-card">
+                                                        <img src="/uploads/<?= htmlspecialchars($producto['IMAGEN']) ?>" alt="<?= htmlspecialchars($producto['NOMBRE']) ?>" />
+                                                        <h5><?= htmlspecialchars($producto['NOMBRE']) ?></h5>
+                                                        <p class="precio">$<?= number_format($producto['PRECIO'], 2) ?></p>
+                                                    </div>
+                                                <?php endforeach; ?>
+                                            <?php else: ?>
+                                                <p style="font-size:1.5rem; color:red;   font-weight: bold;">No hay productos en esta lista.</p>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                            <?php
+                                endif;
+                            endforeach; ?>
+                        <?php else: ?>
+                            <p>No tienes listas creadas.</p>
+                        <?php endif; ?>
+                    </div>
                 </div>
-            </div>
+            <?php
+            endif;
+            ?>
         </div>
     </section>
+    <?php
+    if ($usuario['ROL'] == 'comprador' && $miPerfil):
+    ?>
+        <div class="lista-tarjeta">
+            <h2>Crear Lista</h2>
+            <div id="crear" class="tab-content">
+                <form class="form-crear-lista" action="/perfil/crear-lista" method="POST" enctype="multipart/form-data">
+                    <label>Nombre de la Lista:</label>
+                    <input name="nombre" type="text" placeholder="Ej. Lista de Compras" required />
 
-    <div class="lista-tarjeta">
-        <h2>Crear Lista</h2>
-        <div id="crear" class="tab-content">
-            <form class="form-crear-lista" action="/perfil/crear-lista" method="POST" enctype="multipart/form-data">
-                <label>Nombre de la Lista:</label>
-                <input name="nombre" type="text" placeholder="Ej. Lista de Compras" required />
+                    <label>Descripción:</label>
+                    <textarea style=" resize: vertical; overflow: auto; " name="descripcion" placeholder="Describe tu lista..."></textarea>
 
-                <label>Descripción:</label>
-                <textarea style=" resize: vertical; overflow: auto; " name="descripcion" placeholder="Describe tu lista..."></textarea>
+                    <label>Imagen:</label>
+                    <input name="imagen" type="file" accept="image/*" required />
 
-                <label>Imagen:</label>
-                <input name="imagen" type="file" accept="image/*" required />
+                    <?php if ($usuario['PRIVACIDAD'] == 1): ?>
+                        <label>Privacidad:</label>
+                        <select name="privacidad" required>
+                            <option value="publica">Pública</option>
+                            <option value="privada">Privada</option>
+                        </select>
+                    <?php else: ?>
+                        <input type="hidden" name="privacidad" value="privada">
+                    <?php endif; ?>
 
-                <?php if ($usuario['PRIVACIDAD'] == 1): ?>
-                    <label>Privacidad:</label>
-                    <select name="privacidad" required>
-                        <option value="publica">Pública</option>
-                        <option value="privada">Privada</option>
-                    </select>
-                <?php else: ?>
-                    <input type="hidden" name="privacidad" value="privada">
-                <?php endif; ?>
-
-                <button type="submit">Crear Lista</button>
-            </form>
+                    <button type="submit">Crear Lista</button>
+                </form>
+            </div>
         </div>
-    </div>
-
+    <?php
+    endif;
+    ?>
 
     <!-- Font Awesome for Icons -->
     <?php
