@@ -78,11 +78,10 @@ class InicioSesionController
                 'username' => strtolower(trim($_POST['username'])) ?? '',
                 'password' => $_POST['password'] ?? '',
                 'rol' => $_POST['rol'] ?? 'comprador',
-                'privacidad' => $_POST['privacidad'] ?? 1,
+                'privacidad' => $_POST['privacidad'],
                 'fecha_nacimiento' => $_POST['fechaNacimiento'] ?? '',
                 'avatar' => $_FILES['avatar'] ?? null
             ];
-
             // Validaciones
             $errores = ValidadorRegistro::validar($datos, $datos['avatar']);
 

@@ -94,7 +94,7 @@ require_once __DIR__ . '/plantillas/head.php';
                 <div class="form-group">
                     <label for="privacidad">Privacidad de perfil</label>
                     <select id="privacidad" name="privacidad" required>
-                        <option value="" selected disabled>Selecciona privacidad</option>
+                        <option selected disabled>Selecciona privacidad</option>
                         <option value="1">Público</option>
                         <option value="0">Privado</option>
                     </select>

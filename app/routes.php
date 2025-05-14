@@ -21,8 +21,14 @@ $router->get('/home', 'HomeController@index',  'auth');  // Maneja el cierre de 
 $router->get('/perfil', 'PerfilController@mostrarPerfilUsuarioSesion',  'auth'); // Usuario en sesion
 $router->get('/perfil/{id}', 'PerfilController@mostrarPerfilUsuario',  'auth'); // otro Usuario
 
-$router->post('/perfil/crear-lista', 'PerfilController@crearLista',  'auth'); // Crear lista de usuario
-$router->get('/perfil/eliminar-lista/{id}', 'PerfilController@eliminarLista', 'auth');
+$router->post('/perfil/crear-lista', 'PerfilController@crearLista',  'auth'); // Crear lista de usuario comprador
+$router->get('/perfil/eliminar-lista/{id}', 'PerfilController@eliminarLista', 'auth'); // crear lista usuario comprador
+
+$router->post('/agregar-producto', 'AgregarProductoController@agregarProducto', 'auth'); // crear solicitud de producto 
+$router->get('/agregar-producto', 'AgregarProductoController@mostrarFormulario', 'auth'); // muestra pagina de producto
+$router->post('/agregar-producto/categoria', 'AgregarProductoController@agregarCategoria', 'auth'); // muestra pagina de producto
+
+
 
 //ruta para cerrar sesion
 $router->get('/logout', 'CerrarSesionController@cerrarSesion',  'auth');

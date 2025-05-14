@@ -16,6 +16,7 @@
             <a href="/perfil">Perfil</a>
             <a href="#">Chats</a>
             <a href="#">Buscador Usuarios</a>
+            <a href="/agregar-producto">Agregar Producto</a>
             <script>
                 document.getElementById('logout-link').addEventListener('click', function(e) {
                     e.preventDefault();

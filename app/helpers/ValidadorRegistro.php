@@ -46,9 +46,10 @@ class ValidadorRegistro
             $errores['sexo'] = "Debe seleccionar un sexo.";
         }
 
-        if (empty($datos['privacidad'])) {
+        if (!isset($datos['privacidad']) || ($datos['privacidad'] !== '0' && $datos['privacidad'] !== '1')) {
             $errores['privacidad'] = "Debe seleccionar una privacidad.";
         }
+
 
         return $errores;
     }
