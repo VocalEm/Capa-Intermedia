@@ -39,15 +39,6 @@ CREATE TABLE `carrito` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `carrito`
---
-
-LOCK TABLES `carrito` WRITE;
-/*!40000 ALTER TABLE `carrito` DISABLE KEYS */;
-/*!40000 ALTER TABLE `carrito` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `categoria`
 --
 
@@ -64,16 +55,6 @@ CREATE TABLE `categoria` (
   CONSTRAINT `categoria_ibfk_1` FOREIGN KEY (`ID_CREADOR`) REFERENCES `usuario` (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `categoria`
---
-
-LOCK TABLES `categoria` WRITE;
-/*!40000 ALTER TABLE `categoria` DISABLE KEYS */;
-INSERT INTO `categoria` VALUES (1,'fut',NULL,9),(2,'basketball',NULL,9),(3,'golf',NULL,9);
-/*!40000 ALTER TABLE `categoria` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `chat`
@@ -97,15 +78,6 @@ CREATE TABLE `chat` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `chat`
---
-
-LOCK TABLES `chat` WRITE;
-/*!40000 ALTER TABLE `chat` DISABLE KEYS */;
-/*!40000 ALTER TABLE `chat` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `chat_mensaje`
 --
 
@@ -125,15 +97,6 @@ CREATE TABLE `chat_mensaje` (
   CONSTRAINT `chat_mensaje_ibfk_2` FOREIGN KEY (`ID_USUARIO`) REFERENCES `usuario` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `chat_mensaje`
---
-
-LOCK TABLES `chat_mensaje` WRITE;
-/*!40000 ALTER TABLE `chat_mensaje` DISABLE KEYS */;
-/*!40000 ALTER TABLE `chat_mensaje` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `comentario`
@@ -157,15 +120,6 @@ CREATE TABLE `comentario` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `comentario`
---
-
-LOCK TABLES `comentario` WRITE;
-/*!40000 ALTER TABLE `comentario` DISABLE KEYS */;
-/*!40000 ALTER TABLE `comentario` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `listas`
 --
 
@@ -187,16 +141,6 @@ CREATE TABLE `listas` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `listas`
---
-
-LOCK TABLES `listas` WRITE;
-/*!40000 ALTER TABLE `listas` DISABLE KEYS */;
-INSERT INTO `listas` VALUES (2,'Senderismo','Esta lista es una guia para compras de senderismo','681e4d09f24f8_bosquePortada.jpeg',0,8,'2025-05-09 12:44:26'),(3,'Esto es una tercera Lista','Listaaaaa','681e63fab6702_bosquePortada.jpeg',0,8,'2025-05-09 14:22:18'),(4,'Esto es una lista publica','Esto es una lista publicaaaaa','681f7e8f2a819_bosquePortada.jpeg',1,8,'2025-05-10 10:27:59'),(5,'esta es una lista privada en un perfil privado','esta es una lista privada en un perfil privado','6824fd65778ca_bosquePortada.jpeg',0,10,'2025-05-14 14:30:29'),(6,'esta es una lista publica en un perfil privado','esta es una lista publica en un perfil privado','6824fd767c2cc_bosquePortada.jpeg',1,10,'2025-05-14 14:30:46');
-/*!40000 ALTER TABLE `listas` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `listas_productos`
 --
 
@@ -216,15 +160,6 @@ CREATE TABLE `listas_productos` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `listas_productos`
---
-
-LOCK TABLES `listas_productos` WRITE;
-/*!40000 ALTER TABLE `listas_productos` DISABLE KEYS */;
-/*!40000 ALTER TABLE `listas_productos` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `orden`
 --
 
@@ -241,15 +176,6 @@ CREATE TABLE `orden` (
   CONSTRAINT `orden_ibfk_1` FOREIGN KEY (`ID_USUARIO`) REFERENCES `usuario` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `orden`
---
-
-LOCK TABLES `orden` WRITE;
-/*!40000 ALTER TABLE `orden` DISABLE KEYS */;
-/*!40000 ALTER TABLE `orden` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `orden_detalle`
@@ -274,15 +200,6 @@ CREATE TABLE `orden_detalle` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `orden_detalle`
---
-
-LOCK TABLES `orden_detalle` WRITE;
-/*!40000 ALTER TABLE `orden_detalle` DISABLE KEYS */;
-/*!40000 ALTER TABLE `orden_detalle` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `producto`
 --
 
@@ -305,16 +222,6 @@ CREATE TABLE `producto` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `producto`
---
-
-LOCK TABLES `producto` WRITE;
-/*!40000 ALTER TABLE `producto` DISABLE KEYS */;
-INSERT INTO `producto` VALUES (1,'tenis','esto son unos tenis',NULL,100,'venta',0,1,9,NULL),(2,'tenis 2','esto es un tenis',NULL,22,'cotizacion',0,1,9,NULL),(3,'tenis 3','estos es un tercer tenis',NULL,2,'venta',0,1,9,NULL),(4,'producto 4','producto 4',200.00,200,'venta',0,1,9,NULL),(5,'aaaa','aaaa',399.00,222,'venta',0,1,9,NULL),(6,'aaa','aaa',NULL,2,'cotizacion',0,1,9,NULL),(7,'aaa','aaa',NULL,2,'cotizacion',0,1,9,NULL);
-/*!40000 ALTER TABLE `producto` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `producto_categoria`
 --
 
@@ -334,16 +241,6 @@ CREATE TABLE `producto_categoria` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `producto_categoria`
---
-
-LOCK TABLES `producto_categoria` WRITE;
-/*!40000 ALTER TABLE `producto_categoria` DISABLE KEYS */;
-INSERT INTO `producto_categoria` VALUES (1,1,1),(2,2,2),(3,2,3),(4,3,3),(5,4,1),(6,4,2),(7,4,3),(8,5,2),(9,6,2),(10,7,2);
-/*!40000 ALTER TABLE `producto_categoria` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `producto_multimedia`
 --
 
@@ -359,16 +256,6 @@ CREATE TABLE `producto_multimedia` (
   CONSTRAINT `imagenes_producto_ibfk_1` FOREIGN KEY (`ID_PRODUCTO`) REFERENCES `producto` (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `producto_multimedia`
---
-
-LOCK TABLES `producto_multimedia` WRITE;
-/*!40000 ALTER TABLE `producto_multimedia` DISABLE KEYS */;
-INSERT INTO `producto_multimedia` VALUES (1,'682524be15e0f_Perfil1.jpg',2),(2,'682524be16143_Perfil3.jpg',2),(3,'682524be163ba_Perfil2.jpg',2),(4,'682524be20470_video1.mp4',2),(5,'6825252e3c5a2_video1.mp4',3),(6,'6825256cadc66_bosquePortada.jpeg',4),(7,'6825256cadf2e_Perfil3.jpg',4),(8,'6825256cae762_Perfil2.jpg',4),(9,'6825256caec2c_Perfil1.jpg',4),(10,'6825256cb4ce4_video2.mp4',4),(11,'68252613e2803_Perfil3.jpg',5),(12,'68252613e2ac9_Perfil1.jpg',5),(13,'68252613e2d42_Perfil2.jpg',5),(14,'68252613e81da_video1.mp4',5),(15,'68252711ec906_bosquePortada.jpeg',6),(16,'68252711ecc3f_Perfil1.jpg',6),(17,'68252711ed83d_Perfil2.jpg',6),(18,'68252711f2c9c_video1.mp4',6),(19,'6825276d9e055_Perfil1.jpg',7),(20,'6825276d9e555_Perfil2.jpg',7),(21,'6825276d9eade_bosquePortada.jpeg',7),(22,'6825276da3a4a_video1.mp4',7);
-/*!40000 ALTER TABLE `producto_multimedia` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `usuario`
@@ -400,16 +287,6 @@ CREATE TABLE `usuario` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `usuario`
---
-
-LOCK TABLES `usuario` WRITE;
-/*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (8,'Jose Emiliano','Frias','Felix','M','emilianofriasfelix@outlook.com','VocalEm','$2y$10$nAYkJ9SmexGuZvxLw4Wx/O53.yjKdmlqTxGZhbwsehUWVtMrazvg2','comprador','681cf3d59b711_Perfil1.jpg','2003-11-11','2025-05-08 12:11:33',1,0,'7868f44b0d26d8f48fb398c4a3f46476560ebd61f4d6e9b31888427a69e7c6af'),(9,'Diego','Medellin','Melendez','M','diego@gmail.com','Diego333','$2y$10$zhXLWs/RtdCXNN4XRIWKTeA/nehnXCpAKdU7hR73wtfe79npPb7R.','vendedor','681cf47ca8a6d_Perfil3.jpg','2003-12-12','2025-05-08 12:14:20',1,0,NULL),(10,'Monserrat','Carranza ','Chimal','F','monse@gmail.com','mon33','$2y$10$1uHSZouXwRpU1wb7Sn2mM.7Kij8Kn4Sol3sO12TBq.k6EkW7jxK2i','comprador','6824fd26f368d_emi3.jpg','2003-11-11','2025-05-14 14:29:26',0,0,NULL);
-/*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `valoracion`
 --
 
@@ -431,15 +308,6 @@ CREATE TABLE `valoracion` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `valoracion`
---
-
-LOCK TABLES `valoracion` WRITE;
-/*!40000 ALTER TABLE `valoracion` DISABLE KEYS */;
-/*!40000 ALTER TABLE `valoracion` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `videos_producto`
 --
 
@@ -455,15 +323,6 @@ CREATE TABLE `videos_producto` (
   CONSTRAINT `videos_producto_ibfk_1` FOREIGN KEY (`ID_PRODUCTO`) REFERENCES `producto` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `videos_producto`
---
-
-LOCK TABLES `videos_producto` WRITE;
-/*!40000 ALTER TABLE `videos_producto` DISABLE KEYS */;
-/*!40000 ALTER TABLE `videos_producto` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Dumping events for database 'capa'
@@ -482,4 +341,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-14 17:42:01
+-- Dump completed on 2025-05-14 17:46:59
