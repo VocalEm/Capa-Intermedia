@@ -2,11 +2,109 @@
 
 namespace App\Controllers;
 
+use App\Models\Producto;
+use App\Middlewares\AuthMiddleware;
+use App\Models\Usuario;
+
 class HomeController
 {
     public function index()
     {
+        if ($_SESSION['usuario']['rol'] == 'superadmin')
+            header('Location: /superadmin/home');
+        else if ($_SESSION['usuario']['rol'] == 'administrador')
+            header('Location: /admin/pendientes');
         $title = 'BUYLY';
         require_once '../app/views/home.php';
+    }
+
+    private function adminHome()
+    {
+        $productoModel = new Producto();
+        $productos = $productoModel->mostrarProductosPendientes();
+        return $productos;
+    }
+
+    public function obtenerPendientes()
+    {
+
+        $title = 'Productos Pendientes';
+        require_once '../app/views/homeAdmin.php';
+    }
+
+
+    public function mostrarPanelAdministracion()
+    {
+        $title = 'Panel';
+        $usuarioModel = new Usuario();
+        $administradores = $usuarioModel->obtenerAdministradores();
+        require_once  '../app/views/homeSuperAdmin.php';
+    }
+
+    public function agregarAdministrador()
+    {
+        $title = 'Gestion Buyly';
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $errores = [];
+            $datos = [
+                'nombre' => "administrador",
+                'apellido_p' => 'admin',
+                'apellido_m' => 'buyly',
+                'sexo' => 'M',
+                'correo' => strtolower(trim($_POST['email'])) ?? '', // Convertir a minúsculas y eliminar espacios
+                'username' => strtolower(trim($_POST['email'])) ?? '', //CHECAR QUE NO PUEDAS PONER UN CORREO ELECTRONICO COMO NOMBRE DE USUARIO
+                'password' => $_POST['password'] ?? '',
+                'rol' => 'administrador',
+                'privacidad' => 1,
+                'fecha_nacimiento' => '2000-11-11',
+                'avatar' =>  null
+            ];
+
+            // Validar duplicados
+            $usuarioModel = new Usuario();
+            if ($usuarioModel->encontrarPorCorreoONickname($datos['correo'])) {
+                $errores['correo'] = "El correo ya está registrado.";
+            }
+            if ($usuarioModel->encontrarPorCorreoONickname($datos['username'])) {
+                $errores['username'] = "El nombre de usuario ya está registrado.";
+            }
+
+            if (!$errores) {
+                $datos['passw'] = password_hash($datos['password'], PASSWORD_DEFAULT);;
+                $registrado = $usuarioModel->registrar($datos);
+
+                if ($registrado) {
+                    $_SESSION['exito'] = "Administrador registrado con exito";
+                    header('Location: /superadmin/home');
+                    exit;
+                }
+            }
+
+            require_once '../app/views/homeSuperAdmin.php';
+        }
+    }
+
+    public function eliminarAdministrador()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $idAdmin = $_POST['idAdmin'] ?? null;
+
+            if ($idAdmin) {
+                $usuarioModel = new Usuario();
+                $eliminado = $usuarioModel->eliminarAdministrador($idAdmin);
+
+                if ($eliminado) {
+                    $_SESSION['exito'] = "Administrador eliminado con éxito.";
+                } else {
+                    $_SESSION['error'] = "No se pudo eliminar el administrador.";
+                }
+            } else {
+                $_SESSION['error'] = "ID no válido.";
+            }
+
+            header('Location: /superadmin/home');
+            exit;
+        }
     }
 }

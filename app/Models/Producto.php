@@ -70,4 +70,77 @@ class Producto extends BaseModel
 
         return true;
     }
+
+    public function mostrarProductosVendedor($id_vendedor)
+    {
+        $sqlProductos = "SELECT * FROM PRODUCTO WHERE ID_VENDEDOR = :idVendedor AND AUTORIZADO = 1 AND DISPONIBLE = 1;";
+        $sqlMultimedia = "SELECT RUTA_MULTIMEDIA FROM PRODUCTO_MULTIMEDIA WHERE ID_PRODUCTO = :idProducto;";
+        $sqlCategorias = "SELECT B.TITULO FROM PRODUCTO_CATEGORIA A 
+                      JOIN CATEGORIA B ON A.ID_CATEGORIA = B.ID 
+                      WHERE A.ID_PRODUCTO = :idProducto";
+
+        $productos = [];
+
+        // Obtener los productos del vendedor
+        $stmt = $this->db->prepare($sqlProductos);
+        $stmt->bindParam(':idVendedor', $id_vendedor);
+        $stmt->execute();
+        $dataProductos = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        // Iterar sobre cada producto
+        foreach ($dataProductos as $producto) {
+            $idProducto = $producto['ID'];
+
+            // Obtener las rutas multimedia del producto
+            $stmtMultimedia = $this->db->prepare($sqlMultimedia);
+            $stmtMultimedia->bindParam(':idProducto', $idProducto);
+            $stmtMultimedia->execute();
+            $multimedia = $stmtMultimedia->fetchAll(\PDO::FETCH_COLUMN);
+
+            // Obtener las categorías del producto
+            $stmtCategorias = $this->db->prepare($sqlCategorias);
+            $stmtCategorias->bindParam(':idProducto', $idProducto);
+            $stmtCategorias->execute();
+            $categorias = $stmtCategorias->fetchAll(\PDO::FETCH_COLUMN);
+
+            // Agregar el producto con multimedia y categorías al arreglo
+            $productos[] = [
+                'producto' => $producto,
+                'multimedia' => $multimedia,
+                'categorias' => $categorias
+            ];
+        }
+
+        return $productos;
+    }
+
+    public function mostrarProductosPendientes()
+    {
+        $sql = "
+        SELECT 
+            p.*, 
+            u.USERNAME AS vendedor_username,
+            u.CORREO AS vendedor_correo,
+            GROUP_CONCAT(DISTINCT pm.RUTA_MULTIMEDIA) AS multimedia,
+            GROUP_CONCAT(DISTINCT c.TITULO) AS categorias
+        FROM producto p
+        LEFT JOIN usuario u ON p.ID_VENDEDOR = u.ID
+        LEFT JOIN producto_multimedia pm ON p.ID = pm.ID_PRODUCTO
+        LEFT JOIN producto_categoria pc ON p.ID = pc.ID_PRODUCTO
+        LEFT JOIN categoria c ON pc.ID_CATEGORIA = c.ID
+        WHERE p.AUTORIZADO = 0 AND p.DISPONIBLE = 1
+        GROUP BY p.ID";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $productos = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        // Ajustar estructura del array para que multimedia y categorías sean arrays
+        foreach ($productos as &$producto) {
+            $producto['multimedia'] = !empty($producto['multimedia']) ? explode(',', $producto['multimedia']) : [];
+            $producto['categorias'] = !empty($producto['categorias']) ? explode(',', $producto['categorias']) : [];
+        }
+
+        return $productos;
+    }
 }

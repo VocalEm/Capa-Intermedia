@@ -44,15 +44,19 @@ class InicioSesionController
                 ];
 
                 // Si marcó "Recordarme", generamos el token
-                if ($recordar) {
+                if ($recordar && $usuario['ROL'] !== 'superadmin' && $usuario['ROL'] !== 'administrador') {
                     $token = bin2hex(random_bytes(32)); // Generar un token seguro
                     setcookie('TOKEN', $token, time() + (86400 * 30), "/"); // Expira en 30 días
 
                     // Guardar el token en la base de datos
                     $usuarioModel->actualizarToken($usuario['ID'], $token);
                 }
-
-                header('Location: /home');
+                if ($usuario['ROL'] == 'superadmin')
+                    header('Location: /superadmin/home');
+                else if ($usuario['ROL'] == 'administrador')
+                    header('Location: /superadmin/home');
+                else
+                    header('Location: /home');
                 exit;
             } else {
                 $erroresLogin = "Correo, usuario o contraseña incorrectos.";
@@ -94,6 +98,12 @@ class InicioSesionController
                 $errores['username'] = "El nombre de usuario ya está registrado.";
             }
 
+            // Nueva validación para username
+            if (filter_var($datos['username'], FILTER_VALIDATE_EMAIL) || strpos($datos['username'], '@') !== false || strpos($datos['username'], '.') !== false) {
+                $errores['username'] = "El nombre de usuario no puede ser un correo ni contener '@' o '.'.";
+            }
+
+
             if (!$errores) {
                 $datos['passw'] = password_hash($datos['password'], PASSWORD_DEFAULT);
                 $datos['imagen'] = $this->guardarAvatar($datos['avatar']);
@@ -110,6 +120,7 @@ class InicioSesionController
             require_once '../app/views/inicioSesion.php';
         }
     }
+
 
 
     private function guardarAvatar($archivo)

@@ -17,6 +17,14 @@ $router->post('/registro', 'InicioSesionController@registrar',  'guest');  // Ma
 //usuario autenticado basico vendedor o comprador
 $router->get('/home', 'HomeController@index',  'auth');  // Maneja el cierre de sesión
 
+$router->post('/admin/aprobar', 'HomeController@aprobar', 'admin'); //ruta para aprobar producto
+$router->post('/admin/aprobar', 'HomeController@aprobar', 'admin'); //ruta para rechazar producto
+$router->get('/admin/pendientes', 'HomeController@obtenerPendientes', 'admin'); //ruta para ver productos pendientes
+
+$router->get('/superadmin/home', 'HomeController@mostrarPanelAdministracion', 'superadmin'); //home super admin 
+$router->post('/superadmin/agregar', 'HomeController@agregarAdministrador', 'superadmin'); //ruta para agregar admin
+$router->post('/superadmin/eliminar', 'HomeController@eliminarAdministrador', 'superadmin'); //ruta para eliminar admin
+
 //ruta a perfil de usuario
 $router->get('/perfil', 'PerfilController@mostrarPerfilUsuarioSesion',  'auth'); // Usuario en sesion
 $router->get('/perfil/{id}', 'PerfilController@mostrarPerfilUsuario',  'auth'); // otro Usuario

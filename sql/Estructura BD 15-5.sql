@@ -48,7 +48,6 @@ DROP TABLE IF EXISTS `categoria`;
 CREATE TABLE `categoria` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `TITULO` varchar(50) NOT NULL,
-  `DESCRIPCION` varchar(255) DEFAULT NULL,
   `ID_CREADOR` int NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `ID_CREADOR` (`ID_CREADOR`),
@@ -283,7 +282,7 @@ CREATE TABLE `usuario` (
   PRIMARY KEY (`ID`),
   UNIQUE KEY `CORREO` (`CORREO`),
   UNIQUE KEY `USERNAME` (`USERNAME`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -308,23 +307,6 @@ CREATE TABLE `valoracion` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `videos_producto`
---
-
-DROP TABLE IF EXISTS `videos_producto`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `videos_producto` (
-  `ID` int NOT NULL AUTO_INCREMENT,
-  `RUTA_VIDEO` varchar(255) NOT NULL,
-  `ID_PRODUCTO` int NOT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `ID_PRODUCTO` (`ID_PRODUCTO`),
-  CONSTRAINT `videos_producto_ibfk_1` FOREIGN KEY (`ID_PRODUCTO`) REFERENCES `producto` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping events for database 'capa'
 --
 
@@ -341,4 +323,4 @@ CREATE TABLE `videos_producto` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-14 17:46:59
+-- Dump completed on 2025-05-15 17:40:45

@@ -15,7 +15,6 @@ class Usuario extends BaseModel
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
-
     public function registrar($datos)
     {
         // Asegurar que privacidad tenga un valor válido
@@ -71,5 +70,21 @@ class Usuario extends BaseModel
         $stmt->bindParam(':token', $token);
         $stmt->execute();
         return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
+
+    public function obtenerAdministradores()
+    {
+        $query = "SELECT ID, CORREO, USERNAME FROM USUARIO WHERE ROL = 'administrador'";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function eliminarAdministrador($id)
+    {
+        $query = "DELETE FROM USUARIO WHERE ID = :id AND ROL = 'administrador'";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+        return $stmt->execute();
     }
 }

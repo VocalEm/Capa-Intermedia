@@ -56,11 +56,11 @@ class Lista extends BaseModel
             lp.ID_PRODUCTO,
             p.NOMBRE AS producto_nombre,
             p.PRECIO AS producto_precio,
-            ip.RUTA_IMAGEN AS producto_imagen
+            ip.RUTA_MULTIMEDIA AS producto_multimedia
         FROM listas l
         LEFT JOIN listas_productos lp ON l.ID = lp.ID_LISTA
         LEFT JOIN producto p ON lp.ID_PRODUCTO = p.ID
-        LEFT JOIN imagenes_producto ip ON p.ID = ip.ID_PRODUCTO
+        LEFT JOIN producto_multimedia ip ON p.ID = ip.ID_PRODUCTO
         WHERE l.ID_USUARIO = :idUsuario
         ORDER BY l.ID DESC, lp.ID_PRODUCTO ASC";
 
