@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Helpers\UsuarioSesion;
+
 class Producto extends BaseModel
 {
 
@@ -114,7 +116,7 @@ class Producto extends BaseModel
         return $productos;
     }
 
-    public function mostrarProductosPendientes()
+    public function mostrarProductosPendientes($lastUpdate = 0)
     {
         $sql = "
         SELECT 
@@ -132,15 +134,30 @@ class Producto extends BaseModel
         GROUP BY p.ID";
 
         $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':lastUpdate', $lastUpdate, \PDO::PARAM_INT);
         $stmt->execute();
         $productos = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
-        // Ajustar estructura del array para que multimedia y categorías sean arrays
         foreach ($productos as &$producto) {
             $producto['multimedia'] = !empty($producto['multimedia']) ? explode(',', $producto['multimedia']) : [];
             $producto['categorias'] = !empty($producto['categorias']) ? explode(',', $producto['categorias']) : [];
         }
 
         return $productos;
+    }
+    public function aprobarProducto($id_producto)
+    {
+        $query = "UPDATE producto SET AUTORIZADO = 1 WHERE ID = :idProducto";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':idProducto', $id_producto, \PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
+    public function rechazarProducto($id_producto)
+    {
+        $query = "UPDATE producto SET AUTORIZADO = -1 WHERE ID = :idProducto";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':idProducto', $id_producto, \PDO::PARAM_INT);
+        return $stmt->execute();
     }
 }

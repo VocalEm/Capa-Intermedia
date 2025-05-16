@@ -242,6 +242,7 @@ class PerfilController
      * Maneja la subida de imagenes para listas.
      * Retorna el nombre del archivo o 'default.jpg' si no hay imagen.
      */
+    /* esta funcion es la misma pero no quita los espacios
     private function guardarImagen($archivo)
     {
         if ($archivo && $archivo['error'] === UPLOAD_ERR_OK) {
@@ -253,6 +254,34 @@ class PerfilController
             }
         }
 
+        return 'default.jpg';
+    }*/
+    private function guardarImagen($archivo)
+    {
+        if ($archivo && $archivo['error'] === UPLOAD_ERR_OK) {
+
+            // Nombre original del archivo
+            $nombreOriginal = $archivo['name'];
+
+            // Reemplazar espacios por guiones bajos
+            $nombreLimpio = preg_replace('/\s+/', '_', $nombreOriginal);
+
+            // Remover caracteres especiales dejando solo letras, números, guiones bajos, puntos y guiones
+            $nombreLimpio = preg_replace('/[^A-Za-z0-9_.-]/', '', $nombreLimpio);
+
+            // Generar un nombre único
+            $nombreArchivo = uniqid() . '_' . $nombreLimpio;
+
+            // Ruta final donde se guardará el archivo
+            $ruta = '../app/uploads/' . $nombreArchivo;
+
+            // Mover el archivo
+            if (move_uploaded_file($archivo['tmp_name'], $ruta)) {
+                return $nombreArchivo;
+            }
+        }
+
+        // En caso de error, retornar una imagen por defecto
         return 'default.jpg';
     }
 }

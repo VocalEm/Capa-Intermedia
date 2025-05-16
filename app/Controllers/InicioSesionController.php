@@ -25,6 +25,9 @@ class InicioSesionController
     {
         $title = 'Iniciar Sesión';
 
+        if (UsuarioSesion::estaAutenticado())
+            header('Location:/home');
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $correo = $_POST['loginEmail'] ?? '';
             $contrasena = $_POST['loginPassword'] ?? '';

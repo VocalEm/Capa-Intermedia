@@ -2,6 +2,11 @@ document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("form-agregar-producto")
     .addEventListener("submit", validarFormulario);
+  // Ejecutar al iniciar para reflejar el estado actual del select
+  togglePrecio();
+
+  // Evento onchange para el select
+  tipoVenta.addEventListener("change", togglePrecio);
 });
 
 function agregarImagen() {
@@ -169,4 +174,18 @@ function validarFormulario(e) {
   } else {
     e.target.submit();
   }
+}
+
+function togglePrecio() {
+  const tipoVenta = document.getElementById("tipo-venta");
+  const divPrecio = document.getElementById("campo-precio");
+
+  if (tipoVenta.value == "venta") divPrecio.style.display = "block";
+  else divPrecio.style.display = "none";
+}
+
+function togglePrecio() {
+  const tipoVenta = document.getElementById("tipo-venta");
+  const divPrecio = document.getElementById("campo-precio");
+  divPrecio.style.display = tipoVenta.value === "venta" ? "block" : "none";
 }

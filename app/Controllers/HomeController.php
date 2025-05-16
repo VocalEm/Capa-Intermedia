@@ -13,26 +13,131 @@ class HomeController
         if ($_SESSION['usuario']['rol'] == 'superadmin')
             header('Location: /superadmin/home');
         else if ($_SESSION['usuario']['rol'] == 'administrador')
-            header('Location: /admin/pendientes');
+            header('Location: /admin');
+        else if ($_SESSION['usuario']['rol'] == 'vendedor')
+            header('Location: /perfil');
         $title = 'BUYLY';
         require_once '../app/views/home.php';
     }
 
-    private function adminHome()
-    {
-        $productoModel = new Producto();
-        $productos = $productoModel->mostrarProductosPendientes();
-        return $productos;
-    }
-
+    //administrador
+    /*
     public function obtenerPendientes()
     {
-
+        $productoModel = new Producto();
         $title = 'Productos Pendientes';
+        $productos = $productoModel->mostrarProductosPendientes();
+        require_once '../app/views/homeAdmin.php';
+    }
+*/
+    public function aprobarProducto()
+    {
+        $productoModel = new Producto();
+        $aprobado = $productoModel->aprobarProducto($_POST['producto_id']);
+        if ($aprobado) {
+            $_SESSION['exito'] = "Producto aceptado con exito";
+            header('Location: /admin/pendientes');
+            exit;
+        } else {
+            $_SESSION['errores'] = "Ocurrio un problema";
+            header('Location: /admin/pendientes');
+        }
+    }
+
+    public function rechazarProducto()
+    {
+        $productoModel = new Producto();
+        $aprobado = $productoModel->rechazarProducto($_POST['producto_id']);
+        if ($aprobado) {
+            $_SESSION['exito'] = "Producto rechazado con exito";
+            header('Location: /admin/pendientes');
+            exit;
+        } else {
+            $_SESSION['errores'] = "Ocurrio un problema";
+            header('Location: /admin');
+        }
+    }
+
+
+    public function mostrarVistaAdmin()
+    {
+        // Cargar la vista completa
+        $title = 'Panel de Administración';
         require_once '../app/views/homeAdmin.php';
     }
 
+    /* public function obtenerProductosPendientes()
+    {
+        $productoModel = new Producto();
 
+        //$productos = $productoModel->mostrarProductosPendientes($lastUpdate);
+
+        echo json_encode([
+            'status' => 'success',
+            'productos' => $productos,
+            'timestamp' => time()
+        ]);
+        exit;
+    }*/
+
+
+    // admin ajax 
+
+    /*
+    public function aprobarProducto()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $productoModel = new Producto();
+            $idProducto = $_POST['producto_id'] ?? null;
+
+            if ($idProducto) {
+                $aprobado = $productoModel->aprobarProducto($idProducto);
+                if ($aprobado) {
+                    echo json_encode([
+                        'status' => 'success',
+                        'message' => 'Producto aprobado con éxito.',
+                        'idProducto' => $idProducto
+                    ]);
+                    exit;
+                }
+            }
+
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'No se pudo aprobar el producto.'
+            ]);
+            exit;
+        }
+    }
+
+    public function rechazarProducto()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $productoModel = new Producto();
+            $idProducto = $_POST['producto_id'] ?? null;
+
+            if ($idProducto) {
+                $rechazado = $productoModel->rechazarProducto($idProducto);
+                if ($rechazado) {
+                    echo json_encode([
+                        'status' => 'success',
+                        'message' => 'Producto rechazado con éxito.',
+                        'idProducto' => $idProducto
+                    ]);
+                    exit;
+                }
+            }
+
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'No se pudo rechazar el producto.'
+            ]);
+            exit;
+        }
+    } */
+
+
+    //superAdmin
     public function mostrarPanelAdministracion()
     {
         $title = 'Panel';

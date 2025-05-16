@@ -72,7 +72,7 @@
         <?php
         if ($_SESSION['usuario']['rol'] == 'administrador') {
         ?>
-            <a href="/superadmin/home">Home</a>
+            <a href="/admin">Home</a>
             <script>
                 document.getElementById('logout-link').addEventListener('click', function(e) {
                     e.preventDefault();

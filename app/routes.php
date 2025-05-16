@@ -10,39 +10,46 @@ $router->get('/uploads/{filename}', 'ArchivoController@mostrar');
 // Rutas públicas (sin middleware)
 //Inico Sesion - usuarios no autenticados
 $router->get('/', 'InicioSesionController@index', 'guest');  // Página pública
-$router->get('/inicio_sesion', 'InicioSesionController@mostrarInicioSesion', 'guest');  // Página pública
+$router->get('/inicio_sesion', 'InicioSesionController@mostrarInicioSesion', 'guest');  // muestra inicio de sesion
 $router->post('/login', 'InicioSesionController@login',  'guest');  // Maneja el inicio de sesión
 $router->post('/registro', 'InicioSesionController@registrar',  'guest');  // Maneja el registro de usuario
 
-//usuario autenticado basico vendedor o comprador
-$router->get('/home', 'HomeController@index',  'auth');  // Maneja el cierre de sesión
+//rutas para usuarios autenticados
+$router->get('/logout', 'CerrarSesionController@cerrarSesion',  'auth'); //ruta para cerrar sesion
+$router->get('/catalogo', 'CatalogoController@mostrarCatalogo',  'auth'); //catalogo de productos
+$router->get('/home', 'HomeController@index',  'auth');
+$router->get('/perfil', 'PerfilController@mostrarPerfilUsuarioSesion',  'auth'); // Usuario en sesion
 
-$router->post('/admin/aprobar', 'HomeController@aprobar', 'admin'); //ruta para aprobar producto
-$router->post('/admin/aprobar', 'HomeController@aprobar', 'admin'); //ruta para rechazar producto
-$router->get('/admin/pendientes', 'HomeController@obtenerPendientes', 'admin'); //ruta para ver productos pendientes
+
+// Ruta para cargar la vista de administración
+$router->get('/admin', 'HomeController@mostrarVistaAdmin', 'admin');
+
+// Rutas AJAX para operaciones específicas
+$router->get('/admin/pendientes', 'HomeController@obtenerProductosPendientes', 'admin');
+$router->post('/admin/aprobar', 'HomeController@aprobarProducto', 'admin');
+$router->post('/admin/rechazar', 'HomeController@rechazarProducto', 'admin');
+
+//rutas para compradores
+$router->post('/admin/rechazar', 'HomeController@rechazarProducto', 'admin'); //ruta para rechazar producto
+$router->post('/admin/aprobar', 'HomeController@aprobarProducto', 'admin'); //ruta para aprobar producto
+$router->get('/admin/pendientes', 'HomeController@obtenerProductosPendientes', 'admin'); //ruta para ver productos pendientes
 
 $router->get('/superadmin/home', 'HomeController@mostrarPanelAdministracion', 'superadmin'); //home super admin 
 $router->post('/superadmin/agregar', 'HomeController@agregarAdministrador', 'superadmin'); //ruta para agregar admin
 $router->post('/superadmin/eliminar', 'HomeController@eliminarAdministrador', 'superadmin'); //ruta para eliminar admin
 
-//ruta a perfil de usuario
-$router->get('/perfil', 'PerfilController@mostrarPerfilUsuarioSesion',  'auth'); // Usuario en sesion
-$router->get('/perfil/{id}', 'PerfilController@mostrarPerfilUsuario',  'auth'); // otro Usuario
+//rutas para compradores
+$router->get('/perfil/{id}', 'PerfilController@mostrarPerfilUsuario',  'comprador'); // otro Usuario
+$router->post('/perfil/crear-lista', 'PerfilController@crearLista',  'comprador'); // Crear lista de usuario comprador
+$router->get('/perfil/eliminar-lista/{id}', 'PerfilController@eliminarLista', 'comprador'); // crear lista usuario comprador
 
-$router->post('/perfil/crear-lista', 'PerfilController@crearLista',  'auth'); // Crear lista de usuario comprador
-$router->get('/perfil/eliminar-lista/{id}', 'PerfilController@eliminarLista', 'auth'); // crear lista usuario comprador
-
-$router->post('/agregar-producto', 'AgregarProductoController@agregarProducto', 'auth'); // crear solicitud de producto 
-$router->get('/agregar-producto', 'AgregarProductoController@mostrarFormulario', 'auth'); // muestra pagina de producto
-$router->post('/agregar-producto/categoria', 'AgregarProductoController@agregarCategoria', 'auth'); // muestra pagina de producto
-
+//rutas para vendedores
+$router->post('/agregar-producto', 'AgregarProductoController@agregarProducto', 'vendedor'); // crear solicitud de producto 
+$router->get('/agregar-producto', 'AgregarProductoController@mostrarFormulario', 'vendedor'); // muestra pagina de producto
+$router->post('/agregar-producto/categoria', 'AgregarProductoController@agregarCategoria', 'vendedor'); // muestra pagina de producto
 
 
-//ruta para cerrar sesion
-$router->get('/logout', 'CerrarSesionController@cerrarSesion',  'auth');
 
-//catalogo de productos
-$router->get('/catalogo', 'CatalogoController@mostrarCatalogo',  'auth');
 
 
 
