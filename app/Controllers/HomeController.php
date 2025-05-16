@@ -43,7 +43,7 @@ class HomeController
 
     public function agregarAdministrador()
     {
-        $title = 'Gestion Buyly';
+        $title = 'Gestion Buyly Admin';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errores = [];
@@ -80,6 +80,7 @@ class HomeController
                     exit;
                 }
             }
+            $administradores = $usuarioModel->obtenerAdministradores();
 
             require_once '../app/views/homeSuperAdmin.php';
         }

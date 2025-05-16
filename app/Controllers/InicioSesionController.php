@@ -50,12 +50,7 @@ class InicioSesionController
 
                     // Guardar el token en la base de datos
                     $usuarioModel->actualizarToken($usuario['ID'], $token);
-                }
-                if ($usuario['ROL'] == 'superadmin')
-                    header('Location: /superadmin/home');
-                else if ($usuario['ROL'] == 'administrador')
-                    header('Location: /superadmin/home');
-                else
+                } else
                     header('Location: /home');
                 exit;
             } else {
