@@ -22,10 +22,15 @@ class AgregarProductoController
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $categoria = trim($_POST['nueva_categoria']);
+            $descripcion = trim($_POST['descripcion']);
             $errores = [];
             $idCreador = UsuarioSesion::obtener()['id']; // ID del usuario logueado
 
             if (empty($categoria)) {
+                $errores[] = "El campo de categoría no puede estar vacío.";
+            }
+
+            if (empty($descripcion)) {
                 $errores[] = "El campo de categoría no puede estar vacío.";
             }
 
@@ -36,6 +41,7 @@ class AgregarProductoController
             if (empty($errores)) {
                 $categoriaModel = new Categoria();
                 $datos = [
+                    'descripcion' => $descripcion,
                     'titulo' => $categoria,
                     'id_creador' => $idCreador
                 ];

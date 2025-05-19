@@ -486,6 +486,7 @@ body {
   border-radius: 20px 0 0 20px;
   outline: 0;
   font-size: 14px;
+  width: 20rem;
 }
 .sub-bar-search button {
   background: #000;
@@ -509,6 +510,7 @@ body {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   font-family: "Alumni Sans Pinstripe", sans-serif;
   font-weight: 700;
+  text-align: center;
 }
 .tabs {
   display: flex;
@@ -943,8 +945,6 @@ body {
   margin: 0.5rem 0;
 }
 .isla-producto .producto-info .btn-cotizar {
-  align-self: flex-start;
-  padding: 0.7rem 1.5rem;
   background: linear-gradient(to right, #7e22ce, #ec4899, #f97316);
   color: #fff;
   font-weight: 700;
@@ -952,6 +952,10 @@ body {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  width: 60%;
+  height: 3rem;
+  font-size: 2rem;
+  margin: 0;
 }
 .isla-producto .producto-info .btn-cotizar:hover {
   background: linear-gradient(to right, #7e22ce, #ec4899, #f97316);
@@ -1245,6 +1249,13 @@ h2 {
 .isla-carrito .producto-carrito .producto-detalles .producto-descripcion {
   font-size: 0.9rem;
   color: #777;
+}
+
+.producto-descripcion-container {
+  text-wrap: wrap;
+  width: 100%;
+  overflow-wrap: break-word; /* Alternativa moderna a word-wrap */
+  word-wrap: break-word; /* Soporte más antiguo */
 }
 .isla-carrito .producto-carrito .producto-detalles .producto-precio-cantidad {
   display: flex;

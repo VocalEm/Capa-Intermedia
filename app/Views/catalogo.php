@@ -4,70 +4,53 @@ require_once __DIR__ . '/plantillas/head.php';
 
 <body>
 
-
     <?php
     require_once __DIR__ . '/plantillas/nav.php';
     require_once __DIR__ . '/plantillas/subnav.php';
     ?>
 
+    <div class="catalogo-aside">
+        <aside class="lista-tarjeta catalogo-categorias agregar-producto">
+            <form class="categorias-container" action="/catalogo/filtros" method="GET">
+                <h3>Filtros</h3>
+                <div class='categorias-descripcion'>
+                    <input type="text" name="descripcion" value="<?= $_GET['descripcion'] ?? "" ?>" placeholder="Buscar por descripcion">
+                </div>
+                <div class="categorias-lista">
+                    <?php
+                    $categoriasSeleccionadas = $_GET['categorias'] ?? [];
 
-    <div class="lista-tarjeta">
-        <div class="filtro-categorias" style="margin: 1rem 0">
-            <label for="categoria">Categoría:</label>
-            <select id="categoria" name="categoria">
-                <option value="todos">Todos</option>
-                <option value="electronica">Electrónica</option>
-                <option value="ropa">Ropa</option>
-                <option value="hogar">Hogar</option>
-                <option value="juguetes">Juguetes</option>
-            </select>
-        </div>
+                    foreach ($categorias as $categoria):
+                        $checked = in_array($categoria['ID'], $categoriasSeleccionadas) ? 'checked' : '';
+                    ?>
+                        <label>
+                            <input type="checkbox" name="categorias[]" value="<?= $categoria['ID'] ?>" <?= $checked ?>>
+                            <?= htmlspecialchars($categoria['TITULO'], ENT_QUOTES, 'UTF-8') ?>
+                        </label>
+                    <?php endforeach; ?>
+                </div>
 
-        <!-- Tarjetas de productos -->
-        <div class="tarjetas-producto">
-            <!-- Aquí irán las tarjetas de productos dinámicamente o estáticamente -->
-            <div class="tarjeta-producto">
-                <img src="src/img/producto.jpg" alt="Producto 1" />
-                <h3>Producto 1</h3>
-                <p>Descripción breve del producto más vendido.</p>
-                <span class="precio">$199.99</span>
+                <button type="submit">Buscar por categoría</button>
+            </form>
+        </aside>
+
+        <div class="lista-tarjeta catalogo-articulos">
+            <div class="tarjetas-producto">
+                <?php if (!empty($productos)): ?>
+                    <?php foreach ($productos as $producto): ?>
+                        <a class="tarjeta-producto" href="/producto/<?= $producto['ID'] ?>">
+                            <img src="/uploads/<?= $producto['multimedia'][0] ?? 'default.jpg' ?>" alt="Producto" />
+                            <h3><?= $producto['NOMBRE'] ?></h3>
+                            <p><?= htmlspecialchars($producto['vendedor_username'], ENT_QUOTES, 'UTF-8') ?></p>
+                            <span class="precio">
+                                <?= isset($producto['PRECIO']) ? '$' . number_format($producto['PRECIO'], 2) : 'Cotización' ?>
+                            </span>
+                        </a>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>No se encontraron productos para las categorías seleccionadas.</p>
+                <?php endif; ?>
             </div>
-
-            <div class="tarjeta-producto">
-                <img src="src/img/producto.jpg" alt="Producto 1" />
-                <h3>Producto 1</h3>
-                <p>Descripción breve del producto más vendido.</p>
-                <span class="precio">$199.99</span>
-            </div>
-
-            <div class="tarjeta-producto">
-                <img src="src/img/producto.jpg" alt="Producto 1" />
-                <h3>Producto 1</h3>
-                <p>Descripción breve del producto más vendido.</p>
-                <span class="precio">$199.99</span>
-            </div>
-
-            <div class="tarjeta-producto">
-                <img src="src/img/producto.jpg" alt="Producto 1" />
-                <h3>Producto 1</h3>
-                <p>Descripción breve del producto más vendido.</p>
-                <span class="precio">$199.99</span>
-            </div>
-
-            <div class="tarjeta-producto">
-                <img src="src/img/producto.jpg" alt="Producto 1" />
-                <h3>Producto 1</h3>
-                <p>Descripción breve del producto más vendido.</p>
-                <span class="precio">$199.99</span>
-            </div>
-
-            <div class="tarjeta-producto">
-                <img src="src/img/producto.jpg" alt="Producto 1" />
-                <h3>Producto 1</h3>
-                <p>Descripción breve del producto más vendido.</p>
-                <span class="precio">$199.99</span>
-            </div>
-            <!-- Agrega más tarjetas según sea necesario -->
         </div>
     </div>
 

@@ -80,7 +80,7 @@ class InicioSesionController
                 'username' => strtolower(trim($_POST['username'])) ?? '',
                 'password' => $_POST['password'] ?? '',
                 'rol' => $_POST['rol'] ?? 'comprador',
-                'privacidad' => $_POST['privacidad'],
+                'privacidad' => $_POST['privacidad'] ?? '1',
                 'fecha_nacimiento' => $_POST['fechaNacimiento'] ?? '',
                 'avatar' => $_FILES['avatar'] ?? null
             ];

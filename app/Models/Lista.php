@@ -21,55 +21,25 @@ class Lista extends BaseModel
     }
 
     // Obtener listas de un usuario
-    public function obtenerListasPorUsuario($datos)
+    public function obtenerListasPorUsuario($idUsuario)
     {
         $sql = "SELECT * FROM listas WHERE ID_USUARIO = :idUsuario ORDER BY ID DESC";
         $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':idUsuario', $datos['idUsuario']);
-        $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-    }
-
-    // Obtener productos de una lista
-    public function obtenerProductosDeLista($datos)
-    {
-        $sql = "SELECT p.ID, p.NOMBRE, p.PRECIO, ip.RUTA_IMAGEN 
-                FROM listas_productos lp
-                JOIN producto p ON lp.ID_PRODUCTO = p.ID
-                LEFT JOIN imagenes_producto ip ON ip.ID_PRODUCTO = p.ID
-                WHERE lp.ID_LISTA = :idLista";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':idLista', $datos['idLista']);
-        $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-    }
-
-    public function obtenerListasConProductos($idUsuario)
-    {
-        $sql = "
-        SELECT 
-            l.ID AS lista_id,
-            l.NOMBRE AS lista_nombre,
-            l.DESCRIPCION AS lista_descripcion,
-            l.PRIVACIDAD AS lista_privacidad,
-            l.IMAGEN AS lista_imagen,
-            lp.ID_PRODUCTO,
-            p.NOMBRE AS producto_nombre,
-            p.PRECIO AS producto_precio,
-            ip.RUTA_MULTIMEDIA AS producto_multimedia
-        FROM listas l
-        LEFT JOIN listas_productos lp ON l.ID = lp.ID_LISTA
-        LEFT JOIN producto p ON lp.ID_PRODUCTO = p.ID
-        LEFT JOIN producto_multimedia ip ON p.ID = ip.ID_PRODUCTO
-        WHERE l.ID_USUARIO = :idUsuario
-        ORDER BY l.ID DESC, lp.ID_PRODUCTO ASC";
-
-        $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':idUsuario', $idUsuario);
         $stmt->execute();
-
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
+
+    // Obtener listas de un usuario
+    public function obtenerListasPorId($idLista)
+    {
+        $sql = "SELECT a.*, b.USERNAME AS USUARIO FROM listas a JOIN usuario b ON a.ID_USUARIO = b.ID WHERE a.ID = :idLista ORDER BY ID DESC";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':idLista', $idLista);
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
 
 
     // Eliminar una lista y sus productos
@@ -100,22 +70,38 @@ class Lista extends BaseModel
 
 
     // Agregar un producto a una lista
-    public function agregarProductoALista($datos)
+    public function agregarProductoALista($idLista, $idProducto)
     {
+        // Verificar si el producto ya existe en la lista
+        $checkSql = "SELECT COUNT(*) FROM listas_productos WHERE ID_LISTA = :idLista AND ID_PRODUCTO = :idProducto";
+        $checkStmt = $this->db->prepare($checkSql);
+        $checkStmt->bindParam(':idLista', $idLista);
+        $checkStmt->bindParam(':idProducto', $idProducto);
+        $checkStmt->execute();
+        $exists = $checkStmt->fetchColumn();
+
+        if ($exists > 0) {
+            // Ya existe el producto en la lista
+            return false;
+        }
+
+        // Si no existe, procedemos a insertar
         $sql = "INSERT INTO listas_productos (ID_LISTA, ID_PRODUCTO) VALUES (:idLista, :idProducto)";
         $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':idLista', $datos['idLista']);
-        $stmt->bindParam(':idProducto', $datos['idProducto']);
+        $stmt->bindParam(':idLista', $idLista);
+        $stmt->bindParam(':idProducto', $idProducto);
+
         return $stmt->execute();
     }
 
+
     // Eliminar un producto de una lista
-    public function eliminarProductoDeLista($datos)
+    public function eliminarProductoDeLista($idLista, $idProducto)
     {
         $sql = "DELETE FROM listas_productos WHERE ID_LISTA = :idLista AND ID_PRODUCTO = :idProducto";
         $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':idLista', $datos['idLista']);
-        $stmt->bindParam(':idProducto', $datos['idProducto']);
+        $stmt->bindParam(':idLista', $idLista);
+        $stmt->bindParam(':idProducto', $idProducto);
         return $stmt->execute();
     }
 }

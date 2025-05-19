@@ -36,11 +36,11 @@ class HomeController
         $aprobado = $productoModel->aprobarProducto($_POST['producto_id']);
         if ($aprobado) {
             $_SESSION['exito'] = "Producto aceptado con exito";
-            header('Location: /admin/pendientes');
+            header('Location: /admin');
             exit;
         } else {
             $_SESSION['errores'] = "Ocurrio un problema";
-            header('Location: /admin/pendientes');
+            header('Location: /admin');
         }
     }
 
@@ -50,7 +50,7 @@ class HomeController
         $aprobado = $productoModel->rechazarProducto($_POST['producto_id']);
         if ($aprobado) {
             $_SESSION['exito'] = "Producto rechazado con exito";
-            header('Location: /admin/pendientes');
+            header('Location: /admin');
             exit;
         } else {
             $_SESSION['errores'] = "Ocurrio un problema";
@@ -66,11 +66,11 @@ class HomeController
         require_once '../app/views/homeAdmin.php';
     }
 
-    /* public function obtenerProductosPendientes()
+    public function obtenerProductosPendientes()
     {
         $productoModel = new Producto();
 
-        //$productos = $productoModel->mostrarProductosPendientes($lastUpdate);
+        $productos = $productoModel->mostrarProductosPendientes();
 
         echo json_encode([
             'status' => 'success',
@@ -78,7 +78,7 @@ class HomeController
             'timestamp' => time()
         ]);
         exit;
-    }*/
+    }
 
 
     // admin ajax 

@@ -4,11 +4,23 @@ require_once __DIR__ . '/plantillas/head.php';
 
 <body>
 
-
     <?php
     require_once __DIR__ . '/plantillas/nav.php';
     require_once __DIR__ . '/plantillas/subnav.php';
     ?>
+
+    <div class="agregar-producto">
+        <form action="/agregar-producto/categoria" method="POST">
+            <div class="campo formulario-agregar" id="nueva-categoria">
+                <label for="nueva_categoria">Nueva categoría:</label>
+                <input type="text" id="nueva_categoria" name="nueva_categoria" placeholder="Titulo" required>
+
+                <input type="textarea" placeholder="Descripcion" id="nueva_categoria" name="descripcion" required>
+
+                <input type="submit" value="Agregar Categoria" class="nueva_categoria_btn">
+            </div>
+        </form style="margin-bottom:1rem;">
+    </div>
 
     <div class="agregar-producto">
         <h2>Agregar Producto</h2>
@@ -45,8 +57,6 @@ require_once __DIR__ . '/plantillas/head.php';
                 </div>
             </div>
 
-
-
             <div class="campo">
                 <label>Imágenes del producto:</label>
                 <div id="imagenes-container" class="imagenes-container">
@@ -81,20 +91,11 @@ require_once __DIR__ . '/plantillas/head.php';
         </form>
     </div>
 
-    <div class="agregar-producto">
-        <form action="/agregar-producto/categoria" method="POST">
-            <div class="campo" id="nueva-categoria">
-                <label for="nueva_categoria">Nueva categoría:</label>
-                <input type="text" id="nueva_categoria" name="nueva_categoria" required>
-                <input type="submit" value="Agregar Categoria" class="nueva_categoria_btn">
-            </div>
-        </form style="margin-bottom:1rem;">
-    </div>
-
     <?php
     require_once __DIR__ . '/plantillas/footer.php';
     require_once __DIR__ . '/plantillas/scripts.php';
     ?>
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             <?php if (isset($_SESSION['exito'])): ?>

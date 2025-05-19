@@ -72,7 +72,9 @@ function mostrarPrevisualizacion(input, tipo) {
 
       const botonEliminar = document.createElement("button");
       botonEliminar.textContent = "X";
-      botonEliminar.classList.add("eliminar-btn");
+      botonEliminar.classList.add(
+        tipo === "imagen" ? "eliminar-img" : "eliminar-btn"
+      );
 
       // Asociar el input al contenedor para poder eliminarlo después
       div.appendChild(preview);

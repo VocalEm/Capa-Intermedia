@@ -24,16 +24,25 @@ require_once __DIR__ . '/plantillas/head.php';
                 </div>
 
                 <div class="vendedor-productos" id="vendedor-productos">
-                    <div class="vendedor-producto">
-                        <img src="" alt="">
-                        <div class="vendedor-info">
-                            <h4>${producto.nombre}</h4>
-                            <p>${producto.descripcion}</p>
-                            <p class="precio">
-                                ${producto.precio || 'Cotización'}
-                            </p>
-                        </div>
-                    </div>
+                    <?php
+                    foreach ($productos as $producto):
+                    ?>
+                        <a href="/producto/eliminar/<?= $producto['ID'] ?>" class="vendedor-botones">
+                            <i class="fa-solid fa-trash fa-2x"></i>
+                        </a>
+                        <a href="/producto/editar/<?= $producto['ID'] ?>" class="vendedor-producto">
+                            <img src="/uploads/<?= $producto['multimedia'][0] ?>" alt="">
+                            <div class="vendedor-info">
+                                <h4> <?= $producto['NOMBRE'] ?> </h4>
+                                <p><?= $producto['DESCRIPCION'] ?></p>
+                                <p class="precio">
+                                    <?= $producto['PRECIO'] ?? 'Cotizacion' ?>
+                                </p>
+                            </div>
+                        </a>
+                    <?php
+                    endforeach;
+                    ?>
                 </div>
             </div>
         </section>
@@ -61,12 +70,12 @@ require_once __DIR__ . '/plantillas/head.php';
                     <div class="listas-usuario">
                         <h3>Listas</h3>
                         <div id="listas-container" class="listas-container">
-                            <?php if (!empty($listasConProductos)): ?>
-                                <?php foreach ($listasConProductos as $lista):
+                            <?php if (!empty($listas)): ?>
+                                <?php foreach ($listas as $lista):
                                     if ($miPerfil == false): //si no es mi perfil
                                         if ($lista['PRIVACIDAD']):  // y la lista es publica
                                 ?>
-                                            <div class="lista-card">
+                                            <a href="/lista/<?= $lista['ID'] ?>" class="lista-card">
                                                 <div class="lista-card-img">
                                                     <img src="/uploads/<?= $lista['IMAGEN'] ?>" alt="">
                                                 </div>
@@ -76,24 +85,11 @@ require_once __DIR__ . '/plantillas/head.php';
                                                     Visibilidad: <?= $lista['PRIVACIDAD'] ? 'Pública' : 'Privada' ?>
                                                 </p>
 
-                                                <div class="productos-lista">
-                                                    <?php if (!empty($lista['productos'])): ?>
-                                                        <?php foreach ($lista['productos'] as $producto): ?>
-                                                            <div class="producto-card">
-                                                                <img src="/uploads/<?= htmlspecialchars($producto['IMAGEN']) ?>" alt="<?= htmlspecialchars($producto['NOMBRE']) ?>" />
-                                                                <h5><?= htmlspecialchars($producto['NOMBRE']) ?></h5>
-                                                                <p class="precio">$<?= number_format($producto['PRECIO'], 2) ?></p>
-                                                            </div>
-                                                        <?php endforeach; ?>
-                                                    <?php else: ?>
-                                                        <p style="font-size:1.5rem; color:red;   font-weight: bold;">No hay productos en esta lista.</p>
-                                                    <?php endif; ?>
-                                                </div>
-                                            </div>
+                                            </a>
                                         <?php
                                         endif;
                                     else: ?>
-                                        <div class="lista-card">
+                                        <a href="/lista/<?= $lista['ID'] ?>" class="lista-card">
                                             <!-- Botón de eliminar con SweetAlert -->
                                             <?php
                                             if ($miPerfil && isset($miPerfil)):
@@ -113,20 +109,7 @@ require_once __DIR__ . '/plantillas/head.php';
                                                 Visibilidad: <?= $lista['PRIVACIDAD'] ? 'Pública' : 'Privada' ?>
                                             </p>
 
-                                            <div class="productos-lista">
-                                                <?php if (!empty($lista['productos'])): ?>
-                                                    <?php foreach ($lista['productos'] as $producto): ?>
-                                                        <div class="producto-card">
-                                                            <img src="/uploads/<?= htmlspecialchars($producto['IMAGEN']) ?>" alt="<?= htmlspecialchars($producto['NOMBRE']) ?>" />
-                                                            <h5><?= htmlspecialchars($producto['NOMBRE']) ?></h5>
-                                                            <p class="precio">$<?= number_format($producto['PRECIO'], 2) ?></p>
-                                                        </div>
-                                                    <?php endforeach; ?>
-                                                <?php else: ?>
-                                                    <p style="font-size:1.5rem; color:red;   font-weight: bold;">No hay productos en esta lista.</p>
-                                                <?php endif; ?>
-                                            </div>
-                                        </div>
+                                        </a>
                                 <?php
                                     endif;
                                 endforeach; ?>
@@ -144,7 +127,7 @@ require_once __DIR__ . '/plantillas/head.php';
             </div>
         </section>
 
-        <?php
+        <?php // crear lista
         if ($miPerfil):
         ?>
             <div class="lista-tarjeta">
@@ -168,8 +151,61 @@ require_once __DIR__ . '/plantillas/head.php';
                     </form>
                 </div>
             </div>
-    <?php
+        <?php
         endif;
+    elseif ($usuario['ROL'] == 'administrador'): //perfil si es admin
+        ?>
+        <div class="product-tabs">
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('aprobados')">
+                    Productos Aprobados
+                </button>
+                <button class="tab" onclick="showTab('denegados')">
+                    Productos Denegados
+                </button>
+            </div>
+
+            <div class="tab-content" id="aprobados">
+                <div class="product-card-list" id="aprobados-list">
+                    <!-- Tarjetas se insertarán aquí -->
+                    <?php
+
+                    foreach ($autorizados as $autorizado):
+
+                    ?>
+                        <div class="product-card">
+                            <h3><?= $autorizado['NOMBRE'] ?></h3>
+                            <p><strong>Vendedor:</strong> <?= $autorizado['vendedor_correo'] ?></p>
+                            <p class="price"><strong>Precio:</strong> <?= $autorizado['TIPO_PUBLICACION'] == 'venta' ? '$' . $autorizado['PRECIO'] : 'Cotizacion' ?></p>
+                            <p><strong>Descripción:</strong> <?= $autorizado['DESCRIPCION'] ?></p>
+                            <p class="date"><strong>Fecha:</strong> <?= $autorizado['FECHA_CREACION'] ?></p>
+                        </div>
+                    <?php
+                    endforeach;
+                    ?>
+                </div>
+            </div>
+
+            <div class="tab-content hidden" id="denegados">
+                <div class="product-card-list" id="denegados-list">
+                    <!-- Tarjetas se insertarán aquí -->
+                    <?php
+                    foreach ($rechazados as $rechazado):
+                    ?>
+                        <div class="product-card">
+                            <h3><?= $rechazado['NOMBRE'] ?></h3>
+                            <p><strong>Vendedor:</strong> <?= $rechazado['vendedor_correo'] ?></p>
+                            <p class="price"><strong>Precio:</strong> <?= $rechazado['TIPO_PUBLICACION'] == 'venta' ? '$' . $rechazado['PRECIO'] : 'Cotizacion' ?></p>
+                            <p><strong>Descripción:</strong> <?= $rechazado['DESCRIPCION'] ?></p>
+                            <p class="date"><strong>Fecha:</strong> <?= $rechazado['FECHA_CREACION'] ?></p>
+                        </div>
+                    <?php
+                    endforeach;
+                    ?>
+                </div>
+            </div>
+        </div>
+    <?php
     endif;
     ?>
 
@@ -216,7 +252,27 @@ require_once __DIR__ . '/plantillas/head.php';
                 }
             });
         <?php endif; ?>
+
+        <?php
+        if (isset($_SESSION['errores'])):
+            $mensaje  = $_SESSION['errores'];
+            unset($_SESSION['errores']); ?>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '<?= $mensaje ?>',
+                confirmButtonColor: '#dc2626', // Este color se puede mantener para el borde
+                confirmButtonText: 'OK',
+                customClass: {
+                    confirmButton: 'custom-swal-button'
+                }
+            });
+        <?php
+        endif;
+        ?>
     </script>
+
+    <script src="/js/adminaprobados.js"></script>
 
 </body>
 

@@ -5,62 +5,27 @@ namespace App\Controllers;
 use App\Helpers\UsuarioSesion;
 use App\Models\Usuario;
 use App\Models\Lista;
+use App\Models\Producto;
 
 class PerfilController
 {
 
     public function mostrarPerfilUsuarioSesion()
     {
-
-        $idUsuario = UsuarioSesion::obtener();
-        $usuario = new Usuario();
-        $usuario = $usuario->obtenerPorId($idUsuario['id']);
-        $listaModel = new Lista();
-
-        // Obtener las listas y sus productos mediante un JOIN
-
+        $usuarioId = UsuarioSesion::id();
+        $usuarioModel = new Usuario();
+        $usuario = $usuarioModel->obtenerPorId($usuarioId);
 
         if ($usuario['ROL'] == 'comprador') {
-            $datos = $listaModel->obtenerListasConProductos($idUsuario['id']);
-
-            /**
-             * `datos` es un arreglo donde cada fila contiene información tanto de la lista 
-             * como de los productos. 
-             * Debemos organizarlo para que todos los productos de una lista queden agrupados 
-             * bajo la misma lista.
-             */
-
-            $listasConProductos = [];
-            foreach ($datos as $fila) {
-                $listaId = $fila['lista_id'];
-
-                // Si la lista aún no ha sido agregada al arreglo, la inicializamos
-                if (!isset($listasConProductos[$listaId])) {
-                    $listasConProductos[$listaId] = [
-                        'ID' => $listaId,
-                        'NOMBRE' => $fila['lista_nombre'],
-                        'DESCRIPCION' => $fila['lista_descripcion'],
-                        'PRIVACIDAD' => $fila['lista_privacidad'],
-                        'IMAGEN' => $fila['lista_imagen'],
-                        'productos' => []  // Inicializamos el arreglo de productos
-                    ];
-                }
-
-                /**
-                 * Si `ID_PRODUCTO` no es nulo, significa que la lista tiene al menos un producto asociado.
-                 * Esto previene que listas vacías no tengan el índice `productos`.
-                 */
-                if ($fila['ID_PRODUCTO']) {
-                    $listasConProductos[$listaId]['productos'][] = [
-                        'ID' => $fila['ID_PRODUCTO'],
-                        'NOMBRE' => $fila['producto_nombre'],
-                        'PRECIO' => $fila['producto_precio'],
-                        'IMAGEN' => $fila['producto_imagen']
-                    ];
-                }
-            }
+            $listaModel = new Lista();
+            $listas = $listaModel->obtenerListasPorUsuario($usuario['ID']);
         } else if ($usuario['ROL'] == 'vendedor') {
-        } else if ($usuario['ROL'] == 'admin') {
+            $productoModel = new Producto();
+            $productos = $productoModel->mostrarProductosVendedor($usuario['ID']);
+        } else if ($usuario['ROL'] == 'administrador') {
+            $productoModel = new Producto();
+            $rechazados = $productoModel->obtenerProductosRechazadosPorAdmin($usuario['ID']);
+            $autorizados = $productoModel->obtenerProductosAutorizadosPorAdmin($usuario['ID']);
         }
         $miPerfil = true;
         /**
@@ -110,40 +75,11 @@ class PerfilController
 
         $usuario = new Usuario();
         $usuario = $usuario->obtenerPorId($idUsuario);
-        $listaModel = new Lista();
+
 
         if ($usuario['ROL'] == 'comprador') {
-            $datos = $listaModel->obtenerListasConProductos($idUsuario);
-
-            $listasConProductos = [];
-            foreach ($datos as $fila) {
-                $listaId = $fila['lista_id'];
-
-                // Si la lista aún no ha sido agregada al arreglo, la inicializamos
-                if (!isset($listasConProductos[$listaId])) {
-                    $listasConProductos[$listaId] = [
-                        'ID' => $listaId,
-                        'NOMBRE' => $fila['lista_nombre'],
-                        'DESCRIPCION' => $fila['lista_descripcion'],
-                        'PRIVACIDAD' => $fila['lista_privacidad'],
-                        'IMAGEN' => $fila['lista_imagen'],
-                        'productos' => []  // Inicializamos el arreglo de productos
-                    ];
-                }
-
-                /**
-                 * Si `ID_PRODUCTO` no es nulo, significa que la lista tiene al menos un producto asociado.
-                 * Esto previene que listas vacías no tengan el índice `productos`.
-                 */
-                if ($fila['ID_PRODUCTO']) {
-                    $listasConProductos[$listaId]['productos'][] = [
-                        'ID' => $fila['ID_PRODUCTO'],
-                        'NOMBRE' => $fila['producto_nombre'],
-                        'PRECIO' => $fila['producto_precio'],
-                        'IMAGEN' => $fila['producto_imagen']
-                    ];
-                }
-            }
+            $listaModel = new Lista();
+            $listas = $listaModel->obtenerListasPorUsuario($idUsuario);
         } else if ($usuario['ROL'] == 'vendedor') {
         } else if ($usuario['ROL'] == 'admin') {
         }
@@ -237,25 +173,6 @@ class PerfilController
         }
     }
 
-
-    /**
-     * Maneja la subida de imagenes para listas.
-     * Retorna el nombre del archivo o 'default.jpg' si no hay imagen.
-     */
-    /* esta funcion es la misma pero no quita los espacios
-    private function guardarImagen($archivo)
-    {
-        if ($archivo && $archivo['error'] === UPLOAD_ERR_OK) {
-            $nombreArchivo = uniqid() . '_' . $archivo['name'];
-            $ruta = '../app/uploads/' . $nombreArchivo;
-
-            if (move_uploaded_file($archivo['tmp_name'], $ruta)) {
-                return $nombreArchivo;
-            }
-        }
-
-        return 'default.jpg';
-    }*/
     private function guardarImagen($archivo)
     {
         if ($archivo && $archivo['error'] === UPLOAD_ERR_OK) {
