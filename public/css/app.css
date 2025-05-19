@@ -1256,6 +1256,10 @@ h2 {
   width: 100%;
   overflow-wrap: break-word; /* Alternativa moderna a word-wrap */
   word-wrap: break-word; /* Soporte más antiguo */
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .isla-carrito .producto-carrito .producto-detalles .producto-precio-cantidad {
   display: flex;

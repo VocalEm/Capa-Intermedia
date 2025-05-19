@@ -12,27 +12,32 @@ require_once __DIR__ . '/plantillas/head.php';
 
     <section class="busqueda-section">
         <div class="busqueda-card">
-            <h2>Buscar productos o usuarios</h2>
-            <div class="busqueda-barra">
-                <input type="text" id="inputBusqueda" placeholder="Buscar por nombre o usuario...">
-                <select id="filtro">
-                    <option value="">Ordenar por...</option>
-                    <option value="precioAsc">Menor precio</option>
-                    <option value="precioDesc">Mayor precio</option>
-                    <option value="rating">Mejor calificados</option>
-                    <option value="ventas">Más vendidos</option>
-                </select>
-                <button onclick="buscarContenido()"><i class="fa fa-search"></i></button>
-            </div>
+            <h2>Buscar Usuarios y Vendedores</h2>
+            <form class="busqueda-barra" action="/buscar/usuarios" method="GET">
+                <input type="text" id="inputBusqueda" name="username" placeholder="Buscar por nombre o usuario...">
+                <button type="submit" onclick="buscarContenido()"><i class="fa fa-search"></i></button>
+            </form>
 
             <div id="resultados" class="resultados-busqueda">
-                <div class="resultado-card">
-                    <img src="${p.imagen}" alt="${p.nombre}">
-                    <h3>${p.nombre}</h3>
-                    <p>Vendedor: ${p.usuario}</p>
-                    <p>Rating: ⭐ ${p.rating}</p>
-                    <p class="precio">$${p.precio}</p>
-                </div>
+                <?php
+                if (isset($usuarios)):
+                    foreach ($usuarios as $usuario):
+                ?>
+                        <div class="resultado-card">
+                            <img src="/uploads/<?= $usuario['IMAGEN'] ?>" alt="<?= $usuario['NOMBRE'] ?>">
+                            <h3><?= $usuario['NOMBRE'] ?></h3>
+                            <p>Usuario: <?= $usuario['USERNAME'] ?></p>
+
+                        </div>
+                    <?php
+                    endforeach;
+                else:
+                    ?>
+                    <p>No se encontraron resultados para la búsqueda.</p>
+                    ?>
+                <?php
+                endif;
+                ?>
             </div>
         </div>
     </section>

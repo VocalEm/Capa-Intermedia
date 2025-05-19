@@ -87,4 +87,22 @@ class Usuario extends BaseModel
         $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
         return $stmt->execute();
     }
+
+    public function buscarUsuarios($busqueda)
+    {
+        $query = "
+        SELECT * FROM USUARIO 
+        WHERE 
+            (ROL NOT IN ('superadmin', 'administrador')) AND (
+            USERNAME LIKE :busqueda 
+            OR CONCAT(NOMBRE, ' ', APELLIDO_P, ' ', APELLIDO_M) LIKE :busqueda )
+
+    ";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':busqueda', '%' . $busqueda . '%');
+        $stmt->execute();
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
 }

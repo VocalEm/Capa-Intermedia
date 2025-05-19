@@ -66,9 +66,9 @@ class AgregarProductoController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $nombre = trim($_POST['nombre']);
             $descripcion = trim($_POST['descripcion']);
-            $stock = (int) $_POST['stock'];
+            $stock = (int) $_POST['stock'] ?? 0;
             $tipoVenta = $_POST['tipo_venta'];
-            $precio = ($tipoVenta === 'venta') ? (float) $_POST['precio'] : null;
+            $precio = ($tipoVenta === 'venta') ? (float) $_POST['precio'] : 0;
             $idVendedor = UsuarioSesion::obtener()['id'];
             $categorias = $_POST['categorias'] ?? [];
             $imagenes = $_FILES['imagenes'];

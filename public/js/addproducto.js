@@ -134,8 +134,12 @@ function validarFormulario(e) {
     errores.push("El nombre del producto no puede estar vacío.");
   if (descripcion === "")
     errores.push("La descripción del producto no puede estar vacía.");
-  if (stock === "" || isNaN(stock) || parseInt(stock) < 0) {
-    errores.push("La cantidad en stock debe ser un número mayor o igual a 0.");
+  if (tipoVenta == "venta") {
+    if (stock === "" || isNaN(stock) || parseInt(stock) < 0) {
+      errores.push(
+        "La cantidad en stock debe ser un número mayor o igual a 0."
+      );
+    }
   }
 
   // Validación de imágenes (mínimo 3)
@@ -189,5 +193,7 @@ function togglePrecio() {
 function togglePrecio() {
   const tipoVenta = document.getElementById("tipo-venta");
   const divPrecio = document.getElementById("campo-precio");
+  const stock = document.getElementById("stock");
   divPrecio.style.display = tipoVenta.value === "venta" ? "block" : "none";
+  stock.disabled = tipoVenta.value === "venta" ? false : true;
 }

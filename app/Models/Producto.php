@@ -130,7 +130,7 @@ class Producto extends BaseModel
         LEFT JOIN categoria c ON pc.ID_CATEGORIA = c.ID
         WHERE p.AUTORIZADO = 1 AND p.DISPONIBLE = 1 AND p.ID = :idProducto
         GROUP BY p.ID
-        ORDER BY FECHA_CREACION DESC";
+        ORDER BY FECHA_ALTERACION DESC";
 
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':idProducto', $id_producto);
@@ -163,7 +163,7 @@ class Producto extends BaseModel
         LEFT JOIN categoria c ON pc.ID_CATEGORIA = c.ID
         WHERE p.AUTORIZADO = 1 AND p.DISPONIBLE = 1
         GROUP BY p.ID
-        ORDER BY FECHA_CREACION DESC";
+        ORDER BY FECHA_ALTERACION DESC";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
@@ -417,7 +417,7 @@ class Producto extends BaseModel
 
     public function aprobarProducto($id_producto)
     {
-        $query = "UPDATE producto SET AUTORIZADO = 1, ID_ADMIN_AUTORIZADOR = :idAdmin WHERE ID = :idProducto";
+        $query = "UPDATE producto SET AUTORIZADO = 1, ID_ADMIN_AUTORIZADOR = :idAdmin, FECHA_ALTERACION = NOW() WHERE ID = :idProducto";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':idProducto', $id_producto, \PDO::PARAM_INT);
         $stmt->bindParam(':idAdmin', $_SESSION['usuario']['id'], \PDO::PARAM_INT);
@@ -427,7 +427,7 @@ class Producto extends BaseModel
 
     public function rechazarProducto($id_producto)
     {
-        $query = "UPDATE producto SET AUTORIZADO = -1,  ID_ADMIN_AUTORIZADOR = :idAdmin WHERE ID = :idProducto";
+        $query = "UPDATE producto SET AUTORIZADO = -1,  ID_ADMIN_AUTORIZADOR = :idAdmin, FECHA_ALTERACION = NOW() WHERE ID = :idProducto";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':idProducto', $id_producto, \PDO::PARAM_INT);
         $stmt->bindParam(':idAdmin', $_SESSION['usuario']['id'], \PDO::PARAM_INT);
@@ -452,7 +452,7 @@ class Producto extends BaseModel
         LEFT JOIN listas_productos lp ON lp.ID_PRODUCTO = p.ID 
         WHERE p.AUTORIZADO = 1 AND p.DISPONIBLE = 1 AND lp.ID_LISTA = :idLista
         GROUP BY p.ID
-        ORDER BY FECHA_CREACION DESC";
+        ORDER BY FECHA_ALTERACION DESC";
 
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':idLista', $idLista);
@@ -472,9 +472,10 @@ class Producto extends BaseModel
         $sql = "
         SELECT 
             p.*, 
+            MAX(ca.PRECIO_COTIZACION) AS PRECIO_COTIZACION,
             u.USERNAME AS vendedor_username,
             u.CORREO AS vendedor_correo,
-             MAX(ca.CANTIDAD) AS CANTIDAD,
+            MAX(ca.CANTIDAD) AS CANTIDAD,
             GROUP_CONCAT(DISTINCT pm.RUTA_MULTIMEDIA) AS multimedia,
             GROUP_CONCAT(DISTINCT c.TITULO) AS categorias
         FROM producto p
@@ -485,7 +486,7 @@ class Producto extends BaseModel
         INNER JOIN carrito ca ON ca.ID_PRODUCTO = p.ID
         WHERE p.AUTORIZADO = 1 AND p.DISPONIBLE = 1 AND ca.ID_USUARIO = :idUsuario 
         GROUP BY p.ID
-        ORDER BY FECHA_CREACION DESC";
+        ORDER BY FECHA_ALTERACION DESC";
 
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':idUsuario', $idUsuario);
@@ -516,7 +517,7 @@ class Producto extends BaseModel
         LEFT JOIN categoria c ON pc.ID_CATEGORIA = c.ID
         WHERE p.AUTORIZADO = 1 AND p.DISPONIBLE = 1 AND p.ID_ADMIN_AUTORIZADOR = :idAdmin
         GROUP BY p.ID
-        ORDER BY FECHA_CREACION DESC";
+        ORDER BY FECHA_ALTERACION DESC";
 
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':idAdmin', $idAdmin);
@@ -547,7 +548,7 @@ class Producto extends BaseModel
         LEFT JOIN categoria c ON pc.ID_CATEGORIA = c.ID
         WHERE p.AUTORIZADO = -1 AND p.DISPONIBLE = 1 AND p.ID_ADMIN_AUTORIZADOR = :idAdmin
         GROUP BY p.ID
-        ORDER BY FECHA_CREACION DESC";
+        ORDER BY FECHA_ALTERACION DESC";
 
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':idAdmin', $idAdmin);
@@ -575,19 +576,18 @@ class Producto extends BaseModel
 
     public function eliminarProducto($idProducto)
     {
-        $query = "DELETE FROM producto_multimedia WHERE ID_PRODUCTO = :idProducto";
+        $query = "UPDATE producto SET DISPONIBLE = 0 WHERE ID = :idProducto";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':idProducto', $idProducto);
-        $stmt->execute();
+        return $stmt->execute();
+    }
 
-        $query = "DELETE FROM producto_categoria WHERE ID_PRODUCTO = :idProducto";
+    public function actualizarStock($idProducto, $nuevoStock)
+    {
+        $query = "UPDATE producto SET STOCK = :nuevoStock WHERE ID = :idProducto";
         $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':idProducto', $idProducto);
-        $stmt->execute();
-
-        $query = "DELETE FROM producto WHERE ID = :idProducto";
-        $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':idProducto', $idProducto);
+        $stmt->bindParam(':nuevoStock', $nuevoStock, \PDO::PARAM_INT);
+        $stmt->bindParam(':idProducto', $idProducto, \PDO::PARAM_INT);
         return $stmt->execute();
     }
 }

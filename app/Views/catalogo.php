@@ -43,7 +43,7 @@ require_once __DIR__ . '/plantillas/head.php';
                             <h3><?= $producto['NOMBRE'] ?></h3>
                             <p><?= htmlspecialchars($producto['vendedor_username'], ENT_QUOTES, 'UTF-8') ?></p>
                             <span class="precio">
-                                <?= isset($producto['PRECIO']) ? '$' . number_format($producto['PRECIO'], 2) : 'Cotización' ?>
+                                <?= $producto['TIPO_PUBLICACION'] == 'venta' ?  '$' . $producto['PRECIO'] : 'Cotizacion'  ?>
                             </span>
                         </a>
                     <?php endforeach; ?>
@@ -58,6 +58,45 @@ require_once __DIR__ . '/plantillas/head.php';
     require_once __DIR__ . '/plantillas/footer.php';
     require_once __DIR__ . '/plantillas/scripts.php';
     ?>
+
+
+    <script>
+        //alerta de exito en caso de exito de registro
+        <?php
+        if (isset($_SESSION['exito'])):
+            $mensaje = $_SESSION['exito'];
+            unset($_SESSION['exito']); ?>
+            Swal.fire({
+                icon: 'success',
+                title: '¡Éxito!',
+                text: '<?= $mensaje ?>',
+                confirmButtonColor: '#3085d6', // Este color se puede mantener para el borde
+                confirmButtonText: 'OK',
+                customClass: {
+                    confirmButton: 'custom-swal-button'
+                }
+            });
+        <?php endif; ?>
+
+        <?php
+        if (isset($_SESSION['errores'])):
+            $mensaje  = $_SESSION['errores'];
+            unset($_SESSION['errores']); ?>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '<?= $mensaje ?>',
+                confirmButtonColor: '#dc2626', // Este color se puede mantener para el borde
+                confirmButtonText: 'OK',
+                customClass: {
+                    confirmButton: 'custom-swal-button'
+                }
+            });
+        <?php
+        endif;
+        ?>
+    </script>
+
 </body>
 
 </html>

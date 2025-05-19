@@ -54,8 +54,18 @@ $router->get('/carrito/eliminar/{idProducto}', 'CarritoController@eliminarProduc
 $router->get('/pago', 'PagoController@mostrarPago', 'comprador'); // entra a paserela de pago
 $router->post('/pago/procesar', 'PagoController@procesarPago', 'comprador'); // entra a paserela de pago
 $router->get('/buscar', 'BuscarUsuarioController@mostrarBusqueda', 'comprador'); // entra a paserela de pago
+$router->get('/buscar/usuarios', 'BuscarUsuarioController@buscarUsuarios', 'comprador'); // entra a paserela de pago
 
+$router->post('/chat/crearChat/{idVendedor}', 'CotizacionController@crearChat', 'comprador'); // entra a paserela de pago
+$router->get('/chat', 'CotizacionController@mostrarChats', 'auth'); // entra a paserela de pago
+$router->get('/chat/{idChat}', 'CotizacionController@mostrarChat', 'auth'); // entra a paserela de pago
 
+$router->post('/chat/enviarMensaje', 'CotizacionController@enviarMensaje', 'auth'); // entra a paserela de pago
+$router->post('/chat/crearOferta', 'CotizacionController@crearOferta', 'auth'); // entra a paserela de pago
+$router->get('/chat/rechazarOferta/{idchat}', 'CotizacionController@rechazarOferta', 'comprador'); // entra a paserela de pago
+$router->post('/chat/aceptarOferta', 'CotizacionController@aceptarOferta', 'comprador'); // entra a paserela de pago
+
+$router->get('/chat/mensajesOferta/{id}', 'CotizacionController@obtenerMensajesOferta', 'auth'); // entra a paserela de pago
 
 //rutas para vendedores
 $router->post('/agregar-producto', 'AgregarProductoController@agregarProducto', 'vendedor'); // crear solicitud de producto 
@@ -66,27 +76,4 @@ $router->post('/producto/actualizar/{id}', 'ProductoController@actualizarProduct
 $router->get('/producto/eliminar/{id}', 'ProductoController@eliminarProducto', 'vendedor'); // muestra pagina de producto
 
 
-
-
-
-
-
-
-
-
-//$router->get('producto/{id}', 'ProductoController@ver');  // Detalles de producto público
-
-// Rutas protegidas por middleware 'auth' (requiere estar logueado)
-//$router->get('perfil', 'UserController@perfil', 'auth');  // Requiere autenticación
-
-// Ruta protegida por middleware 'admin' (solo accesible por administradores)
-//$router->get('admin/panel', 'AdminController@dashboard', 'admin');  // Requiere ser admin
-
-// Rutas de compra que requieren autenticación
-//$router->post('producto/{id}/comprar', 'CompraController@procesar', 'auth');
-
-// Rutas de administración para 'admin'
-//$router->get('admin/users', 'AdminController@users', 'admin');
-
-// Retornamos el router
 return $router;

@@ -32,7 +32,11 @@ class Pago extends BaseModel
         $stmt = $this->db->prepare($query);
 
         foreach ($productos as $producto) {
+            if ($producto['PRECIO'] == 0) {
+                $producto['PRECIO'] = $producto['PRECIO_COTIZACION'];
+            }
             $importe = $producto['PRECIO'] * $producto['CANTIDAD'];
+
 
             $stmt->bindParam(':idOrden', $ordenId);
             $stmt->bindParam(':idProducto', $producto['ID']);

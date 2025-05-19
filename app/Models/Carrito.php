@@ -39,6 +39,22 @@ class Carrito extends BaseModel
         }
     }
 
+    public function agregarProductoCarritoCotizacion($idUsuario, $idProducto, $precio)
+    {
+        // Si el producto no existe, lo insertamos con cantidad = 1
+        $queryInsert = "
+            INSERT INTO carrito (ID_USUARIO, ID_PRODUCTO, CANTIDAD,PRECIO_COTIZACION) 
+            VALUES (:idUsuario, :idProducto, 1,:precio)
+        ";
+
+        $stmt = $this->db->prepare($queryInsert);
+        $stmt->bindParam(':idUsuario', $idUsuario);
+        $stmt->bindParam(':idProducto', $idProducto);
+        $stmt->bindParam(':precio', $precio);
+        return $stmt->execute();
+    }
+
+
     public function eliminarProductoCarrito($idUsuario, $idProducto)
     {
         // Si el producto no existe, lo insertamos con cantidad = 1

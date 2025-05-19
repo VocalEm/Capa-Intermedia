@@ -18,11 +18,13 @@ require_once __DIR__ . '/plantillas/head.php';
             $subtotal = 0;
             $iva = 0;
             foreach ($productos as $producto):
+                if ($producto['PRECIO'] == 0) {
+                    $producto['PRECIO'] = $producto['PRECIO_COTIZACION'];
+                }
                 $subtotal += ($producto['PRECIO'] * $producto['CANTIDAD']);
                 $iva = $subtotal * .16;
                 $total = $subtotal + $iva;
             ?>
-                <!-- Producto 1 -->
                 <div class="producto-carrito">
                     <img
                         src="/uploads/<?= $producto['multimedia'][0] ?>"
@@ -71,6 +73,22 @@ require_once __DIR__ . '/plantillas/head.php';
 
 
     <script>
+        <?php
+        if (isset($_SESSION['exito'])):
+            $mensaje = $_SESSION['exito'];
+            unset($_SESSION['exito']); ?>
+            Swal.fire({
+                icon: 'success',
+                title: '¡Éxito!',
+                text: '<?= $mensaje ?>',
+                confirmButtonColor: '#3085d6', // Este color se puede mantener para el borde
+                confirmButtonText: 'OK',
+                customClass: {
+                    confirmButton: 'custom-swal-button'
+                }
+            });
+        <?php endif; ?>
+
         <?php
         if (isset($_SESSION['errores'])):
             $mensaje  = $_SESSION['errores'];

@@ -74,6 +74,9 @@ class PagoController
         // Calcular total
         $subtotal = 0;
         foreach ($productos as $producto) {
+            if ($producto['PRECIO'] == 0) {
+                $producto['PRECIO'] = $producto['PRECIO_COTIZACION'];
+            }
             $subtotal += $producto['PRECIO'] * $producto['CANTIDAD'];
         }
 
@@ -97,6 +100,28 @@ class PagoController
             header('Location: /pago');
             exit;
         }
+
+        // Actualizar stock de los productos
+        foreach ($productos as $producto) {
+            if ($producto['TIPO_PUBLICACION'] == 'venta') {
+                $nuevoStock = $producto['STOCK'] - $producto['CANTIDAD'];
+
+                if ($nuevoStock < 0) {
+                    $_SESSION['errores'] = "El producto " . $producto['NOMBRE'] . " no tiene suficiente stock.";
+                    header('Location: /pago');
+                    exit;
+                }
+
+                $stockActualizado = $productoModel->actualizarStock($producto['ID'], $nuevoStock);
+
+                if (!$stockActualizado) {
+                    $_SESSION['errores'] = "Error al actualizar el stock del producto " . $producto['NOMBRE'];
+                    header('Location: /pago');
+                    exit;
+                }
+            }
+        }
+
 
         // Vaciar el carrito después del pago exitoso
         $vaciarCarrito = $carritoModel->vaciarCarrito($idUsuario);

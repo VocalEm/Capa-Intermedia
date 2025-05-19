@@ -4,7 +4,7 @@
         if ($_SESSION['usuario']['rol'] == 'comprador') {
         ?>
             <a href="/catalogo">Catalogo</a>
-            <a href="#">Chats</a>
+            <a href="/chat">Chats</a>
             <a href="/buscar">Buscador Usuarios</a>
         <?php
         }
@@ -14,7 +14,7 @@
         if ($_SESSION['usuario']['rol'] == 'vendedor') {
         ?>
             <a href="/perfil">Perfil</a>
-            <a href="#">Chats</a>
+            <a href="/chat">Chats</a>
             <a href="/agregar-producto">Agregar Producto</a>
             <script>
                 document.getElementById('logout-link').addEventListener('click', function(e) {

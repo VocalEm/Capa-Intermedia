@@ -36,7 +36,10 @@ require_once __DIR__ . '/plantillas/head.php';
                                 <h4> <?= $producto['NOMBRE'] ?> </h4>
                                 <p><?= $producto['DESCRIPCION'] ?></p>
                                 <p class="precio">
-                                    <?= $producto['PRECIO'] ?? 'Cotizacion' ?>
+                                    <?= $producto['PRECIO'] == 0 ? 'Cotizacion' : $producto['PRECIO'] ?>
+                                </p>
+                                <p>
+                                    Autorizado el: <?= $producto['FECHA_ALTERACION'] ?>
                                 </p>
                             </div>
                         </a>
