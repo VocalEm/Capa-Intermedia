@@ -20,7 +20,7 @@ require_once __DIR__ . '/plantillas/head.php';
                         <th>Detalle</th>
                     </tr>
                 </thead>
-                <tbody style="font-size: 1.2rem; font-weight:bold;">
+                <tbody style="font-size: 1.2rem; font-weight:bold; ">
                     <?php if (!empty($compras)): ?>
                         <?php foreach ($compras as $orden): ?>
                             <tr>
