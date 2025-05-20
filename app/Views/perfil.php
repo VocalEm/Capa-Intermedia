@@ -23,6 +23,10 @@ require_once __DIR__ . '/plantillas/head.php';
                     <p><?= $usuario['CORREO'] ?></p>
                 </div>
 
+                <div style="text-align: center; display: flex; justify-content: center; align-items: center;">
+                    <a class="btn-compras" href="/vendedor/ventas">Reporte ventas</a>
+                </div>
+
                 <div class="vendedor-productos" id="vendedor-productos">
                     <?php
                     foreach ($productos as $producto):
@@ -102,8 +106,12 @@ require_once __DIR__ . '/plantillas/head.php';
                         <p><?= $usuario['CORREO'] ?></p>
                     </div>
 
-                </div>
 
+
+                </div>
+                <div style="text-align: center; display: flex; justify-content: center; align-items: center;">
+                    <a class="btn-compras" href="/comprador/compras">Ver Compras</a>
+                </div>
                 <?php
                 if ($usuario['PRIVACIDAD'] || $miPerfil): //si es publico muestra las listas o si es mi perfil
                 ?>

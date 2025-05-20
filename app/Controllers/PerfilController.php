@@ -6,6 +6,7 @@ use App\Helpers\UsuarioSesion;
 use App\Models\Usuario;
 use App\Models\Lista;
 use App\Models\Producto;
+use App\Models\Reporte;
 
 class PerfilController
 {
@@ -331,5 +332,28 @@ class PerfilController
             header('Location: /perfil');
             exit;
         }
+    }
+
+    public function mostrarVentas()
+    {
+        $idVendedor = UsuarioSesion::id();
+        $reporteModel = new Reporte();
+
+        $totalGanado = $reporteModel->obtenerTotalGanado($idVendedor);
+        $ordenes = $reporteModel->obtenerOrdenesConDetalles($idVendedor);
+        $ventasPorProducto = $reporteModel->obtenerVentasPorProducto($idVendedor);
+
+        $title = "Panel de Ventas";
+        require_once '../app/views/reporteVentas.php';
+    }
+
+    public function mostrarCompras()
+    {
+        $usuarioId = \App\Helpers\UsuarioSesion::id();
+        $reporteModel = new \App\Models\Reporte();
+        $compras = $reporteModel->obtenerComprasPorUsuario($usuarioId);
+
+        $title = "Mis Compras";
+        require_once '../app/views/reporteCompras.php';
     }
 }

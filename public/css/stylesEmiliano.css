@@ -913,7 +913,7 @@ a {
   border-color: #a21caf;
 }
 
-.btn-regresar {
+.btn-regresar-efectivo {
   background: linear-gradient(to right, #7e22ce, #ec4899, #f97316);
   color: #fff;
   border: none;
@@ -929,10 +929,212 @@ a {
   text-align: center;
 }
 
-.btn-regresar:hover {
+.btn-regresar-efectivo:hover {
   background: linear-gradient(to right, #f97316, #ec4899, #7e22ce);
   color: #fff;
   box-shadow: 0 4px 16px #a21caf22;
   transform: translateY(-2px) scale(1.03);
   text-decoration: none;
 }
+
+.btn-compras {
+  background: linear-gradient(to right, #7e22ce, #ec4899, #f97316);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.7rem 1.5rem;
+  font-size: 1.15rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px #0001;
+  transition: all 0.18s;
+  text-decoration: none;
+  margin-top: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.btn-compras:hover {
+  background: linear-gradient(to right, #f97316, #ec4899, #7e22ce);
+  color: #fff;
+  box-shadow: 0 4px 16px #a21caf22;
+  transform: translateY(-2px) scale(1.03);
+  text-decoration: none;
+}
+
+/* Panel de Ventas - Estilos específicos */
+.panel-ventas-container {
+  max-width: 1100px;
+  margin: 2rem auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px #0002;
+  padding: 2rem;
+}
+
+.panel-ventas-title {
+  font-size: 2.5rem;
+  color: #7e22ce;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.panel-ventas-section {
+  margin-bottom: 2.5rem;
+}
+
+.panel-ventas-total-title {
+  font-size: 2rem;
+  color: #f97316;
+  margin-bottom: 1rem;
+}
+
+.panel-ventas-total-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.panel-ventas-total {
+  font-size: 2.5rem;
+  color: green;
+  font-weight: bold;
+  background: #f3f3f3;
+  border-radius: 12px;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 8px #0001;
+}
+
+.panel-ventas-table-title {
+  font-size: 1.7rem;
+  color: #7e22ce;
+  margin-bottom: 1rem;
+}
+
+.panel-ventas-table-wrapper {
+  overflow-x: auto;
+}
+
+.tabla-ventas {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fafafa;
+}
+
+.tabla-ventas thead {
+  background: linear-gradient(to right, #7e22ce, #ec4899, #f97316);
+  color: #fff;
+}
+
+.tabla-ventas th,
+.tabla-ventas td {
+  padding: 0.7rem 0.5rem;
+  text-align: center;
+}
+
+.tabla-ventas tbody tr {
+  border-bottom: 1px solid #eee;
+}
+
+.tabla-ventas .total-orden {
+  color: #059669;
+}
+
+.tabla-ventas .importe {
+  color: #f59e42;
+}
+
+.tabla-ventas .total-ingresos {
+  color: #059669;
+}
+
+/* ================== REPORTE DE COMPRAS ================== */
+.compras-reporte-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px #0002;
+  padding: 2rem;
+}
+
+.compras-reporte-title {
+  font-size: 2.2rem;
+  color: #7e22ce;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: bold;
+}
+
+.compras-reporte-table-wrapper {
+  overflow-x: auto;
+}
+
+.compras-reporte-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fafafa;
+  margin-bottom: 1rem;
+}
+
+.compras-reporte-table thead {
+  background: linear-gradient(to right, #7e22ce, #ec4899, #f97316);
+  color: #fff;
+}
+
+.compras-reporte-table th,
+.compras-reporte-table td {
+  padding: 0.8rem 0.5rem;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.compras-reporte-table tbody tr {
+  border-bottom: 1px solid #eee;
+}
+
+.compras-reporte-toggle {
+  background: linear-gradient(to right, #7e22ce, #ec4899, #f97316);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.4rem 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.compras-reporte-toggle:hover {
+  background: linear-gradient(to right, #f97316, #ec4899, #7e22ce);
+  transform: scale(1.05);
+}
+
+.compras-reporte-detalle-row {
+  background: #f3f3f3;
+}
+
+.compras-reporte-detalle {
+  padding: 1rem 0.5rem;
+}
+
+.compras-reporte-detalle table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.compras-reporte-detalle th,
+.compras-reporte-detalle td {
+  padding: 0.5rem 0.3rem;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.compras-reporte-detalle th {
+  background: #ede9fe;
+  color: #7e22ce;
+}
+
+.compras-reporte-detalle tbody tr {
+  border-bottom: 1px solid #eee;
+}
+
+/* ================== FIN REPORTE DE COMPRAS ================== */

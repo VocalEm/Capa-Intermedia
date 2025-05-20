@@ -57,6 +57,7 @@ $router->get('/perfil/mostrarEditar', 'PerfilController@mostrarEditarPerfil',  '
 $router->get('/perfil/{id}', 'PerfilController@mostrarPerfilUsuario',  'comprador'); // otro Usuario
 $router->post('/perfil/crear-lista', 'PerfilController@crearLista',  'comprador'); // Crear lista de usuario comprador
 $router->get('/perfil/eliminar-lista/{id}', 'PerfilController@eliminarLista', 'comprador'); // crear lista usuario comprador
+$router->get('/comprador/compras', 'PerfilController@mostrarCompras', 'comprador'); // crear lista usuario comprador
 
 // ===================
 // Rutas de catálogo y productos (comprador)
@@ -129,5 +130,6 @@ $router->post('/agregar-producto/categoria', 'AgregarProductoController@agregarC
 $router->get('/producto/editar/{id}', 'ProductoController@mostrarEditar', 'vendedor'); // muestra pagina de producto
 $router->post('/producto/actualizar/{id}', 'ProductoController@actualizarProducto', 'vendedor'); // muestra pagina de producto
 $router->get('/producto/eliminar/{id}', 'ProductoController@eliminarProducto', 'vendedor'); // muestra pagina de producto
+$router->get('/vendedor/ventas', 'PerfilController@mostrarVentas', 'vendedor'); // muestra pagina de producto
 
 return $router;

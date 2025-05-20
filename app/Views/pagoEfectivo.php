@@ -17,7 +17,7 @@ require_once __DIR__ . '/plantillas/head.php';
             <?php if (isset($ordenId) && isset($total)): ?>
                 <a href="/pago/descargarComprobante/<?= $ordenId ?>/<?= $total ?>" class="btn-pagar" style="display:block;text-align:center;margin-top:2rem;">Descargar comprobante PDF</a>
             <?php endif; ?>
-            <a href="/home" class="btn-regresar" style="display:block;text-align:center;margin-top:1.5rem;">Regresar</a>
+            <a href="/home" class="btn-regresar-efectivo" style="display:block;text-align:center;margin-top:1.5rem;">Regresar</a>
         </div>
     </section>
     <?php

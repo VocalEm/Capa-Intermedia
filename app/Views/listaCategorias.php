@@ -22,9 +22,9 @@ require_once __DIR__ . '/plantillas/head.php';
 
                 ?>
                     <div class="product-card">
-                        <h3><?= $categoria['TITULO'] ?></h3>
-                        <p><strong>Vendedor:</strong> <?= $categoria['USERNAME'] ?></p>
-                        <p><strong>Descripción:</strong> <?= $categoria['DESCRIPCION'] ?></p>
+                        <h3 style="font-weight: bold; font-size:2rem;"><?= $categoria['TITULO'] ?></h3>
+                        <p style="font-size: 1.4rem; font-weight:bold;"><strong style="font-size: 1.5rem; color: black;">Vendedor:</strong> <?= $categoria['USERNAME'] ?></p>
+                        <p style="font-size: 1.2rem; font-weight:bold;"><strong style="font-size: 1.5rem; color: black;">Descripción:</strong> <?= $categoria['DESCRIPCION'] ?></p>
                     </div>
                 <?php
                 endforeach;

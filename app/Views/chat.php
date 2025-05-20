@@ -78,7 +78,7 @@ require_once __DIR__ . '/plantillas/head.php';
                     if ($chat['ESTADO'] !== 'cerrado'):
                     ?>
                         <form action="/chat/enviarMensaje" method="POST" class="chat-input">
-                            <input
+                            <input required
                                 name="mensaje"
                                 type="text"
                                 id="mensajeInput"
@@ -142,7 +142,7 @@ require_once __DIR__ . '/plantillas/head.php';
                     if ($chat['ESTADO'] !== 'cerrado'):
                     ?>
                         <form action="/chat/enviarMensaje" method="POST" class="chat-input">
-                            <input
+                            <input required
                                 name="mensaje"
                                 type="text"
                                 id="mensajeInput"
