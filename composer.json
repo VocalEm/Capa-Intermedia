@@ -14,5 +14,8 @@
       "email": "emilianofriasfelix@outlook.com"
     }
   ],
-  "require": {}
+  "require": {
+    "setasign/fpdf": "^1.8",
+    "picqer/php-barcode-generator": "^3.2"
+  }
 }

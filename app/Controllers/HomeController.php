@@ -19,6 +19,7 @@ class HomeController
         $title = 'BUYLY';
         $productoModel = new Producto();;
         $productosMayorCalifiacion = $productoModel->mostrarProductosFiltros('', [], 'cualquiera', 'mayorCalificacion');
+        $productosMasVendidos = $productoModel->mostrarProductosMasVendidos(10); // top 10
 
         require_once '../app/views/home.php';
     }

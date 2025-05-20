@@ -43,7 +43,7 @@ class PerfilController
          *                 'NOMBRE' => 'Producto 1',
          *                 'PRECIO' => 500,
          *                 'IMAGEN' => 'producto1.jpg'
-         *             ],
+         *             },
          *             [
          *                 'ID' => 2,
          *                 'NOMBRE' => 'Producto 2',
@@ -74,20 +74,23 @@ class PerfilController
         }
 
         $usuario = new Usuario();
-        $usuario = $usuario->obtenerPorId($idUsuario);
+        if ($usuario) {
+            $usuario = $usuario->obtenerPorId($idUsuario);
 
 
-        if ($usuario['ROL'] == 'comprador') {
-            $listaModel = new Lista();
-            $listas = $listaModel->obtenerListasPorUsuario($idUsuario);
-        } else if ($usuario['ROL'] == 'vendedor') {
-            $productoModel = new Producto();
-            $productos = $productoModel->mostrarProductosVendedor($idUsuario);
-        }
-        $miPerfil = false;
+            if ($usuario['ROL'] == 'comprador') {
+                $listaModel = new Lista();
+                $listas = $listaModel->obtenerListasPorUsuario($idUsuario);
+            } else if ($usuario['ROL'] == 'vendedor') {
+                $productoModel = new Producto();
+                $productos = $productoModel->mostrarProductosVendedor($idUsuario);
+            }
+            $miPerfil = false;
 
-        $title = $usuario['USERNAME'];
-        require_once '../app/views/perfil.php';
+            $title = $usuario['USERNAME'];
+            require_once '../app/views/perfil.php';
+        } else
+            require_once '../app/views/home.php';
     }
 
     public function mostrarPerfil()
@@ -201,5 +204,132 @@ class PerfilController
 
         // En caso de error, retornar una imagen por defecto
         return 'default.jpg';
+    }
+
+    public function eliminarPerfil()
+    {
+        UsuarioSesion::iniciar();
+        // Siempre elimina la cookie `TOKEN`
+        $usuarioId = UsuarioSesion::id();
+        $usuarioModel = new Usuario();
+        $tarea = $usuarioModel->desctivarUsuario($usuarioId);
+        if ($tarea) {
+            UsuarioSesion::cerrar();
+            header('Location: /');
+            exit;
+        } else {
+            $_SESSION['errores'] = 'Error al eliminar el perfil.';
+            header('Location: /perfil');
+            exit;
+        }
+    }
+
+    public function mostrarEditarPerfil()
+    {
+        $usuarioId = UsuarioSesion::id();
+        $usuarioModel = new Usuario();
+        $usuario = $usuarioModel->obtenerPorId($usuarioId);
+
+        if ($usuario) {
+            $title = "Editar Perfil";
+            require_once '../app/views/editar_perfil.php';
+        } else {
+            header('Location: /home');
+            exit;
+        }
+    }
+
+    public function editarPerfil()
+    {
+        UsuarioSesion::iniciar();
+        $usuarioId = UsuarioSesion::id();
+        $usuarioModel = new Usuario();
+        $usuario = $usuarioModel->obtenerPorId($usuarioId);
+
+        if (!$usuario) {
+            header('Location: /home');
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $errores = [];
+
+            // Solo los campos editables
+            $datos = [
+                'NOMBRE' => trim($_POST['NOMBRE'] ?? ''),
+                'APELLIDO_P' => trim($_POST['APELLIDO_P'] ?? ''),
+                'APELLIDO_M' => trim($_POST['APELLIDO_M'] ?? ''),
+                'CORREO' => strtolower(trim($_POST['CORREO'] ?? '')),
+                'USERNAME' => strtolower(trim($_POST['USERNAME'] ?? '')),
+                'PRIVACIDAD' => $_POST['PRIVACIDAD'] ?? $usuario['PRIVACIDAD'],
+                'SEXO' => $_POST['SEXO'] ?? $usuario['SEXO'],
+                'IMAGEN' => $_FILES['IMAGEN'] ?? null,
+                'PASSW' => $_POST['PASSW'] ?? ''
+            ];
+
+            // Validaciones básicas
+            if (empty($datos['NOMBRE'])) $errores[] = "El nombre es obligatorio.";
+            if (empty($datos['APELLIDO_P'])) $errores[] = "El apellido paterno es obligatorio.";
+            if (empty($datos['APELLIDO_M'])) $errores[] = "El apellido materno es obligatorio.";
+            if (empty($datos['CORREO']) || !filter_var($datos['CORREO'], FILTER_VALIDATE_EMAIL)) $errores[] = "Correo inválido.";
+            if (empty($datos['USERNAME'])) $errores[] = "El nombre de usuario es obligatorio.";
+            if (empty($datos['SEXO']) || !in_array($datos['SEXO'], ['M', 'F'])) $errores[] = "Sexo inválido.";
+            if (!in_array($datos['PRIVACIDAD'], ['0', '1'])) $errores[] = "Privacidad inválida.";
+
+            // Validar duplicados (correo y username, pero solo si cambiaron)
+            if ($datos['CORREO'] !== $usuario['CORREO'] && $usuarioModel->encontrarPorCorreoONickname($datos['CORREO'])) {
+                $errores[] = "El correo ya está registrado.";
+            }
+            if ($datos['USERNAME'] !== $usuario['USERNAME'] && $usuarioModel->encontrarPorCorreoONickname($datos['USERNAME'])) {
+                $errores[] = "El nombre de usuario ya está registrado.";
+            }
+            if (
+                filter_var($datos['USERNAME'], FILTER_VALIDATE_EMAIL) ||
+                strpos($datos['USERNAME'], '@') !== false ||
+                strpos($datos['USERNAME'], '.') !== false ||
+                preg_match('/[^a-zA-Z0-9_]/', $datos['USERNAME']) || // Solo letras, números y guion bajo
+                preg_match('/\s/', $datos['USERNAME']) // No espacios
+            ) {
+                $errores[] = "El nombre de usuario solo puede contener letras, números y guion bajo, sin espacios ni caracteres especiales.";
+            }
+
+            // Si hay errores, mostrar la vista con errores
+            if ($errores) {
+                $title = "Editar Perfil";
+                $usuario = array_merge($usuario, $datos); // para repoblar el formulario
+                require_once '../app/views/editar_perfil.php';
+                return;
+            }
+
+            // Procesar imagen solo si se subió una nueva
+            if ($datos['IMAGEN'] && $datos['IMAGEN']['error'] === UPLOAD_ERR_OK) {
+                $datos['IMAGEN'] = $this->guardarImagen($datos['IMAGEN']);
+            } else {
+                unset($datos['IMAGEN']); // No actualizar si no hay nueva imagen
+            }
+
+            // Procesar contraseña solo si se proporcionó una nueva
+            if (!empty($datos['PASSW'])) {
+                $datos['PASSW'] = password_hash($datos['PASSW'], PASSWORD_DEFAULT);
+            } else {
+                unset($datos['PASSW']); // No actualizar si no hay nueva contraseña
+            }
+
+            // Actualizar usuario
+            $actualizado = $usuarioModel->actualizarPerfil($usuarioId, $datos);
+
+            if ($actualizado) {
+                $_SESSION['exito'] = "Perfil actualizado correctamente.";
+                header('Location: /perfil');
+                exit;
+            } else {
+                $errores[] = "Error al actualizar el perfil.";
+                $title = "Editar Perfil";
+                require_once '../app/views/editar_perfil.php';
+            }
+        } else {
+            header('Location: /perfil');
+            exit;
+        }
     }
 }

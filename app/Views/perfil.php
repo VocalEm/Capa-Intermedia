@@ -27,30 +27,64 @@ require_once __DIR__ . '/plantillas/head.php';
                     <?php
                     foreach ($productos as $producto):
                     ?>
-                        <a href="/producto/eliminar/<?= $producto['ID'] ?>" class="vendedor-botones">
-                            <i class="fa-solid fa-trash fa-2x"></i>
-                        </a>
-                        <a href="/producto/editar/<?= $producto['ID'] ?>" class="vendedor-producto">
-                            <img src="/uploads/<?= $producto['multimedia'][0] ?>" alt="">
-                            <div class="vendedor-info">
-                                <h4 style="font-size: 1.3rem;"> <?= $producto['NOMBRE'] ?> </h4>
-                                <p style="font-size: 1.3rem;"><?= $producto['DESCRIPCION'] ?></p>
-                                <p style="font-size: 1.3rem;" class="precio">
-                                    <?= $producto['PRECIO'] == 0 ? 'Cotizacion' : $producto['PRECIO'] ?>
-                                </p>
-                                <p style="font-size: 1.3rem; <?= $producto['STOCK'] > 0 ? 'color: green;' : 'color: red;' ?>" class="precio">
-                                    <?= $producto['STOCK'] == 0 ? 'SIN STOCK' : 'Stock: ' .  $producto['STOCK'] ?>
-                                </p>
-                                <p style="font-size: 1.3rem;">
-                                    Autorizado el: <?= $producto['FECHA_ALTERACION'] ?>
-                                </p>
-                            </div>
-                        </a>
-                    <?php
-                    endforeach;
-                    ?>
+                        <?php
+                        if ($miPerfil):
+                        ?>
+                            <a href="/producto/eliminar/<?= $producto['ID'] ?>" class="vendedor-botones">
+                                <i class="fa-solid fa-trash fa-2x"></i>
+                            </a>
+                        <?php
+                        endif;
+                        ?>
+                        <?php
+                        if ($miPerfil):
+                        ?>
+                            <a href="/producto/editar/<?= $producto['ID'] ?>" class="vendedor-producto">
+                            <?php
+                        else:
+                            ?>
+                                <a href="/producto/<?= $producto['ID'] ?>" class="vendedor-producto">
+                                <?php
+                            endif;
+                                ?>
+                                <img src="/uploads/<?= $producto['multimedia'][0] ?>" alt="">
+                                <div class="vendedor-info">
+                                    <h4 style="font-size: 1.3rem;"> <?= $producto['NOMBRE'] ?> </h4>
+                                    <p style="font-size: 1.3rem;"><?= $producto['DESCRIPCION'] ?></p>
+                                    <p style="font-size: 1.3rem;" class="precio">
+                                        <?= $producto['PRECIO'] == 0 ? 'Cotizacion' : $producto['PRECIO'] ?>
+                                    </p>
+                                    <?php
+                                    if ($producto['TIPO_PUBLICACION'] == 'venta'):
+                                    ?>
+                                        <p style="font-size: 1.3rem; <?= $producto['STOCK'] > 0 ? 'color: green;' : 'color: red;' ?>" class="precio">
+                                            <?= $producto['STOCK'] == 0 ? 'SIN STOCK' : 'Stock: ' .  $producto['STOCK'] ?>
+                                        </p>
+                                    <?php
+                                    endif;
+                                    ?>
+                                    <p style="font-size: 1.3rem;">
+                                        Autorizado el: <?= $producto['FECHA_ALTERACION'] ?>
+                                    </p>
+                                </div>
+                                </a>
+                            <?php
+                        endforeach;
+                            ?>
                 </div>
             </div>
+            <?php
+            if ($miPerfil):
+            ?>
+                <div class="btn-baja">
+                    <a onclick="confirmarEliminacionPerfil()">Dar de Baja Perfil</a>
+                </div>
+                <div class="btn-editar">
+                    <a href="/perfil/mostrarEditar">Editar Perfil</a>
+                </div>
+            <?php
+            endif;
+            ?>
         </section>
 
     <?php
@@ -159,9 +193,22 @@ require_once __DIR__ . '/plantillas/head.php';
                 </div>
             </div>
         <?php
-        endif;
-    elseif ($usuario['ROL'] == 'administrador'): //perfil si es admin
+        endif; ?>
+        <?php
+        if ($miPerfil):
         ?>
+            <div class="btn-baja">
+                <a onclick="confirmarEliminacionPerfil()">Dar de Baja Perfil</a>
+            </div>
+            <div class="btn-editar">
+                <a href="/perfil/mostrarEditar">Editar Perfil</a>
+            </div>
+        <?php
+        endif;
+        ?>
+    <?php
+    elseif ($usuario['ROL'] == 'administrador'): //perfil si es admin
+    ?>
         <div class="product-tabs">
             <div class="tabs">
                 <button class="tab active" onclick="showTab('aprobados')">
@@ -224,6 +271,26 @@ require_once __DIR__ . '/plantillas/head.php';
     ?>
 
     <script>
+        function confirmarEliminacionPerfil() {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Esta acción no se puede deshacer",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = `/perfil/eliminar`;
+                }
+            });
+        }
+    </script>
+
+
+    <script>
         function confirmarEliminacion(idLista) {
             Swal.fire({
                 title: '¿Estás seguro?',
@@ -241,6 +308,8 @@ require_once __DIR__ . '/plantillas/head.php';
             });
         }
     </script>
+
+
 
     <script>
         //alerta de exito en caso de exito de registro

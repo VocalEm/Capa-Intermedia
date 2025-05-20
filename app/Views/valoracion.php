@@ -5,8 +5,7 @@ require_once __DIR__ . '/plantillas/head.php';
 <body>
 
     <?php
-    require_once __DIR__ . '/plantillas/nav.php';
-    require_once __DIR__ . '/plantillas/subnav.php';
+
     ?>
     <section class="vendedor-isla">
         <div class="vendedor-card">

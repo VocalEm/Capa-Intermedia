@@ -26,15 +26,14 @@ require_once __DIR__ . '/plantillas/head.php';
                         <a href="/perfil/<?= $usuario['ID'] ?>" class="resultado-card">
                             <img src="/uploads/<?= $usuario['IMAGEN'] ?>" alt="<?= $usuario['NOMBRE'] ?>">
                             <h3><?= $usuario['NOMBRE'] ?></h3>
-                            <p>Usuario: <?= $usuario['USERNAME'] ?></p>
+                            <p style="font-size: 1rem; font-weight:bold;">Usuario: <?= $usuario['USERNAME'] ?></p>
 
                         </a>
                     <?php
                     endforeach;
                 else:
                     ?>
-                    <p>No se encontraron resultados para la búsqueda.</p>
-                    ?>
+                    <p style="font-weight: bold; font-size:2rem;">No se encontraron resultados para la búsqueda.</p>
                 <?php
                 endif;
                 ?>

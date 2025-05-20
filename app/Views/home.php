@@ -24,11 +24,11 @@ require_once __DIR__ . '/plantillas/head.php';
                     foreach ($productosMayorCalifiacion as $producto):
                         $imagen = $producto['multimedia'][0] ? '/uploads/' . $producto['multimedia'][0] : '/assets/producto.jpg';
                     ?>
-                        <a href="#" class="tarjeta-producto">
+                        <a href="/producto/<?= $producto['ID'] ?>" class="tarjeta-producto">
                             <img src="<?= $imagen ?>" alt="Producto 1">
                             <h3><?= $producto['NOMBRE'] ?></h3>
                             <p><?= $producto['DESCRIPCION'] ?></p>
-                            <span class="precio">$<?= $producto['PRECIO']   ?></span>
+                            <span class="precio"><?= $producto['TIPO_PUBLICACION'] == 'venta' ? '$ ' . $producto['PRECIO'] : 'Cotizacion' ?></span>
                         </a>
                     <?php
                     endforeach;
@@ -43,7 +43,7 @@ require_once __DIR__ . '/plantillas/head.php';
             <div class="banner-contenido">
                 <h2>¡Ofertas especiales por tiempo limitado!</h2>
                 <p>Descubre productos con grandes descuentos seleccionados para ti.</p>
-                <a href="#" class="btn-banner">Ver Ofertas</a>
+                <a href="/catalogo" class="btn-banner">Ver Ofertas</a>
             </div>
         </section>
 
@@ -52,13 +52,17 @@ require_once __DIR__ . '/plantillas/head.php';
             <div class="carrusel-container">
                 <button class="carrusel-btn left" onclick="moverCarrusel2(-1)">&#10094;</button>
 
-                <div class="carrusel" id="carrusel2">
-                    <a href="#" class="tarjeta-producto">
-                        <img src="/assets/producto.jpg" alt="Producto 1">
-                        <h3>Producto 1</h3>
-                        <p>Descripción breve del producto más vendido.</p>
-                        <span class="precio">$199.99</span>
-                    </a>
+                <div style="display:flex; justify-content:center;" class="carrusel" id="carrusel2">
+                    <?php foreach ($productosMasVendidos as $producto):
+                        $imagen = $producto['multimedia'][0] ?? '/assets/producto.jpg';
+                    ?>
+                        <a href="/producto/<?= $producto['ID'] ?>" class="tarjeta-producto">
+                            <img src="/uploads/<?= $imagen ?>" alt="Producto">
+                            <h3><?= $producto['NOMBRE'] ?></h3>
+                            <p><?= $producto['DESCRIPCION'] ?></p>
+                            <span class="precio"><?= $producto['TIPO_PUBLICACION'] == 'venta' ? '$ ' . $producto['PRECIO'] : 'Cotizacion' ?></span>
+                        </a>
+                    <?php endforeach; ?>
                 </div>
 
                 <button class="carrusel-btn right" onclick="moverCarrusel2(1)">&#10095;</button>

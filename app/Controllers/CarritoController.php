@@ -22,6 +22,8 @@ class CarritoController
 
         $idUsuario = UsuarioSesion::id();
         $carritoModel = new Carrito();
+        $productoModel = new Producto();
+
         $tarea = $carritoModel->agregarProductoCarrito($idUsuario, $idProducto);
         if ($tarea) {
             $_SESSION['exito'] = "Producto agregado con exito";

@@ -8,7 +8,7 @@ class Usuario extends BaseModel
     public function encontrarPorCorreoONickname($identificador)
     {
         $identificador = strtolower(trim($identificador)); // Convertir a minúsculas
-        $query = "SELECT * FROM USUARIO WHERE LOWER(CORREO) = :identificador OR USERNAME = :identificador LIMIT 1";
+        $query = "SELECT * FROM USUARIO WHERE IS_ELIMINADO = 0 AND (LOWER(CORREO) = :identificador OR USERNAME = :identificador) LIMIT 1";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':identificador', $identificador);
         $stmt->execute();
@@ -93,16 +93,49 @@ class Usuario extends BaseModel
         $query = "
         SELECT * FROM USUARIO 
         WHERE 
+            IS_ELIMINADO = 0 AND
             (ROL NOT IN ('superadmin', 'administrador')) AND (
             USERNAME LIKE :busqueda 
-            OR CONCAT(NOMBRE, ' ', APELLIDO_P, ' ', APELLIDO_M) LIKE :busqueda )
-
-    ";
+            OR CONCAT(NOMBRE, ' ', APELLIDO_P, ' ', APELLIDO_M) LIKE :busqueda )";
 
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(':busqueda', '%' . $busqueda . '%');
         $stmt->execute();
 
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function desctivarUsuario($id)
+    {
+        $query = "UPDATE USUARIO SET IS_ELIMINADO = 1 WHERE ID = :id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
+    public function editarPerfil() {}
+
+    public function actualizarPerfil($usuarioId, $datos)
+    {
+        $campos = [];
+        $valores = [];
+
+        // Solo permitir campos válidos
+        $permitidos = ['NOMBRE', 'APELLIDO_P', 'APELLIDO_M', 'CORREO', 'USERNAME', 'PRIVACIDAD', 'SEXO', 'IMAGEN', 'PASSW'];
+
+        foreach ($permitidos as $campo) {
+            if (isset($datos[$campo])) {
+                $campos[] = "$campo = ?";
+                $valores[] = $datos[$campo];
+            }
+        }
+
+        if (empty($campos)) return false;
+
+        $valores[] = $usuarioId;
+
+        $sql = "UPDATE usuario SET " . implode(', ', $campos) . " WHERE ID = ? AND IS_ELIMINADO = 0";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute($valores);
     }
 }

@@ -790,3 +790,149 @@ a {
   transform: scale(1.02);
   cursor: pointer;
 }
+
+.btn-baja {
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  border: none;
+  text-decoration: none;
+  width: 100%;
+}
+.btn-baja a {
+  background-color: rgb(184, 6, 6);
+  text-decoration: none;
+  padding: 1rem;
+  margin-top: 1rem;
+  color: white;
+  font-weight: bold;
+  font-size: 1.5rem;
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.btn-baja a:hover {
+  background-color: rgb(255, 0, 0);
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.btn-editar {
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  border: none;
+  text-decoration: none;
+  width: 100%;
+}
+.btn-editar a {
+  background-color: rgb(184, 113, 6);
+  text-decoration: none;
+  padding: 1rem;
+  margin-top: 1rem;
+  color: white;
+  font-weight: bold;
+  font-size: 1.5rem;
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.btn-editar a:hover {
+  background-color: rgb(255, 166, 32);
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.vendedor-isla {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+/* Opciones de pago - solo para la pantalla de selección de método */
+.opciones-pago-container {
+  background: #fff;
+  padding: 2rem 3rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 16px #0002;
+  max-width: 400px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.opciones-pago-container h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  color: #7e22ce;
+  letter-spacing: 1px;
+}
+
+.opciones-pago-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.opciones-pago-form a {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1.1rem 1.5rem;
+  font-size: 1.15rem;
+  border-radius: 0.7rem;
+  border: 1.5px solid #e5e7eb;
+  background: linear-gradient(90deg, #f8fafc 80%, #f3e8ff 100%);
+  cursor: pointer;
+  transition: all 0.18s;
+  color: #222;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: 0 2px 8px #0001;
+  position: relative;
+}
+
+.opciones-pago-form a i {
+  font-size: 1.5rem;
+  min-width: 2rem;
+}
+
+.opciones-pago-form a:hover {
+  background: linear-gradient(90deg, #f3e8ff 60%, #f8fafc 100%);
+  border-color: #a21caf;
+  color: #7e22ce;
+  box-shadow: 0 4px 16px #a21caf22;
+  transform: translateY(-2px) scale(1.03);
+}
+
+.opciones-pago-form a:active {
+  background: #ede9fe;
+  color: #a21caf;
+  border-color: #a21caf;
+}
+
+.btn-regresar {
+  background: linear-gradient(to right, #7e22ce, #ec4899, #f97316);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.7rem 1.5rem;
+  font-size: 1.15rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px #0001;
+  transition: all 0.18s;
+  text-decoration: none;
+  margin-top: 1.5rem;
+  display: block;
+  text-align: center;
+}
+
+.btn-regresar:hover {
+  background: linear-gradient(to right, #f97316, #ec4899, #7e22ce);
+  color: #fff;
+  box-shadow: 0 4px 16px #a21caf22;
+  transform: translateY(-2px) scale(1.03);
+  text-decoration: none;
+}

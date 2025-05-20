@@ -97,8 +97,14 @@ class InicioSesionController
             }
 
             // Nueva validación para username
-            if (filter_var($datos['username'], FILTER_VALIDATE_EMAIL) || strpos($datos['username'], '@') !== false || strpos($datos['username'], '.') !== false) {
-                $errores['username'] = "El nombre de usuario no puede ser un correo ni contener '@' o '.'.";
+            if (
+                filter_var($datos['username'], FILTER_VALIDATE_EMAIL) ||
+                strpos($datos['username'], '@') !== false ||
+                strpos($datos['username'], '.') !== false ||
+                preg_match('/[^a-zA-Z0-9_]/', $datos['username']) || // Solo letras, números y guion bajo
+                preg_match('/\s/', $datos['username']) // No espacios
+            ) {
+                $errores['username'] = "El nombre de usuario solo puede contener letras, números y guion bajo, sin espacios ni caracteres especiales.";
             }
 
 

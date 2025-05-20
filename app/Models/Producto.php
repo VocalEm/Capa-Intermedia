@@ -725,4 +725,39 @@ class Producto extends BaseModel
 
         return $productos;
     }
+
+    public function mostrarProductosMasVendidos($limite = 10)
+    {
+        $sql = "
+        SELECT 
+            p.*, 
+            u.USERNAME AS vendedor_username,
+            u.CORREO AS vendedor_correo,
+            GROUP_CONCAT(DISTINCT pm.RUTA_MULTIMEDIA) AS multimedia,
+            GROUP_CONCAT(DISTINCT c.TITULO) AS categorias,
+            SUM(od.CANTIDAD) AS total_vendidos
+        FROM producto p
+        LEFT JOIN usuario u ON p.ID_VENDEDOR = u.ID
+        LEFT JOIN producto_multimedia pm ON p.ID = pm.ID_PRODUCTO
+        LEFT JOIN producto_categoria pc ON p.ID = pc.ID_PRODUCTO
+        LEFT JOIN categoria c ON pc.ID_CATEGORIA = c.ID
+        INNER JOIN orden_detalle od ON p.ID = od.ID_PRODUCTO
+        WHERE p.AUTORIZADO = 1 AND p.DISPONIBLE = 1
+        GROUP BY p.ID
+        ORDER BY total_vendidos DESC
+        LIMIT :limite
+        ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':limite', (int)$limite, \PDO::PARAM_INT);
+        $stmt->execute();
+        $productos = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        foreach ($productos as &$producto) {
+            $producto['multimedia'] = !empty($producto['multimedia']) ? explode(',', $producto['multimedia']) : [];
+            $producto['categorias'] = !empty($producto['categorias']) ? explode(',', $producto['categorias']) : [];
+        }
+
+        return $productos;
+    }
 }
