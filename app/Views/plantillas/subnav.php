@@ -5,6 +5,7 @@
         ?>
             <a href="/catalogo">Catalogo</a>
             <a href="/chat">Chats</a>
+            <a href="/categorias/lista">Lista de Categorias</a>
             <a href="/buscar">Buscador Usuarios</a>
         <?php
         }
@@ -15,6 +16,7 @@
         ?>
             <a href="/perfil">Perfil</a>
             <a href="/chat">Chats</a>
+            <a href="/categorias/lista">Lista de Categorias</a>
             <a href="/agregar-producto">Agregar Producto</a>
             <script>
                 document.getElementById('logout-link').addEventListener('click', function(e) {

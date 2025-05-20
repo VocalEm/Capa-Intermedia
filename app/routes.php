@@ -55,7 +55,7 @@ $router->get('/pago', 'PagoController@mostrarPago', 'comprador'); // entra a pas
 $router->post('/pago/procesar', 'PagoController@procesarPago', 'comprador'); // entra a paserela de pago
 $router->get('/buscar', 'BuscarUsuarioController@mostrarBusqueda', 'comprador'); // entra a paserela de pago
 $router->get('/buscar/usuarios', 'BuscarUsuarioController@buscarUsuarios', 'comprador'); // entra a paserela de pago
-
+$router->get('/categorias/lista', 'CategoriasController@mostrarCategorias', 'auth'); // entra a paserela de pago
 $router->post('/chat/crearChat/{idVendedor}', 'CotizacionController@crearChat', 'comprador'); // entra a paserela de pago
 $router->get('/chat', 'CotizacionController@mostrarChats', 'auth'); // entra a paserela de pago
 $router->get('/chat/{idChat}', 'CotizacionController@mostrarChat', 'auth'); // entra a paserela de pago
@@ -64,6 +64,10 @@ $router->post('/chat/enviarMensaje', 'CotizacionController@enviarMensaje', 'auth
 $router->post('/chat/crearOferta', 'CotizacionController@crearOferta', 'auth'); // entra a paserela de pago
 $router->get('/chat/rechazarOferta/{idchat}', 'CotizacionController@rechazarOferta', 'comprador'); // entra a paserela de pago
 $router->post('/chat/aceptarOferta', 'CotizacionController@aceptarOferta', 'comprador'); // entra a paserela de pago
+
+$router->get('/valoracion/mostrarValoracion/{idVenta}', 'ValoracionController@mostrarValoracion', 'comprador'); // entra a paserela de pago
+$router->post('/valoracion/valorarProductos', 'ValoracionController@valorarProductos', 'comprador'); // entra a paserela de pago
+
 
 $router->get('/chat/mensajesOferta/{id}', 'CotizacionController@obtenerMensajesOferta', 'auth'); // entra a paserela de pago
 

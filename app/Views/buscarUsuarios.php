@@ -23,12 +23,12 @@ require_once __DIR__ . '/plantillas/head.php';
                 if (isset($usuarios)):
                     foreach ($usuarios as $usuario):
                 ?>
-                        <div class="resultado-card">
+                        <a href="/perfil/<?= $usuario['ID'] ?>" class="resultado-card">
                             <img src="/uploads/<?= $usuario['IMAGEN'] ?>" alt="<?= $usuario['NOMBRE'] ?>">
                             <h3><?= $usuario['NOMBRE'] ?></h3>
                             <p>Usuario: <?= $usuario['USERNAME'] ?></p>
 
-                        </div>
+                        </a>
                     <?php
                     endforeach;
                 else:

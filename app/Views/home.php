@@ -15,80 +15,24 @@ require_once __DIR__ . '/plantillas/head.php';
     if ($_SESSION['usuario']['rol'] == 'comprador'):
     ?>
         <section class="mas-vendidos">
-            <h2 class="titulo-seccion">Los más vendidos</h2>
+            <h2 class="titulo-seccion">Los mejores calificados</h2>
             <div class="carrusel-container">
                 <button class="carrusel-btn left" onclick="moverCarrusel(-1)">&#10094;</button>
 
-                <div class="carrusel" id="carrusel">
-
-                    <a href="#" class="tarjeta-producto">
-                        <img src="/assets/producto.jpg" alt="Producto 1">
-                        <h3>Producto 1</h3>
-                        <p>Descripción breve del producto más vendido.</p>
-                        <span class="precio">$199.99</span>
-                    </a>
-
-
-                    <a href="#" class="tarjeta-producto">
-                        <img src="/assets/producto.jpg" alt="Producto 2">
-                        <h3>Producto 2</h3>
-                        <p>Alta demanda en nuestra tienda online.</p>
-                        <span class="precio">$249.99</span>
-                    </a>
-
-
-                    <a href="#" class="tarjeta-producto">
-                        <img src="/assets/producto.jpg" alt="Producto 3">
-                        <h3>Producto 3</h3>
-                        <p>Ideal para tu día a día.</p>
-                        <span class="precio">$129.00</span>
-                    </a>
-
-                    <a href="#" class="tarjeta-producto">
-                        <img src="/assets/producto.jpg" alt="Producto 1">
-                        <h3>Producto 1</h3>
-                        <p>Descripción breve del producto más vendido.</p>
-                        <span class="precio">$199.99</span>
-                    </a>
-
-
-                    <a href="#" class="tarjeta-producto">
-                        <img src="/assets/producto.jpg" alt="Producto 2">
-                        <h3>Producto 2</h3>
-                        <p>Alta demanda en nuestra tienda online.</p>
-                        <span class="precio">$249.99</span>
-                    </a>
-
-
-                    <a href="#" class="tarjeta-producto">
-                        <img src="/assets/producto.jpg" alt="Producto 3">
-                        <h3>Producto 3</h3>
-                        <p>Ideal para tu día a día.</p>
-                        <span class="precio">$129.00</span>
-                    </a>
-                    <a href="#" class="tarjeta-producto">
-                        <img src="/assets/producto.jpg" alt="Producto 1">
-                        <h3>Producto 1</h3>
-                        <p>Descripción breve del producto más vendido.</p>
-                        <span class="precio">$199.99</span>
-                    </a>
-
-
-                    <a href="#" class="tarjeta-producto">
-                        <img src="/assets/producto.jpg" alt="Producto 2">
-                        <h3>Producto 2</h3>
-                        <p>Alta demanda en nuestra tienda online.</p>
-                        <span class="precio">$249.99</span>
-                    </a>
-
-
-                    <a href="#" class="tarjeta-producto">
-                        <img src="/assets/producto.jpg" alt="Producto 3">
-                        <h3>Producto 3</h3>
-                        <p>Ideal para tu día a día.</p>
-                        <span class="precio">$129.00</span>
-                    </a>
-
+                <div style="display:flex; justify-content:center;" class="carrusel" id="carrusel">
+                    <?php
+                    foreach ($productosMayorCalifiacion as $producto):
+                        $imagen = $producto['multimedia'][0] ? '/uploads/' . $producto['multimedia'][0] : '/assets/producto.jpg';
+                    ?>
+                        <a href="#" class="tarjeta-producto">
+                            <img src="<?= $imagen ?>" alt="Producto 1">
+                            <h3><?= $producto['NOMBRE'] ?></h3>
+                            <p><?= $producto['DESCRIPCION'] ?></p>
+                            <span class="precio">$<?= $producto['PRECIO']   ?></span>
+                        </a>
+                    <?php
+                    endforeach;
+                    ?>
                 </div>
 
                 <button class="carrusel-btn right" onclick="moverCarrusel(1)">&#10095;</button>
@@ -104,80 +48,17 @@ require_once __DIR__ . '/plantillas/head.php';
         </section>
 
         <section class="mas-vendidos">
-            <h2 class="titulo-seccion">Seleccionados por nosotros, para ti</h2>
+            <h2 class="titulo-seccion">Mas vendidos</h2>
             <div class="carrusel-container">
                 <button class="carrusel-btn left" onclick="moverCarrusel2(-1)">&#10094;</button>
 
                 <div class="carrusel" id="carrusel2">
-
                     <a href="#" class="tarjeta-producto">
                         <img src="/assets/producto.jpg" alt="Producto 1">
                         <h3>Producto 1</h3>
                         <p>Descripción breve del producto más vendido.</p>
                         <span class="precio">$199.99</span>
                     </a>
-
-
-                    <a href="#" class="tarjeta-producto">
-                        <img src="/assets/producto.jpg" alt="Producto 2">
-                        <h3>Producto 2</h3>
-                        <p>Alta demanda en nuestra tienda online.</p>
-                        <span class="precio">$249.99</span>
-                    </a>
-
-
-                    <a href="#" class="tarjeta-producto">
-                        <img src="/assets/producto.jpg" alt="Producto 3">
-                        <h3>Producto 3</h3>
-                        <p>Ideal para tu día a día.</p>
-                        <span class="precio">$129.00</span>
-                    </a>
-
-                    <a href="#" class="tarjeta-producto">
-                        <img src="/assets/producto.jpg" alt="Producto 1">
-                        <h3>Producto 1</h3>
-                        <p>Descripción breve del producto más vendido.</p>
-                        <span class="precio">$199.99</span>
-                    </a>
-
-
-                    <a href="#" class="tarjeta-producto">
-                        <img src="/assets/producto.jpg" alt="Producto 2">
-                        <h3>Producto 2</h3>
-                        <p>Alta demanda en nuestra tienda online.</p>
-                        <span class="precio">$249.99</span>
-                    </a>
-
-
-                    <a href="#" class="tarjeta-producto">
-                        <img src="/assets/producto.jpg" alt="Producto 3">
-                        <h3>Producto 3</h3>
-                        <p>Ideal para tu día a día.</p>
-                        <span class="precio">$129.00</span>
-                    </a>
-                    <a href="#" class="tarjeta-producto">
-                        <img src="/assets/producto.jpg" alt="Producto 1">
-                        <h3>Producto 1</h3>
-                        <p>Descripción breve del producto más vendido.</p>
-                        <span class="precio">$199.99</span>
-                    </a>
-
-
-                    <a href="#" class="tarjeta-producto">
-                        <img src="/assets/producto.jpg" alt="Producto 2">
-                        <h3>Producto 2</h3>
-                        <p>Alta demanda en nuestra tienda online.</p>
-                        <span class="precio">$249.99</span>
-                    </a>
-
-
-                    <a href="#" class="tarjeta-producto">
-                        <img src="/assets/producto.jpg" alt="Producto 3">
-                        <h3>Producto 3</h3>
-                        <p>Ideal para tu día a día.</p>
-                        <span class="precio">$129.00</span>
-                    </a>
-
                 </div>
 
                 <button class="carrusel-btn right" onclick="moverCarrusel2(1)">&#10095;</button>

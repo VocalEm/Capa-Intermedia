@@ -177,6 +177,109 @@ class Producto extends BaseModel
         return $productos;
     }
 
+    public function mostrarProductosFiltros($descripcion, $categorias, $tipo, $filtro)
+    {
+        $sql = "
+        SELECT 
+            p.*, 
+            u.USERNAME AS vendedor_username,
+            u.CORREO AS vendedor_correo,
+            GROUP_CONCAT(DISTINCT pm.RUTA_MULTIMEDIA) AS multimedia,
+            GROUP_CONCAT(DISTINCT c.TITULO) AS categorias,
+            IFNULL(AVG(v.PUNTUACION), 0) AS promedio_calificacion
+        FROM producto p
+        LEFT JOIN usuario u ON p.ID_VENDEDOR = u.ID
+        LEFT JOIN producto_multimedia pm ON p.ID = pm.ID_PRODUCTO
+        LEFT JOIN producto_categoria pc ON p.ID = pc.ID_PRODUCTO
+        LEFT JOIN categoria c ON pc.ID_CATEGORIA = c.ID
+        LEFT JOIN valoracion v ON p.ID = v.ID_PRODUCTO
+        WHERE p.AUTORIZADO = 1 
+          AND p.DISPONIBLE = 1";
+
+        $params = [];
+
+        /**
+         * Filtro por Tipo de Publicación
+         */
+        if ($tipo !== 'cualquiera' && !empty($tipo)) {
+            $sql .= " AND p.TIPO_PUBLICACION = ?";
+            $params[] = $tipo;
+        }
+
+        /**
+         * Filtro por Descripción
+         */
+        $palabras = array_filter(explode(' ', $descripcion), fn($word) => !empty($word));
+
+        if (!empty($palabras)) {
+            $likeClauses = [];
+            foreach ($palabras as $palabra) {
+                $likeClauses[] = "p.DESCRIPCION LIKE ?";
+                $params[] = '%' . $palabra . '%';
+            }
+
+            $sql .= " AND (" . implode(' AND ', $likeClauses) . ")";
+        }
+
+        /**
+         * Filtro por Categorías
+         */
+        if (!empty($categorias)) {
+            $placeholders = implode(',', array_fill(0, count($categorias), '?'));
+
+            $sql .= "
+        AND p.ID IN (
+        SELECT pc.ID_PRODUCTO
+        FROM producto_categoria pc
+        WHERE pc.ID_CATEGORIA IN ($placeholders)
+        GROUP BY pc.ID_PRODUCTO
+        HAVING COUNT(DISTINCT pc.ID_CATEGORIA) = ?
+    )";
+
+            // Agregar las categorías al array de parámetros
+            $params = array_merge($params, $categorias);
+
+            // Agregar el COUNT como último parámetro
+            $params[] = count($categorias);
+        }
+
+
+        $sql .= " GROUP BY p.ID";
+
+        /**
+         * Ordenamiento por Precio o Calificación
+         */
+        switch ($filtro) {
+            case 'menor-precio':
+                $sql .= " ORDER BY p.PRECIO ASC";
+                break;
+            case 'mayor-precio':
+                $sql .= " ORDER BY p.PRECIO DESC";
+                break;
+            case 'menor-calificacion':
+                $sql .= " ORDER BY promedio_calificacion ASC";
+                break;
+            case 'mayor-calificacion':
+                $sql .= " ORDER BY promedio_calificacion DESC";
+                break;
+            default:
+                $sql .= " ORDER BY p.FECHA_ALTERACION DESC";
+                break;
+        }
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+        $productos = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        foreach ($productos as &$producto) {
+            $producto['multimedia'] = !empty($producto['multimedia']) ? explode(',', $producto['multimedia']) : [];
+            $producto['categorias'] = !empty($producto['categorias']) ? explode(',', $producto['categorias']) : [];
+        }
+
+        return $productos;
+    }
+
+
     public function mostrarProductosDescripcion($descripcion)
     {
         $sql = "
@@ -589,5 +692,37 @@ class Producto extends BaseModel
         $stmt->bindParam(':nuevoStock', $nuevoStock, \PDO::PARAM_INT);
         $stmt->bindParam(':idProducto', $idProducto, \PDO::PARAM_INT);
         return $stmt->execute();
+    }
+
+    public function mostrarProductosVenta($idVenta)
+    {
+        $sql = "
+        SELECT 
+            p.*, 
+            u.USERNAME AS vendedor_username,
+            u.CORREO AS vendedor_correo,
+            GROUP_CONCAT(DISTINCT pm.RUTA_MULTIMEDIA) AS multimedia,
+            GROUP_CONCAT(DISTINCT c.TITULO) AS categorias
+        FROM producto p
+        LEFT JOIN usuario u ON p.ID_VENDEDOR = u.ID
+        LEFT JOIN producto_multimedia pm ON p.ID = pm.ID_PRODUCTO
+        LEFT JOIN producto_categoria pc ON p.ID = pc.ID_PRODUCTO
+        LEFT JOIN categoria c ON pc.ID_CATEGORIA = c.ID
+        INNER JOIN orden_detalle od ON p.ID = od.ID_PRODUCTO
+        WHERE p.AUTORIZADO = 1 AND p.DISPONIBLE = 1 AND od.ID_ORDEN = :idVenta
+        GROUP BY p.ID
+        ORDER BY FECHA_ALTERACION DESC";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':idVenta', $idVenta);
+        $stmt->execute();
+        $productos = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        foreach ($productos as &$producto) {
+            $producto['multimedia'] = !empty($producto['multimedia']) ? explode(',', $producto['multimedia']) : [];
+            $producto['categorias'] = !empty($producto['categorias']) ? explode(',', $producto['categorias']) : [];
+        }
+
+        return $productos;
     }
 }

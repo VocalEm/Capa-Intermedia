@@ -33,12 +33,15 @@ require_once __DIR__ . '/plantillas/head.php';
                         <a href="/producto/editar/<?= $producto['ID'] ?>" class="vendedor-producto">
                             <img src="/uploads/<?= $producto['multimedia'][0] ?>" alt="">
                             <div class="vendedor-info">
-                                <h4> <?= $producto['NOMBRE'] ?> </h4>
-                                <p><?= $producto['DESCRIPCION'] ?></p>
-                                <p class="precio">
+                                <h4 style="font-size: 1.3rem;"> <?= $producto['NOMBRE'] ?> </h4>
+                                <p style="font-size: 1.3rem;"><?= $producto['DESCRIPCION'] ?></p>
+                                <p style="font-size: 1.3rem;" class="precio">
                                     <?= $producto['PRECIO'] == 0 ? 'Cotizacion' : $producto['PRECIO'] ?>
                                 </p>
-                                <p>
+                                <p style="font-size: 1.3rem; <?= $producto['STOCK'] > 0 ? 'color: green;' : 'color: red;' ?>" class="precio">
+                                    <?= $producto['STOCK'] == 0 ? 'SIN STOCK' : 'Stock: ' .  $producto['STOCK'] ?>
+                                </p>
+                                <p style="font-size: 1.3rem;">
                                     Autorizado el: <?= $producto['FECHA_ALTERACION'] ?>
                                 </p>
                             </div>
@@ -92,17 +95,18 @@ require_once __DIR__ . '/plantillas/head.php';
                                         <?php
                                         endif;
                                     else: ?>
+                                        <?php
+                                        if ($miPerfil && isset($miPerfil)):
+                                        ?>
+                                            <button class="lista-card-botones" onclick="confirmarEliminacion(<?= $lista['ID']; ?>)">
+                                                <i class="fa-solid fa-trash fa-2x"></i>
+                                            </button>
+                                        <?php
+                                        endif;
+                                        ?>
                                         <a href="/lista/<?= $lista['ID'] ?>" class="lista-card">
                                             <!-- Botón de eliminar con SweetAlert -->
-                                            <?php
-                                            if ($miPerfil && isset($miPerfil)):
-                                            ?>
-                                                <button class="lista-card-botones" onclick="confirmarEliminacion(<?= $lista['ID']; ?>)">
-                                                    <i class="fa-solid fa-trash fa-2x"></i>
-                                                </button>
-                                            <?php
-                                            endif;
-                                            ?>
+
                                             <div class="lista-card-img">
                                                 <img src="/uploads/<?= $lista['IMAGEN'] ?>" alt="">
                                             </div>

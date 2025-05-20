@@ -23,7 +23,8 @@ class Categoria extends BaseModel
 
     public function obtenerCategorias()
     {
-        $query = "SELECT * FROM CATEGORIA";
+        $query = "SELECT A.*, B.USERNAME FROM CATEGORIA A 
+         JOIN USUARIO B ON A.ID_CREADOR = B.ID";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);

@@ -19,7 +19,31 @@ class CatalogoController
 
     public function mostrarPorFiltros()
     {
-        if (isset($_GET['nombre']) && $_GET['nombre'] !== '') {
+
+        $descripcion = $_GET['descripcion'] ?? '';
+        $categorias = $_GET['categorias'] ?? [];
+        $tipo = $_GET['tipo'] ?? '';
+        $filtroPrecio = $_GET['filtro-precio'] ?? 'general';
+        $nombre = $_GET['nombre'] ?? '';
+
+        if ($nombre == '') {
+            $productoModel = new Producto();
+            $productos = $productoModel->mostrarProductosFiltros($descripcion, $categorias, $tipo, $filtroPrecio);
+            $categoriaModel = new Categoria();
+            $categorias = $categoriaModel->obtenerCategorias();
+            require_once '../app/Views/catalogo.php';
+        } else {
+            $productoModel = new Producto();
+            $productos = $productoModel->mostrarProductosNombre($nombre);
+            $categoriaModel = new Categoria();
+            $categorias = $categoriaModel->obtenerCategorias();
+            require_once '../app/Views/catalogo.php';
+        }
+
+
+        /*
+            
+            if (isset($_GET['nombre']) && $_GET['nombre'] !== '') {
             $nombre = $_GET['nombre'];
             if (!empty($nombre)) {
                 // Aquí puedes continuar con la lógica para procesar las categorías
@@ -32,7 +56,7 @@ class CatalogoController
             } else {
                 echo "No se seleccionaron categorías.";
             }
-        } else if ((isset($_GET['descripcion']) && $_GET['descripcion'] !== '') && (isset($_GET['categorias']) && $_GET['descripcion'] !== '')) {
+            } else if ((isset($_GET['descripcion']) && $_GET['descripcion'] !== '') && (isset($_GET['categorias']) && $_GET['descripcion'] !== '')) {
             $descripcion = $_GET['descripcion'];
             $categoriasGet = $_GET['categorias'];
             if (!empty($descripcion) && !empty($categoriasGet)) {
@@ -45,7 +69,7 @@ class CatalogoController
             } else {
                 echo "No se seleccionaron categorías.";
             }
-        } else if (isset($_GET['descripcion']) &&  $_GET['descripcion'] !== '') {
+            } else if (isset($_GET['descripcion']) &&  $_GET['descripcion'] !== '') {
             $descripcion = $_GET['descripcion'];
             if (!empty($descripcion)) {
                 // Aquí puedes continuar con la lógica para procesar las categorías
@@ -58,7 +82,7 @@ class CatalogoController
             } else {
                 echo "No se seleccionaron categorías.";
             }
-        } else  if (isset($_GET['categorias'])) {
+            } else  if (isset($_GET['categorias'])) {
             $categoriasPost = $_GET['categorias'];
             if (!empty($categoriasPost)) {
                 $categoriasData = $_GET['categorias'];
@@ -72,7 +96,8 @@ class CatalogoController
             } else {
                 echo "No se seleccionaron categorías.";
             }
-        } else
+            } else
             header('Location: /catalogo');
+        */
     }
 }

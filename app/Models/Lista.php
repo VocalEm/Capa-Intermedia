@@ -33,7 +33,7 @@ class Lista extends BaseModel
     // Obtener listas de un usuario
     public function obtenerListasPorId($idLista)
     {
-        $sql = "SELECT a.*, b.USERNAME AS USUARIO FROM listas a JOIN usuario b ON a.ID_USUARIO = b.ID WHERE a.ID = :idLista ORDER BY ID DESC";
+        $sql = "SELECT a.*, b.USERNAME AS USUARIO, b.ID AS ID_USUARIO FROM listas a JOIN usuario b ON a.ID_USUARIO = b.ID WHERE a.ID = :idLista ORDER BY ID DESC";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':idLista', $idLista);
         $stmt->execute();

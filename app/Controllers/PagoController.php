@@ -133,7 +133,7 @@ class PagoController
         }
 
         $_SESSION['exito'] = "Pago realizado con éxito. Orden ID: " . $ordenId;
-        header('Location: /home');
+        header('Location: /valoracion/mostrarValoracion/' . $ordenId);
         exit;
     }
 }

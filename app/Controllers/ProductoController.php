@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Helpers\UsuarioSesion;
 use App\Models\Lista;
 use App\Models\Producto;
+use App\Models\Valoracion;
 
 class ProductoController
 {
@@ -13,9 +14,12 @@ class ProductoController
         $idUsuario = UsuarioSesion::id();
 
         $productoModel = new Producto();
+        $valoracionesModel = new Valoracion();
         $listasModel = new Lista();
         $productos = $productoModel->mostrarProductoPorId($id);
         $listas = $listasModel->obtenerListasPorUsuario($idUsuario);
+        $valoraciones = $valoracionesModel->obtenerValoraciones($id);
+        $promedioValoracion = $valoracionesModel->obtenerPromedioValoracion($id);
         $producto = $productos[0];
         $title = "BUYLY Producto";
         require_once '../app/Views/producto.php';

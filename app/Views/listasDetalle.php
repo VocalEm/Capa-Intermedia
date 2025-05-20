@@ -26,7 +26,10 @@ require_once __DIR__ . '/plantillas/head.php';
                                 <?= $producto['TIPO_PUBLICACION'] == 'venta' ? '$' . $producto['PRECIO'] : 'Cotizacion' ?>
                             </span>
                         </a>
-                        <a href="/lista/eliminar/<?= $lista[0]['ID'] ?>/<?= $producto['ID'] ?>" class="tarjeta-producto-boton">Eliminar</a>
+                        <?php
+                        if ($lista[0]['ID_USUARIO'] == $_SESSION['usuario']['id']): ?>
+                            <a href="/lista/eliminar/<?= $lista[0]['ID'] ?>/<?= $producto['ID'] ?>" class="tarjeta-producto-boton">Eliminar</a>
+                        <?php endif; ?>
                     </div>
 
                 <?php endforeach; ?>

@@ -81,7 +81,8 @@ class PerfilController
             $listaModel = new Lista();
             $listas = $listaModel->obtenerListasPorUsuario($idUsuario);
         } else if ($usuario['ROL'] == 'vendedor') {
-        } else if ($usuario['ROL'] == 'admin') {
+            $productoModel = new Producto();
+            $productos = $productoModel->mostrarProductosVendedor($idUsuario);
         }
         $miPerfil = false;
 

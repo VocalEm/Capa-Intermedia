@@ -19,13 +19,15 @@ require_once __DIR__ . '/plantillas/head.php';
                             alt="<?= htmlspecialchars($chat['producto_nombre']); ?>"
                             class="chat-miniatura" />
                         <div class="chat-info">
+                            <p style="color:black; margin: 0; font-size:1.3rem; font-weight:bold;">ID: <?= $chat['chat_id'] ?></p>
                             <p class="chat-usuario"><strong>
                                     <?php
                                     $usuarioExterno = ($chat['comprador_id'] == $_SESSION['usuario']['id']) ? $chat['vendedor_username'] : $chat['comprador_username'];
                                     echo htmlspecialchars($usuarioExterno);
                                     ?>
                                 </strong></p>
-                            <p class="chat-producto"><?= htmlspecialchars($chat['producto_nombre']); ?></p>
+                            <p style="font-size:1.3rem; font-weight:bold;" class="chat-producto"><?= htmlspecialchars($chat['producto_nombre']); ?></p>
+                            <p style="margin:0; font-size:1.3rem; font-weight:bold; <?= $chat['estado_chat'] == 'abierto' ? 'color: green;' : 'color: red;' ?>"><?= $chat['estado_chat'] == 'abierto' ? 'Abierto' : 'Cerrado' ?></p>
                         </div>
                     </a>
                 <?php endforeach; ?>

@@ -17,6 +17,9 @@ class HomeController
         else if ($_SESSION['usuario']['rol'] == 'vendedor')
             header('Location: /perfil');
         $title = 'BUYLY';
+        $productoModel = new Producto();;
+        $productosMayorCalifiacion = $productoModel->mostrarProductosFiltros('', [], 'cualquiera', 'mayorCalificacion');
+
         require_once '../app/views/home.php';
     }
 

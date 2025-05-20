@@ -26,21 +26,38 @@ require_once __DIR__ . '/plantillas/head.php';
             <h2>
                 <?= $producto['NOMBRE']; ?>
                 <button class="btn-wishlist" id="save-button">
-                    <i id="saveIcon" class="fa-regular fa-bookmark fa-2x <?php if ($isGuardado) echo 'guardado' ?>"></i>
+                    <i style="color: purple;" id="saveIcon" class="fa-regular fa-bookmark fa-2x <?php if ($isGuardado) echo 'guardado' ?>"></i>
                 </button>
             </h2>
-            <span class="estrellas"> ★★★★☆ </span>
+            <p style="font-weight:bold; color:goldenrod; font-size: 2rem; margin:0;">Promedio: <?= number_format($promedioValoracion['promedio_valoracion'], 1); ?> ★</p>
             <div class="descripcion-container">
-                <p class="descripcion">
+                <p style="font-weight: bold; font-size:1.4rem;" class="descripcion">
                     <?= $producto['DESCRIPCION'] ?>
                 </p>
             </div>
 
-            <p class="precio"><?= $producto['TIPO_PUBLICACION'] == 'venta' ?  "Precio:" . $producto['PRECIO'] : 'Cotizacion' ?></p>
-            <p class="stock">Stock disponible: <?= $producto['PRECIO'] !== null ?  $producto['STOCK'] : 'Por cotizacion'  ?></p>
+            <p style="font-weight: bold; font-size:1.4rem;" class="precio"><?= $producto['TIPO_PUBLICACION'] == 'venta' ?  "Precio: $" . $producto['PRECIO'] : 'Cotizacion' ?></p>
+            <p style="font-weight: bold; font-size:1.4rem;" class="stock">Stock disponible: <?= $producto['TIPO_PUBLICACION'] !==  'cotizacion' ?  $producto['STOCK'] : 'Por Pedido'  ?></p>
             <input type="hidden" name="idProducto" value="<?= $producto['ID'] ?>">
             <input type="hidden" name="tipoPublicacion" value="<?= $producto['TIPO_PUBLICACION'] ?>">
-            <button type="submit" class="btn-cotizar"><?= $producto['TIPO_PUBLICACION'] == 'venta' ?  "Agregar al carrito" : 'Cotizar'  ?></button>
+            <?php
+            if ($producto['TIPO_PUBLICACION'] == 'venta'):
+                if ($producto['STOCK'] > 0):
+            ?>
+                    <button type="submit" class="btn-cotizar"><?= $producto['TIPO_PUBLICACION'] == 'venta' ?  "Agregar al carrito" : 'Cotizar'  ?></button>
+                <?php
+                else:
+                ?>
+                    <h3 style="color: red; font-size:2rem;">NO STOCK SUFICIENTE!!</h3>
+                <?php
+                endif;
+            else:
+                ?>
+                <button type="submit" class="btn-cotizar"><?= $producto['TIPO_PUBLICACION'] == 'venta' ?  "Agregar al carrito" : 'Cotizar'  ?></button>
+            <?php
+            endif;
+            ?>
+
         </form>
 
 
@@ -67,37 +84,26 @@ require_once __DIR__ . '/plantillas/head.php';
                 <video src="" id="focusVideo" class="focus-item" controls style="display: none;"></video>
             </div>
         </div>
-        <!-- ⭐ Sección de valoración y comentarios -->
         <div class="valoracion-comentarios">
-            <!-- ⭐ Selector de estrellas -->
-            <div class="selector-estrellas">
-                <label for="rating">Tu calificación:</label>
-                <select id="rating" name="rating">
-                    <option value="1">★☆☆☆☆</option>
-                    <option value="2">★★☆☆☆</option>
-                    <option value="3">★★★☆☆</option>
-                    <option value="4">★★★★☆</option>
-                    <option value="5">★★★★★</option>
-                </select>
-            </div>
 
-            <!-- 💬 Formulario para comentar -->
-            <div class="formulario-comentario">
-                <label for="comentario">Escribe un comentario:</label>
-                <textarea
-                    id="comentario"
-                    rows="3"
-                    placeholder="Tu opinión..."></textarea>
-                <button type="submit">Publicar</button>
-            </div>
-
-            <!-- 📋 Lista de comentarios -->
-            <div class="lista-comentarios">
+            <div style="font-weight: bold; font-size:1.4rem;" class="lista-comentarios">
                 <h4>Comentarios:</h4>
-                <ul>
-                    <li><strong>Ana:</strong> ¡Muy buen producto!</li>
-                    <li><strong>Juan:</strong> La calidad es excelente.</li>
-                </ul>
+                <?php
+                foreach ($valoraciones as $valoracion):
+                ?>
+                    <ul>
+                        <li style="color:gray;">
+
+                            <strong style="color:black;"><?= $valoracion['USERNAME'] ?> :</strong>
+                            <br>
+                            <strong style="color:black;"><?= $valoracion['PUNTUACION'] ?> ★</strong>
+                            <?= $valoracion['COMENTARIO'] ?>
+                        </li>
+
+                    </ul>
+                <?php
+                endforeach;
+                ?>
             </div>
         </div>
     </div>
